@@ -50,7 +50,7 @@ export function ServicePage({
     <div style={accentVar ? ({ ["--accent" as string]: accentVar } as React.CSSProperties) : undefined}>
       <section className="ind-hero">
         <div className="container">
-          <Link href="/#industries" className="ind-hero-back">
+          <Link href="/#platform" className="ind-hero-back">
             ← Back to services
           </Link>
           <div className="label">{kicker}</div>

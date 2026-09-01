@@ -338,6 +338,11 @@ export function initGpEffects() {
     });
   }
 
+  const hero = document.getElementById("hero");
+  if (!hero) {
+    document.documentElement.classList.remove("dbp-boot-hold");
+  }
+
 /* ═══════════════════════════════════════════════════
    REASONING ENGINE CANVAS — Cinematic Architecture v2
    All sources converge → Unified Data → Ring-inward flow → Decision
@@ -707,17 +712,16 @@ window.addEventListener('resize',resize);resize();animate();
 /* ═══ GSAP ═══ */
 if (!reduced) {
 gsap.registerPlugin(ScrollTrigger);
-const hero=document.getElementById('hero');
-const holding=!!hero && document.documentElement.classList.contains('dbp-boot-hold');
+const heroEl=document.getElementById('hero');
+const holding=!!heroEl && document.documentElement.classList.contains('dbp-boot-hold');
 if(holding){
-  const wait=Math.max(0,2600-Math.min(performance.now(),2600));
   const slam=window.setTimeout(()=>{
     if(stopped)return;
     document.documentElement.classList.remove('dbp-boot-hold');
-    hero.classList.add('hero-slam');
-  },wait);
-  cleanups.push(()=>{window.clearTimeout(slam);document.documentElement.classList.remove('dbp-boot-hold')});
-}else if(hero){
+    heroEl.classList.add('hero-slam');
+  },2600);
+  cleanups.push(()=>window.clearTimeout(slam));
+}else if(heroEl){
   gsap.set('.hero-tag, .hero h1, .hero-sub',{opacity:1,y:0});
 }
 document.querySelectorAll('.reveal').forEach((el,i)=>{gsap.to(el,{scrollTrigger:{trigger:el,start:'top 85%'},opacity:1,y:0,duration:0.7,delay:(i%4)*0.08,ease:'power3.out'})});

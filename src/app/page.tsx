@@ -1,19 +1,9 @@
 import Link from "next/link";
 import { StartProject } from "@/components/StartProject";
-
-const LOGOS = [
-  "Databricks",
-  "Azure",
-  "AWS",
-  "Fabric",
-  "Cursor",
-  "GitHub",
-  "Vercel",
-  "OpenAI",
-];
+import { TOOL_LOGOS, ToolMark } from "@/components/ToolLogos";
 
 export default function HomePage() {
-  const logos = [...LOGOS, ...LOGOS];
+  const logos = [...TOOL_LOGOS, ...TOOL_LOGOS];
   return (
     <>
       <section className="hero" id="hero">
@@ -35,8 +25,8 @@ export default function HomePage() {
         <div className="logos-track-wrapper">
           <div className="logos-track">
             {logos.map((name, i) => (
-              <span className="logo-item" key={`${name}-${i}`}>
-                {name}
+              <span className="logo-item" key={`${name}-${i}`} aria-label={name} title={name}>
+                <ToolMark name={name} />
               </span>
             ))}
           </div>

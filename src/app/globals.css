@@ -66,6 +66,9 @@ html.dbp-boot-hold .dbp-assistant-dock{
   pointer-events:none;
 }
 html.dbp-boot-hold .hero-overlay{opacity:0}
+html.dbp-boot-hold .site-content > :not(.hero){
+  visibility:hidden;
+}
 @keyframes hero-terror-in{
   0%,8%{opacity:0;visibility:hidden;filter:none}
   9%{opacity:1;visibility:visible;filter:contrast(2.6) brightness(1.85)}

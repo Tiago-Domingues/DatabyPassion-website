@@ -66,18 +66,17 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .btn-ghost:hover{border-color:var(--purple);background:rgba(26,154,250,0.05)}
 
 /* ═══ LOGOS ═══ */
-.logos-section{padding:48px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:transparent}
+.logos-section{padding:48px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:#000}
 .logos-label{text-align:center;font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:#fff;margin-bottom:28px;font-weight:500}
 .logos-track-wrapper{overflow:hidden;position:relative}
 .logos-track-wrapper::before,.logos-track-wrapper::after{content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none}
-.logos-track-wrapper::before{left:0;background:linear-gradient(to right,rgba(5,5,8,0.75),transparent)}
-.logos-track-wrapper::after{right:0;background:linear-gradient(to left,rgba(5,5,8,0.75),transparent)}
-.logos-track{display:flex;align-items:center;gap:56px;white-space:nowrap;animation:scroll-logos 40s linear infinite}
+.logos-track-wrapper::before{left:0;background:linear-gradient(to right,#000,transparent)}
+.logos-track-wrapper::after{right:0;background:linear-gradient(to left,#000,transparent)}
+.logos-track{display:flex;align-items:center;gap:56px;white-space:nowrap;animation:scroll-logos 18s linear infinite}
 .logos-track:hover{animation-play-state:paused}
-.logo-item{font-weight:600;font-size:0.95rem;color:var(--text-dim);flex-shrink:0;transition:color 0.3s;letter-spacing:0.02em}
-.logo-item:hover{color:var(--text-secondary)}
-.logo-item.serif{font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:1.05rem}
-.logo-item.mono{font-family:var(--font-mono);font-size:0.85rem;letter-spacing:0.05em}
+.logo-item{display:flex;align-items:center;justify-content:center;height:32px;color:#fff;opacity:0.92;flex-shrink:0;transition:opacity 0.3s}
+.logo-item:hover{opacity:1}
+.logo-item svg{display:block;height:32px;width:auto;fill:currentColor}
 @keyframes scroll-logos{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
 /* ═══ CATEGORY SHIFT ═══ */
@@ -182,8 +181,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .eco-card-link:hover{gap:8px}
 
 /* ═══ SECURITY ═══ */
-.security-section{background:transparent}
-.security-inner{text-align:center;max-width:700px;margin:0 auto}
+.security-section{background:transparent;position:relative;overflow:hidden}
+.security-section::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;background:rgba(0,0,0,0.42);backdrop-filter:blur(16px) saturate(1.15);-webkit-backdrop-filter:blur(16px) saturate(1.15)}
+.security-section .container{position:relative;z-index:1}
+.security-inner{text-align:center;max-width:700px;margin:0 auto;position:relative;z-index:1}
 .security-badges{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:36px}
 .sec-badge{padding:12px 20px;border:1px solid var(--border);border-radius:8px;font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);background:var(--bg-card);transition:all 0.3s}
 .sec-badge:hover{border-color:var(--border-hover);color:var(--text-secondary)}
@@ -203,7 +204,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 
 /* ═══ CTA ═══ */
 .cta-section{background:transparent;position:relative;overflow:hidden}
-.cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(26,154,250,0.06),transparent);pointer-events:none}
+.cta-section::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;background:rgba(0,0,0,0.42);backdrop-filter:blur(16px) saturate(1.15);-webkit-backdrop-filter:blur(16px) saturate(1.15)}
 .cta-inner{text-align:center;position:relative;z-index:1}
 .cta-inner h2{font-size:clamp(2rem,4.5vw,3rem);font-weight:700;letter-spacing:-0.03em;margin-bottom:16px}
 .cta-inner .sb{margin:0 auto 36px}
@@ -352,7 +353,6 @@ input,textarea,select,a[href^="mailto"]{-webkit-user-select:text;-moz-user-selec
 
 /* CTA */
 .cta-section{padding:80px 0;text-align:center;position:relative}
-.cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(26,154,250,0.06),transparent);pointer-events:none}
 .cta-section h2{font-size:clamp(2rem,4.5vw,3rem);font-weight:700;letter-spacing:-0.03em;margin-bottom:16px;position:relative;z-index:1}
 .cta-section h2 .g{background:linear-gradient(135deg,var(--text-primary) 30%,var(--purple-bright) 70%,var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .cta-section p{font-size:0.95rem;color:var(--text-secondary);max-width:520px;margin:0 auto 32px;position:relative;z-index:1}
@@ -525,8 +525,7 @@ input,textarea,select,a[href^="mailto"]{-webkit-user-select:text;-moz-user-selec
 .video-caption strong { color: var(--text-primary); }
 
 /* CTA */
-.cta-section { background: var(--bg-void); position: relative; overflow: hidden; }
-.cta-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 50%, var(--accent-glow), transparent); pointer-events: none; }
+.cta-section { background: transparent; position: relative; overflow: hidden; }
 .cta-inner { text-align: center; position: relative; z-index: 1; }
 .cta-inner h2 { font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; }
 .cta-inner .sb { margin: 0 auto 36px; }
@@ -797,7 +796,6 @@ h2.section-title{font-size:1.6rem;font-weight:700;letter-spacing:-0.02em;margin-
 @media(max-width:640px){.mobile-nav.open{display:flex}}
 
 /* Site-wide network canvas: keep page bands translucent so the web stays visible */
-.logos-section,
 .counters-section,
 .security-section,
 .cta-section,
@@ -822,6 +820,31 @@ footer{
 .ticker{
   background:#000 !important;
   backdrop-filter:none;
+}
+.logos-section{
+  background:#000 !important;
+}
+.security-section,
+.cta-section{
+  position:relative;
+  overflow:hidden;
+}
+.security-section::before,
+.cta-section::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:rgba(0,0,0,0.42);
+  backdrop-filter:blur(16px) saturate(1.15);
+  -webkit-backdrop-filter:blur(16px) saturate(1.15);
+}
+.security-section .container,
+.security-inner,
+.cta-inner{
+  position:relative;
+  z-index:1;
 }
 .nav .wordmark{color:#fff}
 .nav .wordmark .light{color:rgba(255,255,255,0.72)}

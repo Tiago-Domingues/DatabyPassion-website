@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { StartProject } from "@/components/StartProject";
-import { industrySvgs } from "@/lib/industry-svgs";
 
 const LOGOS = [
   "Databricks",
@@ -140,79 +139,6 @@ export default function HomePage() {
                 <div className="counter-label">{c.label}</div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="industries-section section-pad" id="industries">
-        <div className="container">
-          <div className="industries-header reveal">
-            <div className="label">In production</div>
-            <h2 className="sh">
-              Practices deployed in the <span className="g">market</span>
-            </h2>
-            <p className="sb">
-              Purpose-built delivery across analytics, engineering, and applied AI.
-            </p>
-          </div>
-          <div className="industries-grid">
-            <article className="industry-card ind-insurance reveal">
-              <div
-                className="industry-card-visual"
-                dangerouslySetInnerHTML={{ __html: industrySvgs.analytics }}
-              />
-              <div className="industry-card-content">
-                <h3>Analytics</h3>
-                <p className="industry-card-sub">
-                  Decision-grade metrics, executive reporting, and experiment design for operators.
-                </p>
-                <div className="industry-card-metric">
-                  <span className="metric-val">KPI</span>
-                  <span className="metric-desc">from source to board pack</span>
-                </div>
-              </div>
-              <Link href="/analytics" className="industry-card-link">
-                Explore Analytics <span className="arrow">→</span>
-              </Link>
-            </article>
-            <article className="industry-card ind-industrial reveal">
-              <div
-                className="industry-card-visual"
-                dangerouslySetInnerHTML={{ __html: industrySvgs.engineering }}
-              />
-              <div className="industry-card-content">
-                <h3>Data Engineering</h3>
-                <p className="industry-card-sub">
-                  Pipelines, lakehouses, and operational data platforms that stay maintainable.
-                </p>
-                <div className="industry-card-metric">
-                  <span className="metric-val">ETL</span>
-                  <span className="metric-desc">owned end to end</span>
-                </div>
-              </div>
-              <Link href="/engineering" className="industry-card-link">
-                Explore Engineering <span className="arrow">→</span>
-              </Link>
-            </article>
-            <article className="industry-card ind-cpg reveal">
-              <div
-                className="industry-card-visual"
-                dangerouslySetInnerHTML={{ __html: industrySvgs.ai }}
-              />
-              <div className="industry-card-content">
-                <h3>ML &amp; AI</h3>
-                <p className="industry-card-sub">
-                  Models and applied AI in the workflow — governed, monitored, not a slide deck.
-                </p>
-                <div className="industry-card-metric">
-                  <span className="metric-val">AI</span>
-                  <span className="metric-desc">grounded in your data</span>
-                </div>
-              </div>
-              <Link href="/ai" className="industry-card-link">
-                Explore AI <span className="arrow">→</span>
-              </Link>
-            </article>
           </div>
         </div>
       </section>

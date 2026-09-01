@@ -17,7 +17,6 @@ const TICKER = [
 
 const NAV = [
   { href: "/#platform", label: "Services" },
-  { href: "/#industries", label: "Sectors" },
   { href: "/#results", label: "Impact" },
   { href: "/about", label: "About" },
 ];

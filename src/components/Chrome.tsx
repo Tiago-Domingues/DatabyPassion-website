@@ -18,7 +18,6 @@ const NAV = [
   { href: "/#platform", label: "Services" },
   { href: "/#industries", label: "Sectors" },
   { href: "/#results", label: "Impact" },
-  { href: "/#ecosystem", label: "Stack" },
   { href: "/about", label: "About" },
 ];
 

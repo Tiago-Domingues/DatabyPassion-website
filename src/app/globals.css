@@ -238,7 +238,7 @@ html.dbp-boot-hold .site-content > :not(.hero){
 
 /* ═══ CTA ═══ */
 .cta-section{background:transparent;position:relative;overflow:hidden}
-.cta-section::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;background:rgba(0,0,0,0.42);backdrop-filter:blur(16px) saturate(1.15);-webkit-backdrop-filter:blur(16px) saturate(1.15)}
+.cta-section::before{content:none;display:none;backdrop-filter:none;-webkit-backdrop-filter:none}
 .cta-inner{text-align:center;position:relative;z-index:1}
 .cta-inner h2{font-size:clamp(2rem,4.5vw,3rem);font-weight:700;letter-spacing:-0.03em;margin-bottom:16px}
 .cta-inner .sb{margin:0 auto 36px}
@@ -858,13 +858,11 @@ footer{
 .logos-section{
   background:#000 !important;
 }
-.security-section,
-.cta-section{
+.security-section{
   position:relative;
   overflow:hidden;
 }
-.security-section::before,
-.cta-section::before{
+.security-section::before{
   content:'';
   position:absolute;
   inset:0;
@@ -873,6 +871,13 @@ footer{
   background:rgba(0,0,0,0.42);
   backdrop-filter:blur(16px) saturate(1.15);
   -webkit-backdrop-filter:blur(16px) saturate(1.15);
+}
+.cta-section::before{
+  content:none;
+  display:none;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  background:none;
 }
 .security-section .container,
 .security-inner,

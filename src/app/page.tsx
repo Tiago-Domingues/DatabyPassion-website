@@ -17,9 +17,6 @@ export default function HomePage() {
   return (
     <>
       <section className="hero" id="hero">
-        <div className="hero-canvas">
-          <canvas id="heroCanvas" />
-        </div>
         <div className="hero-overlay" />
         <div className="hero-content">
           <div className="hero-tag">The data and AI studio</div>
@@ -30,12 +27,6 @@ export default function HomePage() {
             We help SMEs design, build and scale modern data and AI capabilities — combining
             strategic thinking with hands-on technical delivery.
           </p>
-          <div className="hero-ctas">
-            <StartProject className="btn-primary">Start a project →</StartProject>
-            <Link href="/#platform" className="btn-ghost">
-              Explore services
-            </Link>
-          </div>
         </div>
       </section>
 

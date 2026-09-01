@@ -2,51 +2,29 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-export function initGpEffects() {
+export function initNetworkCanvas() {
   if (typeof window === "undefined") return () => {};
+  const C=document.getElementById('networkCanvas');if(!C)return () => {};
+  const X=C.getContext('2d');if(!X)return () => {};
   let stopped = false;
   const reduced =
     window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
     document.documentElement.classList.contains("dbp-a11y-motion");
-  const cleanups = [];
-  cleanups.push(() => {
-    stopped = true;
-  });
-  if (reduced) {
-    document.querySelectorAll(".reveal, .hero-tag, .hero h1, .hero-sub, .hero-ctas").forEach((el) => {
-      el.style.opacity = "1";
-      el.style.transform = "none";
-    });
+  let W,H,T=0,mouse={x:-1e4,y:-1e4,active:false};
+  const DPR=Math.min(devicePixelRatio||1,2);
+
+  function resize(){
+    W=window.innerWidth;H=window.innerHeight;
+    C.width=W*DPR;C.height=H*DPR;
+    C.style.width=W+'px';C.style.height=H+'px';
+    X.setTransform(DPR,0,0,DPR,0,0);
+    initNodes();
   }
-
-
-/* ═══════════════════════════════════════════════════
-   HERO CANVAS — THE REASONING WEB
-   Cinematic multi-layer network with:
-   - 250+ nodes at varying depths
-   - Luminous connection filaments
-   - Breathing/pulsing network
-   - Mouse gravitational distortion
-   - Decision cascade events
-   - Flowing data streams
-   ═══════════════════════════════════════════════════ */
-(function(){
-const C=document.getElementById('heroCanvas');if(!C)return;const X=C.getContext('2d');if(!X)return;
-let W,H,T=0,mouse={x:-1e4,y:-1e4,active:false};
-const DPR=Math.min(devicePixelRatio||1,2);
-
-function resize(){
-  W=C.parentElement.clientWidth;H=C.parentElement.clientHeight;
-  C.width=W*DPR;C.height=H*DPR;
-  C.style.width=W+'px';C.style.height=H+'px';
-  X.setTransform(DPR,0,0,DPR,0,0);
-  initNodes();
-}
 
 // --- NODES ---
 const nodes=[];
 const LAYERS=3; // depth layers
-const NODE_COUNT=220;
+const NODE_COUNT=280;
 const connections=[];
 const cascades=[];
 const streams=[];
@@ -67,7 +45,7 @@ function initNodes(){
       layer:layer,
       phase:Math.random()*Math.PI*2,
       color:Math.random()>0.8?'#67e8f9':Math.random()>0.6?'#1a9afa':'#5bb8ff',
-      alpha:depth*0.6,
+      alpha:0.55+depth*0.45,
       breathPhase:Math.random()*Math.PI*2,
     });
     nodes[i].baseX=nodes[i].x;
@@ -85,7 +63,7 @@ function updateConnections(){
       const b=nodes[j];
       if(Math.abs(a.layer-b.layer)>1)continue;
       const dx=a.x-b.x,dy=a.y-b.y;
-      const maxD=80+a.depth*40;
+      const maxD=110+a.depth*55;
       if(dx*dx+dy*dy<maxD*maxD){
         connections.push({a:i,b:j,maxD:maxD});
       }
@@ -178,7 +156,7 @@ function draw(){
   X.clearRect(0,0,W,H);
 
   // Subtle grid
-  X.globalAlpha=0.012;X.strokeStyle='#1a9afa';X.lineWidth=0.5;
+  X.globalAlpha=0.045;X.strokeStyle='#1a9afa';X.lineWidth=0.5;
   const gs=80;
   for(let x=0;x<W;x+=gs){X.beginPath();X.moveTo(x,0);X.lineTo(x,H);X.stroke()}
   for(let y=0;y<H;y+=gs){X.beginPath();X.moveTo(0,y);X.lineTo(W,y);X.stroke()}
@@ -205,9 +183,9 @@ function draw(){
     }
 
     X.beginPath();X.moveTo(a.x,a.y);X.lineTo(b.x,b.y);
-    const lineAlpha=fade*avgDepth*0.12+cascadeBoost;
+    const lineAlpha=fade*avgDepth*0.32+cascadeBoost;
     X.strokeStyle=cascadeBoost>0?`rgba(${cascades.length>0?cascades[0].color:'26,154,250'},${lineAlpha})`:`rgba(26,154,250,${lineAlpha})`;
-    X.lineWidth=0.5+cascadeBoost*3;
+    X.lineWidth=0.8+cascadeBoost*3;
     X.stroke();
   }
 
@@ -218,7 +196,7 @@ function draw(){
     const a=Math.sin(s.p*Math.PI);
     // Glow
     const g=X.createRadialGradient(x,y,0,x,y,s.size*6);
-    g.addColorStop(0,`rgba(${s.color},${a*0.4})`);
+    g.addColorStop(0,`rgba(${s.color},${a*0.7})`);
     g.addColorStop(1,'transparent');
     X.fillStyle=g;X.beginPath();X.arc(x,y,s.size*6,0,Math.PI*2);X.fill();
     // Core
@@ -230,7 +208,7 @@ function draw(){
   for(const c of cascades){
     // Outer ring
     X.beginPath();X.arc(c.cx,c.cy,c.radius,0,Math.PI*2);
-    X.strokeStyle=`rgba(${c.color},${c.alpha*0.25})`;
+    X.strokeStyle=`rgba(${c.color},${c.alpha*0.45})`;
     X.lineWidth=2.5;X.stroke();
     // Inner shimmer ring
     X.beginPath();X.arc(c.cx,c.cy,c.radius*0.92,0,Math.PI*2);
@@ -253,9 +231,9 @@ function draw(){
   // Nodes
   for(const n of nodes){
     // Node glow for larger nodes
-    if(n.r>2.5){
-      const g=X.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r*5);
-      g.addColorStop(0,n.color+'15');g.addColorStop(1,'transparent');
+    if(n.r>1.6){
+      const g=X.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r*7);
+      g.addColorStop(0,n.color+'40');g.addColorStop(1,'transparent');
       X.fillStyle=g;X.beginPath();X.arc(n.x,n.y,n.r*5,0,Math.PI*2);X.fill();
     }
 
@@ -284,7 +262,7 @@ function draw(){
   // Outer rings
   for(let r=3;r>0;r--){
     X.beginPath();X.arc(cx,cy,6+r*25,0,Math.PI*2);
-    X.strokeStyle=`rgba(26,154,250,${0.015*cpulse*(4-r)})`;
+    X.strokeStyle=`rgba(26,154,250,${0.04*cpulse*(4-r)})`;
     X.lineWidth=0.8;X.stroke();
   }
   // Core
@@ -294,14 +272,14 @@ function draw(){
   X.fillStyle=cg;X.globalAlpha=cpulse*0.9;X.fill();
   // Core glow
   const cgg=X.createRadialGradient(cx,cy,0,cx,cy,50);
-  cgg.addColorStop(0,`rgba(26,154,250,${0.12*cpulse})`);cgg.addColorStop(1,'transparent');
+  cgg.addColorStop(0,`rgba(26,154,250,${0.22*cpulse})`);cgg.addColorStop(1,'transparent');
   X.fillStyle=cgg;X.beginPath();X.arc(cx,cy,50,0,Math.PI*2);X.fill();
   X.globalAlpha=1;
 
   // Mouse glow when active
   if(mouse.active){
     const mg=X.createRadialGradient(mouse.x,mouse.y,0,mouse.x,mouse.y,200);
-    mg.addColorStop(0,'rgba(26,154,250,0.03)');mg.addColorStop(1,'transparent');
+    mg.addColorStop(0,'rgba(26,154,250,0.08)');mg.addColorStop(1,'transparent');
     X.fillStyle=mg;X.beginPath();X.arc(mouse.x,mouse.y,200,0,Math.PI*2);X.fill();
   }
 }
@@ -311,22 +289,53 @@ function loop(){
   // Recalc connections every 30 frames
   if(T%30===0)updateConnections();
   // Spawn streams
-  if(Math.random()<0.2)spawnStream();
-  // Decision cascade every ~2 seconds
-  if(Math.random()<0.008)triggerCascade();
+  if(Math.random()<0.35)spawnStream();
+  // Decision cascade every ~1.5 seconds
+  if(Math.random()<0.012)triggerCascade();
   update();draw();
   if(!stopped) requestAnimationFrame(loop);
 }
 
-window.addEventListener('resize',resize);
-C.parentElement.addEventListener('mousemove',e=>{
-  const r=C.getBoundingClientRect();
-  mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;mouse.active=true;
-});
-C.parentElement.addEventListener('mouseleave',()=>{mouse.active=false});
+function onMove(e){
+  mouse.x=e.clientX;mouse.y=e.clientY;mouse.active=true;
+}
+function onLeave(){mouse.active=false}
 
-resize();updateConnections();loop();
-})();
+window.addEventListener('resize',resize);
+window.addEventListener('mousemove',onMove);
+window.addEventListener('mouseleave',onLeave);
+
+resize();updateConnections();
+if(reduced){
+  draw();
+}else{
+  loop();
+}
+
+return () => {
+  stopped = true;
+  window.removeEventListener('resize',resize);
+  window.removeEventListener('mousemove',onMove);
+  window.removeEventListener('mouseleave',onLeave);
+};
+}
+
+export function initGpEffects() {
+  if (typeof window === "undefined") return () => {};
+  let stopped = false;
+  const reduced =
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+    document.documentElement.classList.contains("dbp-a11y-motion");
+  const cleanups = [];
+  cleanups.push(() => {
+    stopped = true;
+  });
+  if (reduced) {
+    document.querySelectorAll(".reveal, .hero-tag, .hero h1, .hero-sub").forEach((el) => {
+      el.style.opacity = "1";
+      el.style.transform = "none";
+    });
+  }
 
 /* ═══════════════════════════════════════════════════
    REASONING ENGINE CANVAS — Cinematic Architecture v2
@@ -700,8 +709,7 @@ gsap.registerPlugin(ScrollTrigger);
 gsap.timeline({delay:0.3})
   .to('.hero-tag',{opacity:1,y:0,duration:0.8,ease:'power3.out'})
   .to('.hero h1',{opacity:1,y:0,duration:0.8,ease:'power3.out'},'-=0.5')
-  .to('.hero-sub',{opacity:1,y:0,duration:0.8,ease:'power3.out'},'-=0.5')
-  .to('.hero-ctas',{opacity:1,y:0,duration:0.8,ease:'power3.out'},'-=0.5');
+  .to('.hero-sub',{opacity:1,y:0,duration:0.8,ease:'power3.out'},'-=0.5');
 document.querySelectorAll('.reveal').forEach((el,i)=>{gsap.to(el,{scrollTrigger:{trigger:el,start:'top 85%'},opacity:1,y:0,duration:0.7,delay:(i%4)*0.08,ease:'power3.out'})});
 document.querySelectorAll('.counter-val').forEach(el=>{const t=parseFloat(el.dataset.target),pre=el.dataset.prefix||'',suf=el.dataset.suffix||'';ScrollTrigger.create({trigger:el,start:'top 85%',onEnter:()=>{let o={v:0};gsap.to(o,{v:t,duration:2,ease:'power2.out',onUpdate:()=>{const v=t>=100?Math.round(o.v):Math.round(o.v*10)/10;el.textContent=pre+v+suf}})},once:true})});
 }

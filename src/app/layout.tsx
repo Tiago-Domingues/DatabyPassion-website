@@ -5,6 +5,7 @@ import { Ticker, Nav, Footer } from "@/components/Chrome";
 import { ContactModal } from "@/components/ContactModal";
 import { CookieBanner } from "@/components/CookieBanner";
 import { GpEffects } from "@/components/GpEffects";
+import { NetworkBackground } from "@/components/NetworkBackground";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -55,10 +56,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body>
         <ModalProvider>
+          <NetworkBackground />
           <Ticker />
           <Nav />
-          {children}
-          <Footer />
+          <div className="site-content">
+            {children}
+            <Footer />
+          </div>
           <ContactModal />
           <CookieBanner />
           <GpEffects />

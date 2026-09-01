@@ -6,12 +6,13 @@ import { Wordmark } from "@/components/Wordmark";
 import { useModal } from "@/components/ModalProvider";
 
 const TICKER = [
-  "Boutique data, analytics, ML and AI",
-  "Founder-led delivery from Lisbon",
-  "Pipelines, models, and production AI",
-  "English-first · EU-based studio",
-  "Start a project — we ship",
-  "Decision-grade data, not dashboards for their own sake",
+  "AI-first thinking",
+  "Data-driven business",
+  "Turning data into value",
+  "From insight to action",
+  "Enterprise-grade expertise",
+  "Built for ambitious SMEs",
+  "Strategy → Build → Scale",
 ];
 
 const NAV = [

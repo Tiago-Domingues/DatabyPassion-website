@@ -25,11 +25,11 @@ export default function HomePage() {
         <div className="hero-content">
           <div className="hero-tag">The data and AI studio</div>
           <h1>
-            A senior studio for <span className="em">SME data and AI</span>
+            Senior data expertise. <span className="em">Built for business.</span>
           </h1>
           <p className="hero-sub">
-            Ten years in enterprise data, now a studio for Portuguese SMEs — from strategy to
-            production, with specialists when the work needs it.
+            We help SMEs design, build and scale modern data and AI capabilities — combining
+            strategic thinking with hands-on technical delivery.
           </p>
           <div className="hero-ctas">
             <StartProject className="btn-primary">Start a project →</StartProject>

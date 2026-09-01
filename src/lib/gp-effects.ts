@@ -331,6 +331,7 @@ export function initGpEffects() {
     stopped = true;
   });
   if (reduced) {
+    document.documentElement.classList.remove("dbp-boot-hold");
     document.querySelectorAll(".reveal, .hero-tag, .hero h1, .hero-sub").forEach((el) => {
       el.style.opacity = "1";
       el.style.transform = "none";
@@ -706,10 +707,19 @@ window.addEventListener('resize',resize);resize();animate();
 /* ═══ GSAP ═══ */
 if (!reduced) {
 gsap.registerPlugin(ScrollTrigger);
-gsap.timeline({delay:0.3})
-  .to('.hero-tag',{opacity:1,y:0,duration:0.8,ease:'power3.out'})
-  .to('.hero h1',{opacity:1,y:0,duration:0.8,ease:'power3.out'},'-=0.5')
-  .to('.hero-sub',{opacity:1,y:0,duration:0.8,ease:'power3.out'},'-=0.5');
+const hero=document.getElementById('hero');
+const holding=!!hero && document.documentElement.classList.contains('dbp-boot-hold');
+if(holding){
+  const wait=Math.max(0,2600-Math.min(performance.now(),2600));
+  const slam=window.setTimeout(()=>{
+    if(stopped)return;
+    document.documentElement.classList.remove('dbp-boot-hold');
+    hero.classList.add('hero-slam');
+  },wait);
+  cleanups.push(()=>{window.clearTimeout(slam);document.documentElement.classList.remove('dbp-boot-hold')});
+}else if(hero){
+  gsap.set('.hero-tag, .hero h1, .hero-sub',{opacity:1,y:0});
+}
 document.querySelectorAll('.reveal').forEach((el,i)=>{gsap.to(el,{scrollTrigger:{trigger:el,start:'top 85%'},opacity:1,y:0,duration:0.7,delay:(i%4)*0.08,ease:'power3.out'})});
 document.querySelectorAll('.counter-val').forEach(el=>{const t=parseFloat(el.dataset.target),pre=el.dataset.prefix||'',suf=el.dataset.suffix||'';ScrollTrigger.create({trigger:el,start:'top 85%',onEnter:()=>{let o={v:0};gsap.to(o,{v:t,duration:2,ease:'power2.out',onUpdate:()=>{const v=t>=100?Math.round(o.v):Math.round(o.v*10)/10;el.textContent=pre+v+suf}})},once:true})});
 }

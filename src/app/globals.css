@@ -37,7 +37,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 @keyframes ticker-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
 /* ═══ NAV ═══ */
-.nav{position:fixed;top:36px;left:0;right:0;z-index:999;padding:0 clamp(20px,5vw,60px);height:64px;display:flex;align-items:center;justify-content:space-between;transition:all 0.4s var(--ease-out)}
+.nav{position:fixed;top:36px;left:0;right:0;z-index:999;padding:0 clamp(20px,5vw,60px);height:64px;display:flex;align-items:center;justify-content:space-between;transition:background 0.4s var(--ease-out),backdrop-filter 0.4s var(--ease-out),border-color 0.4s var(--ease-out)}
 .nav.scrolled{background:rgba(5,5,8,0.88);backdrop-filter:blur(20px) saturate(1.5);border-bottom:1px solid var(--border)}
 
 .nav-links{display:flex;gap:32px;align-items:center}
@@ -57,6 +57,37 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .hero-sub{font-size:clamp(1rem,2vw,1.2rem);color:var(--text-secondary);max-width:560px;line-height:1.7;margin-bottom:0;opacity:0;transform:translateY(20px)}
 .hero-ctas{display:flex;gap:16px;flex-wrap:wrap;opacity:0;transform:translateY(20px)}
 .hero-metrics{display:flex;align-items:center;gap:24px;margin-top:48px;opacity:0;transform:translateY(20px)}
+html.dbp-boot-hold .ticker,
+html.dbp-boot-hold .nav,
+html.dbp-boot-hold .cookie-banner,
+html.dbp-boot-hold .dbp-assistant-dock{
+  opacity:0 !important;
+  visibility:hidden;
+  pointer-events:none;
+}
+html.dbp-boot-hold .hero-overlay{opacity:0}
+@keyframes hero-terror-in{
+  0%,8%{opacity:0;visibility:hidden;filter:none}
+  9%{opacity:1;visibility:visible;filter:contrast(2.6) brightness(1.85)}
+  20%{opacity:0;filter:none}
+  31%{opacity:1;filter:contrast(1.8) brightness(1.35)}
+  40%{opacity:0;filter:none}
+  50%,100%{opacity:1;visibility:visible;filter:none}
+}
+.hero.hero-slam .hero-tag,
+.hero.hero-slam h1,
+.hero.hero-slam .hero-sub{
+  transform:none;
+  animation:hero-terror-in 180ms linear both;
+}
+@media(prefers-reduced-motion:reduce){
+  html.dbp-boot-hold .ticker,
+  html.dbp-boot-hold .nav,
+  html.dbp-boot-hold .cookie-banner,
+  html.dbp-boot-hold .dbp-assistant-dock{opacity:1 !important;visibility:visible;pointer-events:auto}
+  html.dbp-boot-hold .hero-overlay{opacity:1}
+  .hero-tag,.hero h1,.hero-sub{opacity:1;transform:none;animation:none}
+}
 .hero-metric-val{font-size:1.3rem;font-weight:700;color:var(--text-primary);display:block;letter-spacing:-0.02em}
 .hero-metric-label{font-size:0.7rem;color:var(--text-dim);display:block;margin-top:2px}
 .hero-metric-divider{width:1px;height:36px;background:var(--border)}

@@ -5,6 +5,7 @@ import { Ticker, Nav, Footer } from "@/components/Chrome";
 import { ContactModal } from "@/components/ContactModal";
 import { CookieBanner } from "@/components/CookieBanner";
 import { GpEffects } from "@/components/GpEffects";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const instrument = Instrument_Sans({
@@ -27,7 +28,7 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.databypaixao.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "DatabyPassion | Data, Analytics, ML & AI",
     template: "%s | DatabyPassion",
@@ -39,7 +40,7 @@ export const metadata: Metadata = {
     title: "DatabyPassion | Data, Analytics, ML & AI",
     description:
       "Boutique data analytics, engineering, ML and AI — projects for clients.",
-    url: "https://www.databypaixao.com",
+    url: SITE_URL,
     siteName: "DatabyPassion",
     locale: "en_US",
     type: "website",

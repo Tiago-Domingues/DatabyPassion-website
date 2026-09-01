@@ -3,14 +3,14 @@ import { StartProject } from "@/components/StartProject";
 import { industrySvgs } from "@/lib/industry-svgs";
 
 const LOGOS = [
-  "Analytics",
-  "Data Engineering",
-  "Machine Learning",
-  "Artificial Intelligence",
-  "Cloud Platforms",
-  "Decision Support",
-  "Pipelines",
-  "Strategy",
+  "Databricks",
+  "Azure",
+  "AWS",
+  "Fabric",
+  "Cursor",
+  "GitHub",
+  "Vercel",
+  "OpenAI",
 ];
 
 export default function HomePage() {
@@ -25,11 +25,11 @@ export default function HomePage() {
         <div className="hero-content">
           <div className="hero-tag">The data and AI studio</div>
           <h1>
-            Enterprise data has a new <span className="em">operating system</span>
+            Senior data expertise. <span className="em">Built for business.</span>
           </h1>
           <p className="hero-sub">
-            Analytics, data engineering, ML, and AI — delivered as projects by a senior boutique.
-            Explainable, governed, and built to last.
+            We help SMEs design, build and scale modern data and AI capabilities — combining
+            strategic thinking with hands-on technical delivery.
           </p>
           <div className="hero-ctas">
             <StartProject className="btn-primary">Start a project →</StartProject>
@@ -37,67 +37,17 @@ export default function HomePage() {
               Explore services
             </Link>
           </div>
-          <div className="hero-metrics">
-            <div>
-              <span className="hero-metric-val">8+</span>
-              <span className="hero-metric-label">Years in production data</span>
-            </div>
-            <div className="hero-metric-divider" />
-            <div>
-              <span className="hero-metric-val">4</span>
-              <span className="hero-metric-label">Practice areas</span>
-            </div>
-            <div className="hero-metric-divider" />
-            <div>
-              <span className="hero-metric-val">EU</span>
-              <span className="hero-metric-label">Founder-led from Lisbon</span>
-            </div>
-          </div>
         </div>
       </section>
 
       <section className="logos-section">
-        <div className="logos-label">Built for operators who ship</div>
+        <div className="logos-label">Tools we ship with</div>
         <div className="logos-track-wrapper">
           <div className="logos-track">
             {logos.map((name, i) => (
               <span className="logo-item" key={`${name}-${i}`}>
                 {name}
               </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="problem-section section-pad" id="problem">
-        <div className="container problem-grid">
-          <div className="reveal">
-            <div className="label">The category shift</div>
-            <h2 className="sh">
-              Dashboards used to mean reporting. Now they mean <span className="g">decisions</span>.
-            </h2>
-            <p className="sb">
-              Enterprises don&apos;t lack tools, copilots, or models. They lack someone who will own
-              the pipeline, the metric, and the production system. Generic AI predicts the next
-              token. Your business needs the next move.
-            </p>
-          </div>
-          <div className="problem-comparison reveal">
-            <div className="problem-header">
-              <div className="problem-header-cell llm">Generic tools / copilots</div>
-              <div className="problem-header-cell gp">DatabyPassion</div>
-            </div>
-            {[
-              ["Predict text, not decisions", "Reasons through the business problem"],
-              ["Black-box outputs", "Full lineage, every step"],
-              ["Hallucinate confidently", "Grounded in your data and constraints"],
-              ["Stateless, no memory", "Pipelines that compound"],
-              ["No constraint enforcement", "Business rules enforced, always"],
-            ].map(([a, b]) => (
-              <div className="problem-row" key={a}>
-                <div className="problem-cell llm">{a}</div>
-                <div className="problem-cell gp">{b}</div>
-              </div>
             ))}
           </div>
         </div>
@@ -125,26 +75,26 @@ export default function HomePage() {
             {[
               {
                 n: "01 — ANALYTICS",
-                h: "Decision Analytics",
-                p: "Metrics, experiments, and executive views that actually change what people do on Monday.",
+                h: "Analytics",
+                p: "KPIs, reporting, and decision packs SMEs can run every week, not a dashboard graveyard.",
                 tags: ["KPI", "BI", "Experiment"],
               },
               {
                 n: "02 — ENGINEERING",
                 h: "Data Engineering",
-                p: "Pipelines, lakehouses, and quality you can trust. We maintain the path from source to model.",
+                p: "Pipelines and cloud data platforms you can trust, maintain, and afford.",
                 tags: ["ETL", "Cloud", "Quality"],
               },
               {
                 n: "03 — ML",
-                h: "Machine Learning",
-                p: "Models that sit in the workflow — scoring, forecasting, ranking — with monitoring after go-live.",
+                h: "ML & Statistics",
+                p: "Forecasting, scoring, and rigorous measurement in the workflow, with monitoring after go-live.",
                 tags: ["Forecast", "Score", "Monitor"],
               },
               {
                 n: "04 — AI",
-                h: "Applied AI",
-                p: "LLM and neuro-symbolic systems grounded in your documents, rules, and proprietary context.",
+                h: "AI Products",
+                p: "Generative AI, agents, and small apps/sites grounded in your data and processes.",
                 tags: ["LLM", "RAG", "Agents"],
               },
             ].map((c) => (
@@ -263,78 +213,6 @@ export default function HomePage() {
                 Explore AI <span className="arrow">→</span>
               </Link>
             </article>
-          </div>
-        </div>
-      </section>
-
-      <section className="testimonial-section section-pad">
-        <div className="container">
-          <div className="testimonial-inner">
-            <div className="testimonial-slide active">
-              <p className="testimonial-quote">
-                “Placeholder — a client quote will replace this. It is not about more data, it is
-                about accurate decisions.”
-              </p>
-              <p className="testimonial-attr">
-                <strong>Name forthcoming</strong> · Role, Organisation
-              </p>
-            </div>
-            <div className="testimonial-slide">
-              <p className="testimonial-quote">
-                “Placeholder — DatabyPassion brings a level of analytical rigor that transforms how
-                we evaluate risk and opportunity.”
-              </p>
-              <p className="testimonial-attr">
-                <strong>Name forthcoming</strong> · Role, Organisation
-              </p>
-            </div>
-            <div className="testimonial-slide">
-              <p className="testimonial-quote">
-                “Placeholder — the speed and precision of delivery has changed our
-                decision-making process.”
-              </p>
-              <p className="testimonial-attr">
-                <strong>Name forthcoming</strong> · Role, Organisation
-              </p>
-            </div>
-          </div>
-          <div className="testimonial-dots">
-            <button type="button" className="testimonial-dot active" data-dot="0" aria-label="Quote 1" />
-            <button type="button" className="testimonial-dot" data-dot="1" aria-label="Quote 2" />
-            <button type="button" className="testimonial-dot" data-dot="2" aria-label="Quote 3" />
-          </div>
-        </div>
-      </section>
-
-      <section className="ecosystem-section section-pad" id="ecosystem">
-        <div className="container">
-          <div className="ecosystem-header reveal">
-            <div className="label">Delivery partners</div>
-            <h2 className="sh">
-              Built with the <span className="g">stack you already run</span>
-            </h2>
-            <p className="sb">
-              Placeholder partner cards — names to be confirmed. Not claimed alliances.
-            </p>
-          </div>
-          <div className="ecosystem-grid">
-            {[
-              { name: "Partner 01", type: "Cloud", desc: "Placeholder — production cloud you already use." },
-              { name: "Partner 02", type: "Lakehouse", desc: "Placeholder — data platform of record." },
-              { name: "Partner 03", type: "MLOps", desc: "Placeholder — models from notebook to service." },
-              { name: "Partner 04", type: "Governance", desc: "Placeholder — access, lineage, and audit." },
-            ].map((c) => (
-              <div className="eco-card reveal" key={c.name}>
-                <div className="eco-card-logo">
-                  <span className="wordmark" style={{ fontSize: "0.85rem", opacity: 0.7 }}>
-                    {c.name}
-                  </span>
-                </div>
-                <div className="eco-card-name">{c.name}</div>
-                <div className="eco-card-type">{c.type}</div>
-                <p className="eco-card-desc">{c.desc}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>

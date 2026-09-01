@@ -1,6 +1,6 @@
 # DatabyPassion website
 
-Next.js 16 site. Visual system cloned from growthprotocol.ai. Canonical URL: https://www.databypaixao.com.
+Next.js 16 site. Visual system cloned from growthprotocol.ai. Canonical URL: https://databy-passion-website.vercel.app (www.databypaixao.com later).
 
 ## Commands
 

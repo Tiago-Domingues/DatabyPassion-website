@@ -1,9 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Wordmark } from "@/components/Wordmark";
 import { useModal } from "@/components/ModalProvider";
+import {
+  NETWORK_PALETTE_EVENT,
+  NETWORK_PALETTE_META,
+  type NetworkPaletteId,
+  readNetworkPalette,
+  writeNetworkPalette,
+} from "@/lib/network-palette";
 
 const TICKER = [
   "AI-first thinking",
@@ -20,6 +27,41 @@ const NAV = [
   { href: "/#results", label: "Impact" },
   { href: "/about", label: "About" },
 ];
+
+function PaletteDots() {
+  const [active, setActive] = useState<NetworkPaletteId>("parthenon");
+
+  useEffect(() => {
+    setActive(readNetworkPalette());
+    function onChange(e: Event) {
+      const id = (e as CustomEvent<NetworkPaletteId>).detail;
+      if (id) setActive(id);
+    }
+    window.addEventListener(NETWORK_PALETTE_EVENT, onChange);
+    return () => window.removeEventListener(NETWORK_PALETTE_EVENT, onChange);
+  }, []);
+
+  return (
+    <div className="network-swatches" role="radiogroup" aria-label="Network color">
+      {NETWORK_PALETTE_META.map((p) => (
+        <button
+          key={p.id}
+          type="button"
+          role="radio"
+          className="network-swatch"
+          data-id={p.id}
+          aria-label={p.label}
+          aria-checked={active === p.id}
+          title={p.label}
+          onClick={() => {
+            setActive(p.id);
+            writeNetworkPalette(p.id);
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
 export function Ticker() {
   const items = [...TICKER, ...TICKER];
@@ -56,6 +98,7 @@ export function Nav() {
           <button type="button" className="lang-switch" aria-label="Language">
             <span>EN</span>
           </button>
+          <PaletteDots />
           <a
             href="#"
             className="nav-cta"
@@ -80,6 +123,7 @@ export function Nav() {
         <button type="button" className="lang-switch">
           <span>EN</span>
         </button>
+        <PaletteDots />
         <a
           href="#"
           className="nav-cta"

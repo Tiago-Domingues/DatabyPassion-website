@@ -63,8 +63,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <ModalProvider>
           <NetworkBackground />
-          <Ticker />
           <Nav />
+          <Ticker />
           <div className="site-content">
             {children}
             <Footer />

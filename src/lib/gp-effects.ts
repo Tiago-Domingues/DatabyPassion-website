@@ -1,6 +1,7 @@
 // @ts-nocheck
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { NETWORK_PALETTE_EVENT, NETWORK_PALETTES, readNetworkPalette } from "@/lib/network-palette";
 
 export function initNetworkCanvas() {
   if (typeof window === "undefined") return () => {};
@@ -12,6 +13,12 @@ export function initNetworkCanvas() {
     document.documentElement.classList.contains("dbp-a11y-motion");
   let W,H,T=0,mouse={x:-1e4,y:-1e4,active:false};
   const DPR=Math.min(devicePixelRatio||1,2);
+  let pal=NETWORK_PALETTES[readNetworkPalette()];
+  function hexFor(key){return key===0?pal.a:key===1?pal.b:pal.c}
+  function applyPalette(){
+    pal=NETWORK_PALETTES[readNetworkPalette()];
+    for(const n of nodes) n.color=hexFor(n.colorKey);
+  }
 
   function resize(){
     W=window.innerWidth;H=window.innerHeight;
@@ -44,12 +51,14 @@ function initNodes(){
       depth:depth,
       layer:layer,
       phase:Math.random()*Math.PI*2,
-      color:Math.random()>0.8?'#67e8f9':Math.random()>0.6?'#1a9afa':'#5bb8ff',
+      colorKey:Math.random()>0.8?0:Math.random()>0.6?1:2,
+      color:'#1a9afa',
       alpha:0.55+depth*0.45,
       breathPhase:Math.random()*Math.PI*2,
     });
     nodes[i].baseX=nodes[i].x;
     nodes[i].baseY=nodes[i].y;
+    nodes[i].color=hexFor(nodes[i].colorKey);
   }
 }
 
@@ -80,7 +89,7 @@ function triggerCascade(){
     radius:0,maxRadius:250+Math.random()*200,
     speed:2.5+Math.random()*2.5,
     alpha:1,
-    color:Math.random()>0.5?'26,154,250':'103,232,249'
+    color:Math.random()>0.5?pal.rgbB:pal.rgbA
   });
 }
 
@@ -94,7 +103,7 @@ function spawnStream(){
   streams.push({
     ax:a.x,ay:a.y,bx:b.x,by:b.y,
     p:0,speed:0.015+Math.random()*0.015,
-    color:Math.random()>0.5?'103,232,249':'26,154,250',
+    color:Math.random()>0.5?pal.rgbA:pal.rgbB,
     size:1+Math.random()*1.5
   });
 }
@@ -156,7 +165,7 @@ function draw(){
   X.clearRect(0,0,W,H);
 
   // Subtle grid
-  X.globalAlpha=0.045;X.strokeStyle='#1a9afa';X.lineWidth=0.5;
+  X.globalAlpha=0.045;X.strokeStyle=pal.b;X.lineWidth=0.5;
   const gs=80;
   for(let x=0;x<W;x+=gs){X.beginPath();X.moveTo(x,0);X.lineTo(x,H);X.stroke()}
   for(let y=0;y<H;y+=gs){X.beginPath();X.moveTo(0,y);X.lineTo(W,y);X.stroke()}
@@ -184,7 +193,7 @@ function draw(){
 
     X.beginPath();X.moveTo(a.x,a.y);X.lineTo(b.x,b.y);
     const lineAlpha=fade*avgDepth*0.32+cascadeBoost;
-    X.strokeStyle=cascadeBoost>0?`rgba(${cascades.length>0?cascades[0].color:'26,154,250'},${lineAlpha})`:`rgba(26,154,250,${lineAlpha})`;
+    X.strokeStyle=cascadeBoost>0?`rgba(${cascades.length>0?cascades[0].color:pal.rgbB},${lineAlpha})`:`rgba(${pal.rgbB},${lineAlpha})`;
     X.lineWidth=0.8+cascadeBoost*3;
     X.stroke();
   }
@@ -262,24 +271,24 @@ function draw(){
   // Outer rings
   for(let r=3;r>0;r--){
     X.beginPath();X.arc(cx,cy,6+r*25,0,Math.PI*2);
-    X.strokeStyle=`rgba(26,154,250,${0.04*cpulse*(4-r)})`;
+    X.strokeStyle=`rgba(${pal.rgbB},${0.04*cpulse*(4-r)})`;
     X.lineWidth=0.8;X.stroke();
   }
   // Core
   X.beginPath();X.arc(cx,cy,5,0,Math.PI*2);
   const cg=X.createRadialGradient(cx,cy,0,cx,cy,5);
-  cg.addColorStop(0,'#5bb8ff');cg.addColorStop(1,'#1a9afa');
+  cg.addColorStop(0,pal.c);cg.addColorStop(1,pal.b);
   X.fillStyle=cg;X.globalAlpha=cpulse*0.9;X.fill();
   // Core glow
   const cgg=X.createRadialGradient(cx,cy,0,cx,cy,50);
-  cgg.addColorStop(0,`rgba(26,154,250,${0.22*cpulse})`);cgg.addColorStop(1,'transparent');
+  cgg.addColorStop(0,`rgba(${pal.rgbB},${0.22*cpulse})`);cgg.addColorStop(1,'transparent');
   X.fillStyle=cgg;X.beginPath();X.arc(cx,cy,50,0,Math.PI*2);X.fill();
   X.globalAlpha=1;
 
   // Mouse glow when active
   if(mouse.active){
     const mg=X.createRadialGradient(mouse.x,mouse.y,0,mouse.x,mouse.y,200);
-    mg.addColorStop(0,'rgba(26,154,250,0.08)');mg.addColorStop(1,'transparent');
+    mg.addColorStop(0,`rgba(${pal.rgbB},0.08)`);mg.addColorStop(1,'transparent');
     X.fillStyle=mg;X.beginPath();X.arc(mouse.x,mouse.y,200,0,Math.PI*2);X.fill();
   }
 }
@@ -304,6 +313,8 @@ function onLeave(){mouse.active=false}
 window.addEventListener('resize',resize);
 window.addEventListener('mousemove',onMove);
 window.addEventListener('mouseleave',onLeave);
+window.addEventListener(NETWORK_PALETTE_EVENT,onPalette);
+function onPalette(){applyPalette();if(reduced)draw();}
 
 resize();updateConnections();
 if(reduced){
@@ -317,6 +328,7 @@ return () => {
   window.removeEventListener('resize',resize);
   window.removeEventListener('mousemove',onMove);
   window.removeEventListener('mouseleave',onLeave);
+  window.removeEventListener(NETWORK_PALETTE_EVENT,onPalette);
 };
 }
 
@@ -372,17 +384,17 @@ function getLayout(){
   const boxW=engR-engL, boxH=mobile?H*0.58:H*0.68, boxT=cy-boxH/2;
   const sp=mobile?55:95, sp2=mobile?18:32;
   const src=[
-    {x:col1,y:cy-sp,l:mobile?'Systems':'Systems of Record',sub:mobile?'':'ERP · CRM · HRM',c:'#fbbf24'},
-    {x:col1,y:cy-sp2,l:mobile?'Market':'Market Data',sub:mobile?'':'Pricing · Trends · Signals',c:'#fbbf24'},
-    {x:col1,y:cy+sp2,l:mobile?'Industry':'Industry Feeds',sub:mobile?'':'Regulatory · Competitive',c:'#fbbf24'},
-    {x:col1,y:cy+sp,l:mobile?'Proprietary':'Proprietary Data',sub:mobile?'':'Models · IP · History',c:'#fbbf24'}
+    {x:col1,y:cy-sp,l:mobile?'CRM':'CRM / ERP',sub:mobile?'':'Systems of record',c:'#fbbf24'},
+    {x:col1,y:cy-sp2,l:mobile?'Sheets':'Spreadsheets',sub:mobile?'':'Files · exports · ops',c:'#fbbf24'},
+    {x:col1,y:cy+sp2,l:mobile?'Warehouse':'Warehouses',sub:mobile?'':'Cloud · lake · marts',c:'#fbbf24'},
+    {x:col1,y:cy+sp,l:mobile?'Models':'Models',sub:mobile?'':'History · scores · IP',c:'#fbbf24'}
   ];
   const eng={box:{x:engL,y:boxT,w:boxW,h:boxH,r:mobile?10:14},core:{x:cx,y:cy,c:'#1a9afa',r:mobile?7:10}};
   const out=[
-    {x:col5,y:cy-sp,l:mobile?'Market Entry':'Market Entry',c:'#1a9afa'},
-    {x:col5,y:cy-sp2,l:mobile?'Acquisition':'Acquisition',c:'#1a9afa'},
-    {x:col5,y:cy+sp2,l:mobile?'Pricing':'Price Adjustment',c:'#1a9afa'},
-    {x:col5,y:cy+sp,l:mobile?'Claims':'Claim Resolution',c:'#1a9afa'}
+    {x:col5,y:cy-sp,l:mobile?'KPIs':'KPI packs',c:'#1a9afa'},
+    {x:col5,y:cy-sp2,l:mobile?'Forecasts':'Forecasts',c:'#1a9afa'},
+    {x:col5,y:cy+sp2,l:mobile?'Pipelines':'Pipelines',c:'#1a9afa'},
+    {x:col5,y:cy+sp,l:mobile?'Assistants':'AI assistants',c:'#1a9afa'}
   ];
   return{src,eng,out,cx,cy,col1,col2,engL,engR,col4,col5,boxW,boxH}
 }

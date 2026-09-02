@@ -24,9 +24,10 @@ export default function HomePage() {
         <div className="logos-label">Tools we ship with</div>
         <div className="logos-track-wrapper">
           <div className="logos-track">
-            {logos.map((name, i) => (
-              <span className="logo-item" key={`${name}-${i}`} aria-label={name} title={name}>
-                <ToolMark name={name} />
+            {logos.map((tool, i) => (
+              <span className="logo-item" key={`${tool.id}-${i}`} aria-label={tool.label} title={tool.label}>
+                <ToolMark name={tool.id} />
+                <span className="logo-name">{tool.label}</span>
               </span>
             ))}
           </div>
@@ -56,29 +57,33 @@ export default function HomePage() {
               {
                 n: "01 — ANALYTICS",
                 h: "Analytics",
-                p: "KPIs, reporting, and decision packs SMEs can run every week, not a dashboard graveyard.",
-                tags: ["KPI", "BI", "Experiment"],
+                p: "Weekly KPIs and decision packs the team actually opens. Not another dashboard nobody runs.",
+                tags: ["Weekly KPIs", "Decision packs", "Experiments"],
+                href: "/analytics",
               },
               {
                 n: "02 — ENGINEERING",
                 h: "Data Engineering",
-                p: "Pipelines and cloud data platforms you can trust, maintain, and afford.",
-                tags: ["ETL", "Cloud", "Quality"],
+                p: "Pipelines and a cloud platform you can trust, maintain, and afford.",
+                tags: ["Pipelines", "Cloud", "Quality"],
+                href: "/engineering",
               },
               {
                 n: "03 — ML",
                 h: "ML & Statistics",
-                p: "Forecasting, scoring, and rigorous measurement in the workflow, with monitoring after go-live.",
-                tags: ["Forecast", "Score", "Monitor"],
+                p: "Forecasts and scores in the workflow, with monitoring after go-live.",
+                tags: ["Forecasts", "Scoring", "Monitoring"],
+                href: "/ai",
               },
               {
                 n: "04 — AI",
                 h: "AI Products",
-                p: "Generative AI, agents, and small apps/sites grounded in your data and processes.",
-                tags: ["LLM", "RAG", "Agents"],
+                p: "Assistants and small apps grounded in your data and processes — not a demo that dies in a slide.",
+                tags: ["Assistants", "RAG", "Small apps"],
+                href: "/ai",
               },
             ].map((c) => (
-              <div className="plat-layer-card reveal" key={c.n}>
+              <Link className="plat-layer-card reveal" href={c.href} key={c.n}>
                 <div className="plat-layer-num">{c.n}</div>
                 <h4>{c.h}</h4>
                 <p>{c.p}</p>
@@ -89,7 +94,8 @@ export default function HomePage() {
                     </span>
                   ))}
                 </div>
-              </div>
+                <span className="plat-view">View practice</span>
+              </Link>
             ))}
           </div>
         </div>

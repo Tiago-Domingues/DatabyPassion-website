@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Wordmark } from "@/components/Wordmark";
 import { useModal } from "@/components/ModalProvider";
 import {
+  DEFAULT_NETWORK_PALETTE,
   NETWORK_PALETTE_EVENT,
   NETWORK_PALETTE_META,
   type NetworkPaletteId,
@@ -29,7 +30,7 @@ const NAV = [
 ];
 
 function PaletteDots() {
-  const [active, setActive] = useState<NetworkPaletteId>("parthenon");
+  const [active, setActive] = useState<NetworkPaletteId>(DEFAULT_NETWORK_PALETTE);
 
   useEffect(() => {
     setActive(readNetworkPalette());

@@ -30,14 +30,16 @@ function WhatsappIcon({ className }: { className?: string }) {
   );
 }
 
-function DpMonogram() {
+function AssistantRocket() {
   return (
     <svg className="dbp-assistant-monogram" viewBox="0 0 64 64" aria-hidden="true">
       <circle cx="32" cy="32" r="30" fill="#111" />
       <path
         fill="#f4efe6"
-        d="M18 16h16.5c9.2 0 15.5 5.4 15.5 15.2 0 7.2-4.1 12.6-10.8 14.4L48 48h-9.2L30.6 38H26v10h-8V16zm8 6.6V32h8.2c4.3 0 7-2.4 7-6.7 0-4.2-2.7-6.7-7-6.7H26z"
+        d="M32 8c6.2 9.6 8.4 18.4 8.4 27.2v5.2l7.6 8.8-6.4-1.6-3.2 7.2L32 49.2l-6.4 5.6-3.2-7.2-6.4 1.6 7.6-8.8v-5.2C23.6 34.4 25.8 25.6 32 8z"
       />
+      <circle cx="32" cy="26" r="4.2" fill="#111" />
+      <path fill="#f4efe6" d="M29.2 52.4 32 56.2l2.8-3.8c-.9.4-1.8.6-2.8.6s-1.9-.2-2.8-.6z" />
     </svg>
   );
 }
@@ -232,7 +234,7 @@ export function AssistantWidget() {
         >
           <div className="dbp-assistant-head">
             <span className="dbp-assistant-avatar">
-              <DpMonogram />
+              <AssistantRocket />
             </span>
             <div className="dbp-assistant-id">
               <p id="dbp-assistant-title">{COPY.name}</p>
@@ -319,7 +321,7 @@ export function AssistantWidget() {
           title={COPY.tooltip}
           className="dbp-assistant-bubble"
         >
-          <DpMonogram />
+          <AssistantRocket />
           <span className="dbp-assistant-wa-badge" aria-hidden="true">
             <WhatsappIcon />
           </span>

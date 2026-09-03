@@ -2,6 +2,7 @@ export type NetworkPaletteId = "parthenon" | "ember" | "mono";
 
 export const NETWORK_PALETTE_KEY = "dbp_network_palette";
 export const NETWORK_PALETTE_EVENT = "dbp-network-palette";
+export const DEFAULT_NETWORK_PALETTE: NetworkPaletteId = "mono";
 
 export const NETWORK_PALETTES = {
   parthenon: {
@@ -44,7 +45,7 @@ export function readNetworkPalette(): NetworkPaletteId {
   } catch {
     /* ignore */
   }
-  return "parthenon";
+  return DEFAULT_NETWORK_PALETTE;
 }
 
 export function writeNetworkPalette(id: NetworkPaletteId) {

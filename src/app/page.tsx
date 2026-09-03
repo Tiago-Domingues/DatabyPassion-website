@@ -11,11 +11,12 @@ export default function HomePage() {
         <div className="hero-content">
           <div className="hero-tag">The data and AI studio</div>
           <h1>
-            Senior data expertise. <span className="em">Built for business.</span>
+            Enterprise expertise. <span className="em">Built at startup speed.</span>
           </h1>
           <p className="hero-sub">
-            We help SMEs design, build and scale modern data and AI capabilities — combining
-            strategic thinking with hands-on technical delivery.
+            DatabyPassion is a founder-led Data &amp; AI studio helping ambitious companies turn
+            complex problems into working data systems, intelligent workflows and AI-powered
+            products.
           </p>
         </div>
       </section>

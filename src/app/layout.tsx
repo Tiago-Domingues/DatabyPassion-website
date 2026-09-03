@@ -56,11 +56,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${instrument.variable} ${newsreader.variable} ${dmMono.variable}`}
     >
       <body>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{if(location.pathname==='/'&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('dbp-boot-hold')}}catch(e){}})();`,
-          }}
-        />
         <ModalProvider>
           <NetworkBackground />
           <Nav />

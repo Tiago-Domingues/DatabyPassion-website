@@ -343,16 +343,10 @@ export function initGpEffects() {
     stopped = true;
   });
   if (reduced) {
-    document.documentElement.classList.remove("dbp-boot-hold");
     document.querySelectorAll(".reveal, .hero-tag, .hero h1, .hero-sub").forEach((el) => {
       el.style.opacity = "1";
       el.style.transform = "none";
     });
-  }
-
-  const hero = document.getElementById("hero");
-  if (!hero) {
-    document.documentElement.classList.remove("dbp-boot-hold");
   }
 
 /* ═══════════════════════════════════════════════════
@@ -724,16 +718,7 @@ window.addEventListener('resize',resize);resize();animate();
 /* ═══ GSAP ═══ */
 if (!reduced) {
 gsap.registerPlugin(ScrollTrigger);
-const heroEl=document.getElementById('hero');
-const holding=!!heroEl && document.documentElement.classList.contains('dbp-boot-hold');
-if(holding){
-  const slam=window.setTimeout(()=>{
-    if(stopped)return;
-    document.documentElement.classList.remove('dbp-boot-hold');
-    heroEl.classList.add('hero-slam');
-  },2600);
-  cleanups.push(()=>window.clearTimeout(slam));
-}else if(heroEl){
+if(document.getElementById('hero')){
   gsap.set('.hero-tag, .hero h1, .hero-sub',{opacity:1,y:0});
 }
 document.querySelectorAll('.reveal').forEach((el,i)=>{gsap.to(el,{scrollTrigger:{trigger:el,start:'top 85%'},opacity:1,y:0,duration:0.7,delay:(i%4)*0.08,ease:'power3.out'})});

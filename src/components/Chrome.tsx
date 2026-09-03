@@ -14,13 +14,13 @@ import {
 } from "@/lib/network-palette";
 
 const TICKER = [
-  "AI-first thinking",
-  "Data-driven business",
-  "Turning data into value",
-  "From insight to action",
-  "Enterprise-grade expertise",
-  "Built for ambitious SMEs",
-  "Strategy → Build → Scale",
+  "Understand → Shape → Build → Evolve",
+  "Founder-led. Collective-powered.",
+  "Enterprise experience",
+  "Startup speed",
+  "AI-native execution",
+  "Built around the problem",
+  "From idea to working product",
 ];
 
 const NAV = [
@@ -151,8 +151,8 @@ export function Footer() {
               <Wordmark />
             </div>
             <p className="footer-brand-desc">
-              Boutique data analytics, engineering, ML and AI — projects for clients, delivered by a
-              senior founder-led studio.
+              Founder-led technology studio. Data systems, intelligent workflows and digital
+              products — delivered by a lean core and the right collective around it.
             </p>
             <div className="footer-social">
               <a
@@ -170,9 +170,10 @@ export function Footer() {
           </div>
           <div className="footer-col">
             <h5>Services</h5>
-            <Link href="/analytics">Analytics</Link>
-            <Link href="/engineering">Data Engineering</Link>
-            <Link href="/ai">ML &amp; AI</Link>
+            <Link href="/engineering">Data platforms</Link>
+            <Link href="/analytics">Analytics &amp; decisions</Link>
+            <Link href="/ai">AI &amp; Automation</Link>
+            <Link href="/products">Digital Products</Link>
           </div>
           <div className="footer-col">
             <h5>Company</h5>

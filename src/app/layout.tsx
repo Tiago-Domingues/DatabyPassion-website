@@ -32,16 +32,16 @@ const dmMono = DM_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "DatabyPassion | Data, Analytics, ML & AI",
+    default: "DatabyPassion | Founder-led technology studio",
     template: "%s | DatabyPassion",
   },
   description:
-    "DatabyPassion is a founder-led boutique for data analytics, data engineering, machine learning and AI projects.",
+    "DatabyPassion is a founder-led technology studio helping companies turn ideas and complex business problems into data systems, intelligent workflows and digital products.",
   robots: { index: true, follow: true },
   openGraph: {
-    title: "DatabyPassion | Data, Analytics, ML & AI",
+    title: "DatabyPassion | Founder-led technology studio",
     description:
-      "Boutique data analytics, engineering, ML and AI — projects for clients.",
+      "Data systems, intelligent workflows and digital products — founder-led, collective-powered.",
     url: SITE_URL,
     siteName: "DatabyPassion",
     locale: "en_US",

@@ -23,8 +23,9 @@ const TICKER = [
 ];
 
 const NAV = [
-  { href: "/#platform", label: "Services" },
   { href: "/about", label: "About" },
+  { href: "/#platform", label: "Services" },
+  { href: "/#trust", label: "Trust" },
 ];
 
 function PaletteDots() {

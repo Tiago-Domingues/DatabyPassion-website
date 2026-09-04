@@ -198,9 +198,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .eco-card-link{font-size:0.78rem;color:var(--purple);font-weight:500;display:inline-flex;align-items:center;gap:4px;transition:gap 0.3s;margin-top:auto}
 .eco-card-link:hover{gap:8px}
 
-/* ═══ SECURITY ═══ */
-.security-section{background:transparent;position:relative;overflow:hidden}
-.security-section::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;background:rgba(0,0,0,0.42);backdrop-filter:blur(16px) saturate(1.15);-webkit-backdrop-filter:blur(16px) saturate(1.15)}
+/* ═══ SECURITY / TRUST ═══ */
+.security-section{background:#000;position:relative;overflow:hidden}
+.security-section::before{content:none;display:none}
 .security-section .container{position:relative;z-index:1}
 .security-inner{text-align:center;max-width:1100px;margin:0 auto;position:relative;z-index:1}
 .security-inner > .sb{max-width:640px}
@@ -826,7 +826,6 @@ h2.section-title{font-size:1.6rem;font-weight:700;letter-spacing:-0.02em;margin-
 
 /* Site-wide network canvas: keep page bands translucent so the web stays visible */
 .counters-section,
-.security-section,
 .cta-section,
 .about-section,
 .stats-strip,
@@ -854,19 +853,18 @@ footer{
 .logos-section{
   background:#000 !important;
 }
+/* Trust matches footer: solid black, no frost blur over the network */
 .security-section{
   position:relative;
   overflow:hidden;
+  background:#000 !important;
 }
 .security-section::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
-  background:rgba(0,0,0,0.42);
-  backdrop-filter:blur(16px) saturate(1.15);
-  -webkit-backdrop-filter:blur(16px) saturate(1.15);
+  content:none;
+  display:none;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  background:none;
 }
 .cta-section::before{
   content:none;

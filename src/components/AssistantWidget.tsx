@@ -4,15 +4,21 @@ import { useEffect, useRef, useState } from "react";
 import { whatsappHref } from "@/lib/site";
 
 const SEEN_KEY = "dbp_assistant_seen_v1";
+const POS_KEY = "dbp_assistant_pos_v1";
+const BUBBLE = 56;
+const DRAG_THRESHOLD = 8;
+const DEFAULT_TOP = 116;
+const DEFAULT_RIGHT = 20;
+const TIP_INTERVAL_MS = 3000;
 
 const COPY = {
   name: "DatabyPassion AI",
-  role: "Studio assistant",
-  label: "AI assistant",
-  openLabel: "Open the DatabyPassion AI assistant",
+  role: "Engagement agent",
+  label: "Get help from our Engagement Agent",
+  openLabel: "Open the DatabyPassion Engagement Agent",
   close: "Close",
   greeting:
-    "Hi! I'm the DatabyPassion AI assistant. I can help you get in touch about data, analytics, engineering and AI projects.",
+    "Hi! I'm the DatabyPassion Engagement Agent. I can help you get in touch about data, analytics, engineering and AI projects.",
   soon: "Coming soon",
   placeholder: "Chat is coming very soon…",
   send: "Send",
@@ -42,12 +48,42 @@ function AssistantRocket() {
   );
 }
 
+function clamp(n: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, n));
+}
+
+function readStoredPos(): { x: number; y: number } | null {
+  try {
+    const raw = window.localStorage.getItem(POS_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as { x?: unknown; y?: unknown };
+    if (typeof parsed.x === "number" && typeof parsed.y === "number") {
+      return { x: parsed.x, y: parsed.y };
+    }
+  } catch {
+    /* ignore */
+  }
+  return null;
+}
+
 export function AssistantWidget() {
   const [open, setOpen] = useState(false);
+  const [tipVisible, setTipVisible] = useState(true);
   const [typing, setTyping] = useState(false);
   const [seen, setSeen] = useState(true);
+  const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
+  const [panelBox, setPanelBox] = useState<{ left: number; top: number } | null>(null);
   const bubbleRef = useRef<HTMLButtonElement>(null);
+  const dockRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const dragRef = useRef({
+    pointerId: -1,
+    startX: 0,
+    startY: 0,
+    origX: 0,
+    origY: 0,
+    moved: false,
+  });
 
   useEffect(() => {
     try {
@@ -55,7 +91,31 @@ export function AssistantWidget() {
     } catch {
       setSeen(false);
     }
+    const stored = readStoredPos();
+    if (stored) {
+      setPos({
+        x: clamp(stored.x, 8, window.innerWidth - BUBBLE - 8),
+        y: clamp(stored.y, 8, window.innerHeight - BUBBLE - 8),
+      });
+    }
   }, []);
+
+  useEffect(() => {
+    if (open) {
+      setTipVisible(false);
+      return;
+    }
+    const reduced =
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      document.documentElement.classList.contains("dbp-a11y-motion");
+    if (reduced) {
+      setTipVisible(true);
+      return;
+    }
+    setTipVisible(true);
+    const iv = window.setInterval(() => setTipVisible((v) => !v), TIP_INTERVAL_MS);
+    return () => window.clearInterval(iv);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -76,6 +136,45 @@ export function AssistantWidget() {
     return () => window.clearTimeout(t);
   }, [open, typing]);
 
+  useEffect(() => {
+    if (!open) {
+      setPanelBox(null);
+      return;
+    }
+    function place() {
+      const el = dockRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const pw = Math.min(vw - 32, 352);
+      const ph = Math.min(vh * 0.7, 480);
+      let left = r.right - pw;
+      let top = r.bottom + 12;
+      if (top + Math.min(ph, vh * 0.55) > vh - 12) top = Math.max(12, r.top - ph - 12);
+      left = clamp(left, 16, vw - pw - 16);
+      top = clamp(top, 12, vh - 12 - Math.min(ph, vh * 0.55));
+      setPanelBox({ left, top });
+    }
+    place();
+    window.addEventListener("resize", place);
+    return () => window.removeEventListener("resize", place);
+  }, [open, pos]);
+
+  useEffect(() => {
+    function onResize() {
+      setPos((current) => {
+        if (!current) return current;
+        return {
+          x: clamp(current.x, 8, window.innerWidth - BUBBLE - 8),
+          y: clamp(current.y, 8, window.innerHeight - BUBBLE - 8),
+        };
+      });
+    }
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   function close() {
     setOpen(false);
     bubbleRef.current?.focus();
@@ -90,6 +189,7 @@ export function AssistantWidget() {
       window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
       document.documentElement.classList.contains("dbp-a11y-motion");
     setOpen(true);
+    setTipVisible(false);
     setSeen(true);
     setTyping(!reduced);
     try {
@@ -97,6 +197,71 @@ export function AssistantWidget() {
     } catch {
       /* ignore */
     }
+  }
+
+  function defaultOrigin() {
+    return {
+      x: window.innerWidth - BUBBLE - DEFAULT_RIGHT,
+      y: DEFAULT_TOP,
+    };
+  }
+
+  function persistPos(next: { x: number; y: number }) {
+    try {
+      window.localStorage.setItem(POS_KEY, JSON.stringify(next));
+    } catch {
+      /* ignore */
+    }
+  }
+
+  function onPointerDown(e: React.PointerEvent<HTMLButtonElement>) {
+    if (e.button !== 0 && e.pointerType === "mouse") return;
+    const origin = pos ?? defaultOrigin();
+    dragRef.current = {
+      pointerId: e.pointerId,
+      startX: e.clientX,
+      startY: e.clientY,
+      origX: origin.x,
+      origY: origin.y,
+      moved: false,
+    };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  }
+
+  function onPointerMove(e: React.PointerEvent<HTMLButtonElement>) {
+    const d = dragRef.current;
+    if (d.pointerId !== e.pointerId) return;
+    const dx = e.clientX - d.startX;
+    const dy = e.clientY - d.startY;
+    if (!d.moved && dx * dx + dy * dy < DRAG_THRESHOLD * DRAG_THRESHOLD) return;
+    d.moved = true;
+    const next = {
+      x: clamp(d.origX + dx, 8, window.innerWidth - BUBBLE - 8),
+      y: clamp(d.origY + dy, 8, window.innerHeight - BUBBLE - 8),
+    };
+    setPos(next);
+  }
+
+  function onPointerUp(e: React.PointerEvent<HTMLButtonElement>) {
+    const d = dragRef.current;
+    if (d.pointerId !== e.pointerId) return;
+    d.pointerId = -1;
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {
+      /* ignore */
+    }
+    if (d.moved) {
+      const next = {
+        x: clamp(d.origX + (e.clientX - d.startX), 8, window.innerWidth - BUBBLE - 8),
+        y: clamp(d.origY + (e.clientY - d.startY), 8, window.innerHeight - BUBBLE - 8),
+      };
+      setPos(next);
+      persistPos(next);
+      e.preventDefault();
+      return;
+    }
+    toggle();
   }
 
   return (
@@ -114,7 +279,8 @@ export function AssistantWidget() {
         <div
           role="dialog"
           aria-labelledby="dbp-assistant-title"
-          className="dbp-assistant-panel"
+          className={`dbp-assistant-panel${panelBox ? " is-follow" : ""}`}
+          style={panelBox ? { left: panelBox.left, top: panelBox.top } : undefined}
         >
           <div className="dbp-assistant-head">
             <span className="dbp-assistant-avatar">
@@ -176,14 +342,27 @@ export function AssistantWidget() {
           </div>
         </div>
       )}
-      <div className="dbp-assistant-dock">
-        <span className="dbp-assistant-tip" aria-hidden="true">
+      <div
+        ref={dockRef}
+        className={`dbp-assistant-dock${pos ? " is-custom" : ""}`}
+        style={pos ? { left: pos.x, top: pos.y } : undefined}
+      >
+        <span
+          className={`dbp-assistant-tip${tipVisible && !open ? " is-on" : ""}`}
+          aria-hidden="true"
+        >
           {COPY.label}
         </span>
         <button
           ref={bubbleRef}
           type="button"
-          onClick={toggle}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerCancel={onPointerUp}
+          onClick={(e) => {
+            if (dragRef.current.moved) e.preventDefault();
+          }}
           aria-label={COPY.openLabel}
           aria-expanded={open}
           title={COPY.label}

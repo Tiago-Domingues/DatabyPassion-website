@@ -946,6 +946,10 @@ footer{
 .nav-links{display:none}
 .nav-menu{display:block}
 #nav{z-index:1001}
+.mobile-nav{
+  background:#050508;
+  z-index:1102;
+}
 }
 
 

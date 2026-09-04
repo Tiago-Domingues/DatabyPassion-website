@@ -132,7 +132,7 @@ function PracticeCard({
 
   return (
     <article
-      className={`plat-flip reveal accent-${practice.accent}${flipped ? " is-flipped" : ""}`}
+      className={`plat-flip accent-${practice.accent}${flipped ? " is-flipped" : ""}`}
       data-practice={practice.id}
     >
       <div className="plat-flip-inner">

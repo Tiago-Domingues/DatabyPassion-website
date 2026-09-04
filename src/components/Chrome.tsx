@@ -14,7 +14,6 @@ import {
 } from "@/lib/network-palette";
 
 const TICKER = [
-  "Understand → Shape → Build → Evolve",
   "Founder-led. Collective-powered.",
   "Enterprise experience",
   "Startup speed",
@@ -25,7 +24,6 @@ const TICKER = [
 
 const NAV = [
   { href: "/#platform", label: "Services" },
-  { href: "/#results", label: "Impact" },
   { href: "/about", label: "About" },
 ];
 

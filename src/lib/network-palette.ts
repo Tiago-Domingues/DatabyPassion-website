@@ -1,4 +1,4 @@
-export type NetworkPaletteId = "parthenon" | "ember" | "mono";
+export type NetworkPaletteId = "parthenon" | "ember" | "mono" | "galaxy";
 
 export const NETWORK_PALETTE_KEY = "dbp_network_palette";
 export const NETWORK_PALETTE_EVENT = "dbp-network-palette";
@@ -26,16 +26,24 @@ export const NETWORK_PALETTES = {
     rgbA: "244,244,245",
     rgbB: "161,161,170",
   },
+  galaxy: {
+    a: "#e8f1ff",
+    b: "#9eb6ff",
+    c: "#f0d7ff",
+    rgbA: "232,241,255",
+    rgbB: "158,182,255",
+  },
 } as const;
 
 export const NETWORK_PALETTE_META: { id: NetworkPaletteId; label: string }[] = [
   { id: "parthenon", label: "Parthenon" },
   { id: "ember", label: "Ember" },
   { id: "mono", label: "Mono" },
+  { id: "galaxy", label: "Galaxy" },
 ];
 
 export function isNetworkPaletteId(value: string): value is NetworkPaletteId {
-  return value === "parthenon" || value === "ember" || value === "mono";
+  return value === "parthenon" || value === "ember" || value === "mono" || value === "galaxy";
 }
 
 export function readNetworkPalette(): NetworkPaletteId {

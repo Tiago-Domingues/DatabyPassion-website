@@ -327,7 +327,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="security-section section-pad" id="contact">
+      <section className="security-section section-pad" id="trust">
         <div className="container">
           <div className="security-inner reveal">
             <div className="label">Trust</div>

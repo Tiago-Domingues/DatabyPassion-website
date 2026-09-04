@@ -722,7 +722,11 @@ footer{padding:40px 0;border-top:1px solid var(--border);background:var(--bg-dee
 .nav-menu{display:none;background:none;border:none;color:var(--text-primary);font-size:1.4rem;cursor:pointer}
 .nav-logo{display:flex;align-items:center;text-decoration:none}
 .nav-logo-img{height:28px;width:auto}
-#nav{position:fixed;top:0;left:0;right:0;z-index:100}
+#nav{position:fixed;top:0;left:0;right:0;z-index:1001}
+@media(max-width:768px){
+.nav-links{display:none}
+.nav-menu{display:block}
+}
 
 /* Footer */
 footer{padding:56px 0 40px;border-top:1px solid var(--border);background:var(--bg-deep)}
@@ -935,6 +939,13 @@ footer{
 @media(prefers-reduced-motion:reduce){
 .dbp-assistant-tip,.dbp-assistant-panel,.dbp-assistant-typing span{animation:none}
 .dbp-assistant-ping{display:none}
+}
+
+/* Last-wins hamburger: earlier duplicate .nav-menu{display:none} rules hid it on every viewport */
+@media(max-width:768px){
+.nav-links{display:none}
+.nav-menu{display:block}
+#nav{z-index:1001}
 }
 
 

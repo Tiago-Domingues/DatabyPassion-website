@@ -34,19 +34,35 @@ function WhatsappIcon({ className }: { className?: string }) {
   );
 }
 
-function AssistantRocket() {
+function AssistantRocket({
+  spinDeg = 0,
+  exploding = false,
+}: {
+  spinDeg?: number;
+  exploding?: boolean;
+}) {
   return (
-    <svg className="dbp-assistant-monogram" viewBox="0 0 64 64" aria-hidden="true">
+    <svg className={`dbp-assistant-monogram${exploding ? " is-exploding" : ""}`} viewBox="0 0 64 64" aria-hidden="true">
       <circle cx="32" cy="32" r="30" fill="#111" />
-      <path
-        fill="#f4efe6"
-        d="M32 8c6.2 9.6 8.4 18.4 8.4 27.2v5.2l7.6 8.8-6.4-1.6-3.2 7.2L32 49.2l-6.4 5.6-3.2-7.2-6.4 1.6 7.6-8.8v-5.2C23.6 34.4 25.8 25.6 32 8z"
-      />
-      <circle cx="32" cy="26" r="4.2" fill="#111" />
-      <path fill="#f4efe6" d="M29.2 52.4 32 56.2l2.8-3.8c-.9.4-1.8.6-2.8.6s-1.9-.2-2.8-.6z" />
+      <g
+        className="dbp-assistant-rocket-spin"
+        style={{
+          transform: exploding ? undefined : `rotate(${spinDeg}deg)`,
+          transformOrigin: "32px 32px",
+        }}
+      >
+        <path
+          fill="#f4efe6"
+          d="M32 8c6.2 9.6 8.4 18.4 8.4 27.2v5.2l7.6 8.8-6.4-1.6-3.2 7.2L32 49.2l-6.4 5.6-3.2-7.2-6.4 1.6 7.6-8.8v-5.2C23.6 34.4 25.8 25.6 32 8z"
+        />
+        <circle cx="32" cy="26" r="4.2" fill="#111" />
+        <path fill="#f4efe6" d="M29.2 52.4 32 56.2l2.8-3.8c-.9.4-1.8.6-2.8.6s-1.9-.2-2.8-.6z" />
+      </g>
     </svg>
   );
 }
+
+const BURST_PARTICLES = Array.from({ length: 12 }, (_, i) => i);
 
 function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
@@ -73,9 +89,13 @@ export function AssistantWidget() {
   const [seen, setSeen] = useState(true);
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
   const [panelBox, setPanelBox] = useState<{ left: number; top: number } | null>(null);
+  const [spinDeg, setSpinDeg] = useState(0);
+  const [exploding, setExploding] = useState(false);
   const bubbleRef = useRef<HTMLButtonElement>(null);
   const dockRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const hoverSpinRef = useRef(false);
+  const spinPhysicsRef = useRef({ angle: 0, speed: 0, raf: 0 });
   const dragRef = useRef({
     pointerId: -1,
     startX: 0,
@@ -84,6 +104,7 @@ export function AssistantWidget() {
     origY: 0,
     moved: false,
   });
+  const explodeTimerRef = useRef(0);
 
   useEffect(() => {
     try {
@@ -98,6 +119,40 @@ export function AssistantWidget() {
         y: clamp(stored.y, 8, window.innerHeight - BUBBLE - 8),
       });
     }
+  }, []);
+
+  useEffect(() => {
+    const reduced =
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      document.documentElement.classList.contains("dbp-a11y-motion");
+    if (reduced) return;
+
+    const ACCEL = 0.55;
+    const MAX_SPEED = 42;
+    const FRICTION = 0.92;
+
+    function tick() {
+      const p = spinPhysicsRef.current;
+      if (hoverSpinRef.current) {
+        p.speed = Math.min(MAX_SPEED, p.speed + ACCEL);
+      } else {
+        p.speed *= FRICTION;
+        if (p.speed < 0.05) p.speed = 0;
+      }
+      if (p.speed > 0) {
+        p.angle = (p.angle + p.speed) % 360;
+        setSpinDeg(p.angle);
+      }
+      p.raf = window.requestAnimationFrame(tick);
+    }
+    spinPhysicsRef.current.raf = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(spinPhysicsRef.current.raf);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (explodeTimerRef.current) window.clearTimeout(explodeTimerRef.current);
+    };
   }, []);
 
   useEffect(() => {
@@ -180,11 +235,7 @@ export function AssistantWidget() {
     bubbleRef.current?.focus();
   }
 
-  function toggle() {
-    if (open) {
-      close();
-      return;
-    }
+  function openPanel() {
     const reduced =
       window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
       document.documentElement.classList.contains("dbp-a11y-motion");
@@ -197,6 +248,29 @@ export function AssistantWidget() {
     } catch {
       /* ignore */
     }
+  }
+
+  function toggle() {
+    if (open) {
+      close();
+      return;
+    }
+    const reduced =
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      document.documentElement.classList.contains("dbp-a11y-motion");
+    if (reduced) {
+      openPanel();
+      return;
+    }
+    // Tiny explode, then open
+    setExploding(true);
+    hoverSpinRef.current = false;
+    spinPhysicsRef.current.speed = 0;
+    if (explodeTimerRef.current) window.clearTimeout(explodeTimerRef.current);
+    explodeTimerRef.current = window.setTimeout(() => {
+      setExploding(false);
+      openPanel();
+    }, 420);
   }
 
   function defaultOrigin() {
@@ -360,19 +434,36 @@ export function AssistantWidget() {
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
           onPointerCancel={onPointerUp}
+          onPointerEnter={() => {
+            if (!exploding && !open) hoverSpinRef.current = true;
+          }}
+          onPointerLeave={() => {
+            hoverSpinRef.current = false;
+          }}
           onClick={(e) => {
             if (dragRef.current.moved) e.preventDefault();
           }}
           aria-label={COPY.openLabel}
           aria-expanded={open}
           title={COPY.label}
-          className="dbp-assistant-bubble"
+          className={`dbp-assistant-bubble${exploding ? " is-exploding" : ""}`}
         >
-          <AssistantRocket />
+          <AssistantRocket spinDeg={spinDeg} exploding={exploding} />
+          {exploding && (
+            <span className="dbp-assistant-burst" aria-hidden="true">
+              {BURST_PARTICLES.map((i) => (
+                <span
+                  key={i}
+                  className="dbp-assistant-burst-dot"
+                  style={{ ["--burst-i" as string]: String(i) }}
+                />
+              ))}
+            </span>
+          )}
           <span className="dbp-assistant-wa-badge" aria-hidden="true">
             <WhatsappIcon />
           </span>
-          {!seen && !open && (
+          {!seen && !open && !exploding && (
             <span className="dbp-assistant-dot">
               <span className="dbp-assistant-ping" />
               <span className="dbp-assistant-dot-core" />

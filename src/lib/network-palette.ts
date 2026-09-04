@@ -1,8 +1,21 @@
-export type NetworkPaletteId = "parthenon" | "ember" | "mono" | "galaxy";
+export type NetworkPaletteId =
+  | "parthenon"
+  | "ember"
+  | "mono"
+  | "galaxy"
+  | "station"
+  | "solar";
 
 export const NETWORK_PALETTE_KEY = "dbp_network_palette";
 export const NETWORK_PALETTE_EVENT = "dbp-network-palette";
 export const DEFAULT_NETWORK_PALETTE: NetworkPaletteId = "mono";
+
+/** Photo-backed themes: still image + calmer network overlay */
+export const PHOTO_NETWORK_PALETTES: NetworkPaletteId[] = ["galaxy", "station", "solar"];
+
+export function isPhotoNetworkPalette(id: string): boolean {
+  return PHOTO_NETWORK_PALETTES.includes(id as NetworkPaletteId);
+}
 
 export const NETWORK_PALETTES = {
   parthenon: {
@@ -33,6 +46,20 @@ export const NETWORK_PALETTES = {
     rgbA: "232,241,255",
     rgbB: "158,182,255",
   },
+  station: {
+    a: "#d7e6f5",
+    b: "#8fb4d8",
+    c: "#c9d4de",
+    rgbA: "215,230,245",
+    rgbB: "143,180,216",
+  },
+  solar: {
+    a: "#ffe2a8",
+    b: "#f0a34a",
+    c: "#9ec7ff",
+    rgbA: "255,226,168",
+    rgbB: "240,163,74",
+  },
 } as const;
 
 export const NETWORK_PALETTE_META: { id: NetworkPaletteId; label: string }[] = [
@@ -40,10 +67,19 @@ export const NETWORK_PALETTE_META: { id: NetworkPaletteId; label: string }[] = [
   { id: "ember", label: "Ember" },
   { id: "mono", label: "Mono" },
   { id: "galaxy", label: "Galaxy" },
+  { id: "station", label: "Station" },
+  { id: "solar", label: "Solar" },
 ];
 
 export function isNetworkPaletteId(value: string): value is NetworkPaletteId {
-  return value === "parthenon" || value === "ember" || value === "mono" || value === "galaxy";
+  return (
+    value === "parthenon" ||
+    value === "ember" ||
+    value === "mono" ||
+    value === "galaxy" ||
+    value === "station" ||
+    value === "solar"
+  );
 }
 
 export function readNetworkPalette(): NetworkPaletteId {

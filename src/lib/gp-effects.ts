@@ -1,7 +1,7 @@
 // @ts-nocheck
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { NETWORK_PALETTE_EVENT, NETWORK_PALETTES, readNetworkPalette } from "@/lib/network-palette";
+import { NETWORK_PALETTE_EVENT, NETWORK_PALETTES, isPhotoNetworkPalette, readNetworkPalette } from "@/lib/network-palette";
 
 export function initNetworkCanvas() {
   if (typeof window === "undefined") return () => {};
@@ -13,13 +13,20 @@ export function initNetworkCanvas() {
     document.documentElement.classList.contains("dbp-a11y-motion");
   let W,H,T=0,mouse={x:-1e4,y:-1e4,active:false};
   const DPR=Math.min(devicePixelRatio||1,2);
-  let pal=NETWORK_PALETTES[readNetworkPalette()];
-  let isGalaxy=readNetworkPalette()==='galaxy';
+  let paletteId=readNetworkPalette();
+  let pal=NETWORK_PALETTES[paletteId];
+  let isPhoto=isPhotoNetworkPalette(paletteId);
+  let isGalaxy=paletteId==='galaxy';
+  let isStation=paletteId==='station';
+  let isSolar=paletteId==='solar';
   function hexFor(key){return key===0?pal.a:key===1?pal.b:pal.c}
   function applyPalette(){
-    const id=readNetworkPalette();
-    pal=NETWORK_PALETTES[id];
-    isGalaxy=id==='galaxy';
+    paletteId=readNetworkPalette();
+    pal=NETWORK_PALETTES[paletteId];
+    isPhoto=isPhotoNetworkPalette(paletteId);
+    isGalaxy=paletteId==='galaxy';
+    isStation=paletteId==='station';
+    isSolar=paletteId==='solar';
     for(const n of nodes) n.color=hexFor(n.colorKey);
     initNodes();
     updateConnections();
@@ -43,26 +50,30 @@ const streams=[];
 
 function initNodes(){
   nodes.length=0;connections.length=0;
-  const count=isGalaxy?Math.min(NODE_COUNT+80,380):NODE_COUNT;
+  const count=isPhoto?Math.min(NODE_COUNT+(isStation?40:80),isStation?320:380):NODE_COUNT;
   for(let i=0;i<count;i++){
     const layer=Math.floor(Math.random()*LAYERS);
     const depth=0.3+layer*0.35; // 0.3, 0.65, 1.0
+    // Galaxy keeps occasional sparkle stars; Station/Solar stay matte HD points
     const bright=isGalaxy&&Math.random()>0.88;
+    const planet=isSolar&&Math.random()>0.94;
+    const drift=isStation?0.03:isPhoto?0.06:0.15;
     nodes.push({
       x:Math.random()*W,
       y:Math.random()*H,
       baseX:0,baseY:0,
-      vx:(Math.random()-0.5)*(isGalaxy?0.06:0.15),
-      vy:(Math.random()-0.5)*(isGalaxy?0.06:0.15),
-      r:bright?depth*2.8+Math.random()*2:depth*2+Math.random()*1.5,
+      vx:(Math.random()-0.5)*drift,
+      vy:(Math.random()-0.5)*drift,
+      r:planet?depth*4.5+Math.random()*3:bright?depth*2.8+Math.random()*2:depth*(isStation?1.5:2)+Math.random()*(isStation?1:1.5),
       depth:depth,
       layer:layer,
       phase:Math.random()*Math.PI*2,
       colorKey:Math.random()>0.8?0:Math.random()>0.6?1:2,
       color:'#1a9afa',
-      alpha:isGalaxy?(0.7+depth*0.35):(0.55+depth*0.45),
+      alpha:isStation?(0.35+depth*0.25):isPhoto?(0.55+depth*0.3):(0.55+depth*0.45),
       breathPhase:Math.random()*Math.PI*2,
       bright:bright,
+      planet:planet,
     });
     nodes[i].baseX=nodes[i].x;
     nodes[i].baseY=nodes[i].y;
@@ -74,7 +85,7 @@ function initNodes(){
 let connFrame=0;
 function updateConnections(){
   connections.length=0;
-  const maxLinks=isGalaxy?2:6;
+  const maxLinks=isStation?1:isPhoto?2:6;
   for(let i=0;i<nodes.length;i++){
     const a=nodes[i];
     let linked=0;
@@ -83,7 +94,7 @@ function updateConnections(){
       const b=nodes[j];
       if(Math.abs(a.layer-b.layer)>1)continue;
       const dx=a.x-b.x,dy=a.y-b.y;
-      const maxD=(isGalaxy?70:110)+a.depth*55;
+      const maxD=(isStation?55:isPhoto?70:110)+a.depth*55;
       if(dx*dx+dy*dy<maxD*maxD){
         connections.push({a:i,b:j,maxD:maxD});
         linked++;
@@ -176,8 +187,8 @@ function update(){
 function draw(){
   X.clearRect(0,0,W,H);
 
-  // Subtle grid (skip on galaxy — photo still is the field)
-  if(!isGalaxy){
+  // Subtle grid (skip on photo stills — image is the field)
+  if(!isPhoto){
     X.globalAlpha=0.045;X.strokeStyle=pal.b;X.lineWidth=0.5;
     const gs=80;
     for(let x=0;x<W;x+=gs){X.beginPath();X.moveTo(x,0);X.lineTo(x,H);X.stroke()}
@@ -206,7 +217,9 @@ function draw(){
     }
 
     X.beginPath();X.moveTo(a.x,a.y);X.lineTo(b.x,b.y);
-    const lineAlpha=isGalaxy
+    const lineAlpha=isStation
+      ? fade*avgDepth*0.05+cascadeBoost*0.2
+      : isPhoto
       ? fade*avgDepth*0.12+cascadeBoost*0.4
       : fade*avgDepth*0.32+cascadeBoost;
     X.strokeStyle=cascadeBoost>0?`rgba(${cascades.length>0?cascades[0].color:pal.rgbB},${lineAlpha})`:`rgba(${pal.rgbB},${lineAlpha})`;
@@ -255,9 +268,14 @@ function draw(){
 
   // Nodes
   for(const n of nodes){
-    // Node glow for larger / bright stars
-    if(n.r>1.6||n.bright){
-      const g=X.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r*(isGalaxy?12:7));
+    // Soft HD glow only — Station never flashes; Galaxy keeps sparkle; Solar soft planet discs
+    if(n.planet){
+      const g=X.createRadialGradient(n.x,n.y,0,n.x,n.y,n.r*4);
+      g.addColorStop(0,n.color+'55');g.addColorStop(0.55,n.color+'18');g.addColorStop(1,'transparent');
+      X.fillStyle=g;X.beginPath();X.arc(n.x,n.y,n.r*4,0,Math.PI*2);X.fill();
+    }else if((n.r>1.6||n.bright)&&!isStation){
+      const glowR=n.r*(isGalaxy?12:7);
+      const g=X.createRadialGradient(n.x,n.y,0,n.x,n.y,glowR);
       g.addColorStop(0,n.color+(isGalaxy?'70':'40'));g.addColorStop(1,'transparent');
       X.fillStyle=g;X.beginPath();X.arc(n.x,n.y,n.r*(isGalaxy?8:5),0,Math.PI*2);X.fill();
     }
@@ -272,17 +290,17 @@ function draw(){
       }
     }
 
-    // Node core
-    const pulse=Math.sin(T*0.02+n.phase)*0.15+0.85;
+    // Node core — Station stays matte (no white flash pulses)
+    const pulse=isStation?0.92:Math.sin(T*0.02+n.phase)*0.15+0.85;
     X.beginPath();X.arc(n.x,n.y,n.r*pulse,0,Math.PI*2);
-    X.fillStyle=n.bright?'#ffffff':n.color;
-    X.globalAlpha=n.alpha*pulse+boost;
+    X.fillStyle=(n.bright&&!isStation)?'#ffffff':n.color;
+    X.globalAlpha=n.alpha*pulse+(isStation?0:boost);
     X.fill();
     X.globalAlpha=1;
   }
 
-  // Central decision node (subtle) — skip on galaxy
-  if(!isGalaxy){
+  // Central decision node (subtle) — skip on photo stills
+  if(!isPhoto){
   const cx=W*0.5,cy=H*0.46;
   const cpulse=Math.sin(T*0.025)*0.3+0.7;
   // Outer rings
@@ -316,9 +334,9 @@ function loop(){
   // Recalc connections every 30 frames
   if(T%30===0)updateConnections();
   // Spawn streams
-  if(Math.random()<(isGalaxy?0.12:0.35))spawnStream();
+  if(Math.random()<(isStation?0.04:isPhoto?0.12:0.35))spawnStream();
   // Decision cascade every ~1.5 seconds
-  if(!isGalaxy&&Math.random()<0.012)triggerCascade();
+  if(!isPhoto&&Math.random()<0.012)triggerCascade();
   update();draw();
   if(!stopped) requestAnimationFrame(loop);
 }

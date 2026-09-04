@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import {
   NETWORK_PALETTE_EVENT,
   type NetworkPaletteId,
+  isPhotoNetworkPalette,
   readNetworkPalette,
 } from "@/lib/network-palette";
 
@@ -36,10 +37,23 @@ export function NetworkBackground() {
     };
   }, []);
 
+  const photo = isPhotoNetworkPalette(palette);
+  const bgClass = [
+    "network-bg",
+    photo ? "is-photo" : "",
+    palette === "galaxy" ? "is-galaxy" : "",
+    palette === "station" ? "is-station" : "",
+    palette === "solar" ? "is-solar" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <div className={`network-bg${palette === "galaxy" ? " is-galaxy" : ""}`} aria-hidden="true">
-      {/* Hubble Ultra Deep Field (heic0406a) — NASA/ESA public media; credit in code only */}
-      <div className="network-galaxy-still" />
+    <div className={bgClass} aria-hidden="true">
+      {/* NASA/ESA public media stills — credit in public/bg/README.md only */}
+      <div className="network-photo-still network-galaxy-still" data-still="galaxy" />
+      <div className="network-photo-still network-station-still" data-still="station" />
+      <div className="network-photo-still network-solar-still" data-still="solar" />
       <canvas id="networkCanvas" />
     </div>
   );

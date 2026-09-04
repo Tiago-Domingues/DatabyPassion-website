@@ -1,42 +1,13 @@
 import Link from "next/link";
 import { StartProject } from "@/components/StartProject";
+import { PracticeFlipCards } from "@/components/PracticeFlipCards";
 import { TOOL_LOGOS, ToolMark } from "@/components/ToolLogos";
-
-function IconLayers({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M12 3 3 8l9 5 9-5-9-5Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-      <path d="m3 12 9 5 9-5" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-      <path d="m3 16 9 5 9-5" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function IconChart({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M4 19V5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      <path d="M4 19h16" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      <path d="M8 15v-4M12 15V8M16 15v-7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
 
 function IconSpark({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
       <circle cx="12" cy="12" r="2.5" stroke="currentColor" strokeWidth="1.6" />
-    </svg>
-  );
-}
-
-function IconWindow({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M3 9h18" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M7 7h.01M9.5 7h.01" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
     </svg>
   );
 }
@@ -111,45 +82,6 @@ function IconCore({ className }: { className?: string }) {
     </svg>
   );
 }
-
-const practices = [
-  {
-    n: "01 — PLATFORMS",
-    h: "Data platforms",
-    p: "Warehouses, lakes and pipelines that stay trustworthy as the business grows.",
-    tags: ["Warehouses", "Pipelines", "Quality"],
-    href: "/engineering",
-    accent: "amber" as const,
-    Icon: IconLayers,
-  },
-  {
-    n: "02 — ANALYTICS",
-    h: "Analytics & decisions",
-    p: "KPI packs, forecasts and operating views that turn data into decisions.",
-    tags: ["KPI packs", "Forecasts", "Experiments"],
-    href: "/analytics",
-    accent: "green" as const,
-    Icon: IconChart,
-  },
-  {
-    n: "03 — AUTOMATION",
-    h: "AI & Automation",
-    p: "Intelligent workflows and assistants that remove the grind from the work.",
-    tags: ["Workflows", "Assistants", "Agents"],
-    href: "/ai",
-    accent: "cyan" as const,
-    Icon: IconSpark,
-  },
-  {
-    n: "04 — PRODUCTS",
-    h: "Digital Products",
-    p: "Websites, web apps and internal tools shipped as working products.",
-    tags: ["Web apps", "Internal tools", "Experiences"],
-    href: "/products",
-    accent: "blue" as const,
-    Icon: IconWindow,
-  },
-];
 
 const whyUs = [
   {
@@ -248,30 +180,7 @@ export default function HomePage() {
             </div>
             <div className="reasoning-phase" id="reasoningPhase" />
           </div>
-          <div className="platform-layers">
-            {practices.map((c) => (
-              <Link
-                className={`plat-layer-card reveal accent-${c.accent}`}
-                href={c.href}
-                key={c.n}
-              >
-                <span className="plat-icon" aria-hidden="true">
-                  <c.Icon />
-                </span>
-                <div className="plat-layer-num">{c.n}</div>
-                <h4>{c.h}</h4>
-                <p>{c.p}</p>
-                <div className="plat-layer-tags">
-                  {c.tags.map((t) => (
-                    <span className="plat-tag" key={t}>
-                      {t}
-                    </span>
-                  ))}
-                </div>
-                <span className="plat-view">View practice</span>
-              </Link>
-            ))}
-          </div>
+          <PracticeFlipCards />
         </div>
       </section>
 

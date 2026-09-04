@@ -41,40 +41,9 @@ function IconWindow({ className }: { className?: string }) {
   );
 }
 
-function IconShield({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M12 3 5 6v6c0 4.2 2.8 7.4 7 8.5 4.2-1.1 7-4.3 7-8.5V6l-7-3Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-    </svg>
-  );
-}
 
-function IconLock({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
 
-function IconScale({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M12 3v18M5 7h14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      <path d="M7 7 4 13h6L7 7ZM17 7l-3 6h6l-3-6Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-    </svg>
-  );
-}
 
-function IconKey({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="8" cy="14" r="4" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M11.5 11.5 20 3M17 3h3v3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
 
 function IconBuilding({ className }: { className?: string }) {
   return (
@@ -174,26 +143,26 @@ const whyUs = [
   },
 ];
 
-const trustCards = [
+const trustPledges = [
   {
+    n: "01",
     title: "Confidential by default",
     body: "Client work stays off this site until it is cleared to publish.",
-    Icon: IconShield,
   },
   {
+    n: "02",
     title: "No model training on your data",
     body: "We do not use client data to train public or studio models.",
-    Icon: IconLock,
   },
   {
-    title: "GDPR-minded",
-    body: "Scoped access and EU-minded handling for European clients.",
-    Icon: IconScale,
-  },
-  {
+    n: "03",
     title: "Least-privilege access",
     body: "Only the systems and people the engagement needs.",
-    Icon: IconKey,
+  },
+  {
+    n: "04",
+    title: "GDPR-minded handling",
+    body: "Purpose-limited, minimised access for European clients.",
   },
 ];
 
@@ -327,28 +296,33 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="security-section section-pad" id="contact">
+      <section className="security-section section-pad" id="trust">
         <div className="container">
           <div className="security-inner reveal">
             <div className="label">Trust</div>
-            <h2 className="sh">Your data is always confidential</h2>
+            <h2 className="sh">
+              Your data and your business <span className="g">stay yours.</span>
+            </h2>
             <p className="sb" style={{ margin: "0 auto" }}>
-              We do not train models on client data. Engagements are scoped, access is
-              least-privilege, and we work in a GDPR-minded way for EU clients.
+              Soft commitments we stand behind on every engagement — confidentiality,
+              scoped access, and no training on your proprietary work.
             </p>
-            <div className="trust-grid">
-              {trustCards.map((card) => (
-                <article className="trust-card" key={card.title}>
-                  <span className="studio-icon" aria-hidden="true">
-                    <card.Icon />
+            <div className="trust-charter" role="list">
+              <p className="trust-charter-kicker">What we carry</p>
+              {trustPledges.map((item) => (
+                <div className="trust-pledge" role="listitem" key={item.n}>
+                  <span className="trust-pledge-n" aria-hidden="true">
+                    {item.n}
                   </span>
-                  <h3>{card.title}</h3>
-                  <p>{card.body}</p>
-                </article>
+                  <div className="trust-pledge-copy">
+                    <h3>{item.title}</h3>
+                    <p>{item.body}</p>
+                  </div>
+                </div>
               ))}
             </div>
             <Link href="/security" className="trust-link">
-              Visit our Trust page →
+              Read our Trust page →
             </Link>
           </div>
         </div>

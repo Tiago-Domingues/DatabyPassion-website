@@ -4,13 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { whatsappHref } from "@/lib/site";
 
 const SEEN_KEY = "dbp_assistant_seen_v1";
-const BUBBLE = 56;
-const DRAG_THRESHOLD = 8;
 
 const COPY = {
   name: "DatabyPassion AI",
   role: "Studio assistant",
-  tooltip: "Get help from the DatabyPassion AI assistant",
+  label: "AI assistant",
   openLabel: "Open the DatabyPassion AI assistant",
   close: "Close",
   greeting:
@@ -44,29 +42,12 @@ function AssistantRocket() {
   );
 }
 
-function clamp(n: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, n));
-}
-
 export function AssistantWidget() {
   const [open, setOpen] = useState(false);
-  const [tip, setTip] = useState(false);
-  const [hover, setHover] = useState(false);
   const [typing, setTyping] = useState(false);
   const [seen, setSeen] = useState(true);
-  const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
-  const [panelBox, setPanelBox] = useState<{ left: number; top: number } | null>(null);
   const bubbleRef = useRef<HTMLButtonElement>(null);
-  const dockRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
-  const dragRef = useRef({
-    pointerId: -1,
-    startX: 0,
-    startY: 0,
-    origX: 0,
-    origY: 0,
-    moved: false,
-  });
 
   useEffect(() => {
     try {
@@ -75,27 +56,6 @@ export function AssistantWidget() {
       setSeen(false);
     }
   }, []);
-
-  useEffect(() => {
-    if (open) {
-      setTip(false);
-      return;
-    }
-    if (hover) {
-      setTip(true);
-      return;
-    }
-    const reduced =
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
-      document.documentElement.classList.contains("dbp-a11y-motion");
-    if (reduced) {
-      setTip(false);
-      return;
-    }
-    setTip(true);
-    const iv = window.setInterval(() => setTip((v) => !v), 5000);
-    return () => window.clearInterval(iv);
-  }, [open, hover]);
 
   useEffect(() => {
     if (!open) return;
@@ -116,31 +76,6 @@ export function AssistantWidget() {
     return () => window.clearTimeout(t);
   }, [open, typing]);
 
-  useEffect(() => {
-    if (!open) {
-      setPanelBox(null);
-      return;
-    }
-    function place() {
-      const el = dockRef.current;
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      const pw = Math.min(vw - 32, 352);
-      const ph = Math.min(vh * 0.7, 480);
-      let left = r.right - pw;
-      let top = r.top - ph - 12;
-      if (top < 12) top = r.bottom + 12;
-      left = clamp(left, 16, vw - pw - 16);
-      top = clamp(top, 12, vh - 12 - Math.min(ph, vh * 0.7));
-      setPanelBox({ left, top });
-    }
-    place();
-    window.addEventListener("resize", place);
-    return () => window.removeEventListener("resize", place);
-  }, [open, pos]);
-
   function close() {
     setOpen(false);
     bubbleRef.current?.focus();
@@ -155,7 +90,6 @@ export function AssistantWidget() {
       window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
       document.documentElement.classList.contains("dbp-a11y-motion");
     setOpen(true);
-    setTip(false);
     setSeen(true);
     setTyping(!reduced);
     try {
@@ -163,55 +97,6 @@ export function AssistantWidget() {
     } catch {
       /* ignore */
     }
-  }
-
-  function defaultOrigin() {
-    return {
-      x: window.innerWidth - BUBBLE - 20,
-      y: window.innerHeight - BUBBLE - 20,
-    };
-  }
-
-  function onPointerDown(e: React.PointerEvent<HTMLButtonElement>) {
-    if (e.button !== 0 && e.pointerType === "mouse") return;
-    const origin = pos ?? defaultOrigin();
-    dragRef.current = {
-      pointerId: e.pointerId,
-      startX: e.clientX,
-      startY: e.clientY,
-      origX: origin.x,
-      origY: origin.y,
-      moved: false,
-    };
-    e.currentTarget.setPointerCapture(e.pointerId);
-  }
-
-  function onPointerMove(e: React.PointerEvent<HTMLButtonElement>) {
-    const d = dragRef.current;
-    if (d.pointerId !== e.pointerId) return;
-    const dx = e.clientX - d.startX;
-    const dy = e.clientY - d.startY;
-    if (!d.moved && dx * dx + dy * dy < DRAG_THRESHOLD * DRAG_THRESHOLD) return;
-    d.moved = true;
-    const x = clamp(d.origX + dx, 8, window.innerWidth - BUBBLE - 8);
-    const y = clamp(d.origY + dy, 8, window.innerHeight - BUBBLE - 8);
-    setPos({ x, y });
-  }
-
-  function onPointerUp(e: React.PointerEvent<HTMLButtonElement>) {
-    const d = dragRef.current;
-    if (d.pointerId !== e.pointerId) return;
-    d.pointerId = -1;
-    try {
-      e.currentTarget.releasePointerCapture(e.pointerId);
-    } catch {
-      /* ignore */
-    }
-    if (d.moved) {
-      e.preventDefault();
-      return;
-    }
-    toggle();
   }
 
   return (
@@ -229,8 +114,7 @@ export function AssistantWidget() {
         <div
           role="dialog"
           aria-labelledby="dbp-assistant-title"
-          className={`dbp-assistant-panel${panelBox ? " is-follow" : ""}`}
-          style={panelBox ? { left: panelBox.left, top: panelBox.top } : undefined}
+          className="dbp-assistant-panel"
         >
           <div className="dbp-assistant-head">
             <span className="dbp-assistant-avatar">
@@ -292,33 +176,17 @@ export function AssistantWidget() {
           </div>
         </div>
       )}
-      <div
-        ref={dockRef}
-        className={`dbp-assistant-dock${pos ? " is-custom" : ""}`}
-        style={pos ? { left: pos.x, top: pos.y } : undefined}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        onFocus={() => setHover(true)}
-        onBlur={() => setHover(false)}
-      >
-        {!open && (tip || hover) && (
-          <span className="dbp-assistant-tip" aria-hidden="true">
-            {COPY.tooltip}
-          </span>
-        )}
+      <div className="dbp-assistant-dock">
+        <span className="dbp-assistant-tip" aria-hidden="true">
+          {COPY.label}
+        </span>
         <button
           ref={bubbleRef}
           type="button"
-          onPointerDown={onPointerDown}
-          onPointerMove={onPointerMove}
-          onPointerUp={onPointerUp}
-          onPointerCancel={onPointerUp}
-          onClick={(e) => {
-            if (dragRef.current.moved) e.preventDefault();
-          }}
+          onClick={toggle}
           aria-label={COPY.openLabel}
           aria-expanded={open}
-          title={COPY.tooltip}
+          title={COPY.label}
           className="dbp-assistant-bubble"
         >
           <AssistantRocket />

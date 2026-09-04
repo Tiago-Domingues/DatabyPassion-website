@@ -6,10 +6,14 @@ import { whatsappHref } from "@/lib/site";
 const SEEN_KEY = "dbp_assistant_seen_v1";
 const POS_KEY = "dbp_assistant_pos_v1";
 const BUBBLE = 56;
+const EDGE = 8;
 const DRAG_THRESHOLD = 8;
 const DEFAULT_TOP = 116;
 const DEFAULT_RIGHT = 20;
 const TIP_INTERVAL_MS = 3000;
+const TIP_RESERVE = 220;
+const PANEL_GAP = 12;
+const PANEL_EDGE = 16;
 
 const COPY = {
   name: "DatabyPassion AI",
@@ -68,13 +72,27 @@ function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
 }
 
+function bubbleSize() {
+  return window.matchMedia("(max-width: 480px)").matches ? 48 : BUBBLE;
+}
+
+function clampDockPos(x: number, y: number) {
+  const size = bubbleSize();
+  const maxX = Math.max(EDGE, window.innerWidth - size - EDGE);
+  const maxY = Math.max(EDGE, window.innerHeight - size - EDGE);
+  return {
+    x: clamp(x, EDGE, maxX),
+    y: clamp(y, EDGE, maxY),
+  };
+}
+
 function readStoredPos(): { x: number; y: number } | null {
   try {
     const raw = window.localStorage.getItem(POS_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as { x?: unknown; y?: unknown };
     if (typeof parsed.x === "number" && typeof parsed.y === "number") {
-      return { x: parsed.x, y: parsed.y };
+      return clampDockPos(parsed.x, parsed.y);
     }
   } catch {
     /* ignore */
@@ -88,7 +106,12 @@ export function AssistantWidget() {
   const [typing, setTyping] = useState(false);
   const [seen, setSeen] = useState(true);
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
-  const [panelBox, setPanelBox] = useState<{ left: number; top: number } | null>(null);
+  const [panelBox, setPanelBox] = useState<{
+    left: number;
+    top: number;
+    maxHeight: number;
+  } | null>(null);
+  const [tipEnd, setTipEnd] = useState(false);
   const [spinDeg, setSpinDeg] = useState(0);
   const [exploding, setExploding] = useState(false);
   const bubbleRef = useRef<HTMLButtonElement>(null);
@@ -113,13 +136,21 @@ export function AssistantWidget() {
       setSeen(false);
     }
     const stored = readStoredPos();
-    if (stored) {
-      setPos({
-        x: clamp(stored.x, 8, window.innerWidth - BUBBLE - 8),
-        y: clamp(stored.y, 8, window.innerHeight - BUBBLE - 8),
-      });
-    }
+    if (stored) setPos(stored);
   }, []);
+
+  useEffect(() => {
+    function syncTipSide() {
+      const origin = pos ?? {
+        x: window.innerWidth - bubbleSize() - DEFAULT_RIGHT,
+        y: DEFAULT_TOP,
+      };
+      setTipEnd(origin.x < TIP_RESERVE + EDGE);
+    }
+    syncTipSide();
+    window.addEventListener("resize", syncTipSide);
+    return () => window.removeEventListener("resize", syncTipSide);
+  }, [pos]);
 
   useEffect(() => {
     const reduced =
@@ -202,14 +233,17 @@ export function AssistantWidget() {
       const r = el.getBoundingClientRect();
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-      const pw = Math.min(vw - 32, 352);
-      const ph = Math.min(vh * 0.7, 480);
+      const pw = Math.min(vw - PANEL_EDGE * 2, 352);
+      const idealH = Math.min(vh * 0.7, 480);
+      const spaceBelow = vh - r.bottom - PANEL_GAP - PANEL_EDGE;
+      const spaceAbove = r.top - PANEL_GAP - PANEL_EDGE;
+      const openBelow = spaceBelow >= Math.min(idealH, 240) || spaceBelow >= spaceAbove;
+      const maxHeight = Math.max(200, Math.min(idealH, openBelow ? spaceBelow : spaceAbove));
       let left = r.right - pw;
-      let top = r.bottom + 12;
-      if (top + Math.min(ph, vh * 0.55) > vh - 12) top = Math.max(12, r.top - ph - 12);
-      left = clamp(left, 16, vw - pw - 16);
-      top = clamp(top, 12, vh - 12 - Math.min(ph, vh * 0.55));
-      setPanelBox({ left, top });
+      let top = openBelow ? r.bottom + PANEL_GAP : r.top - maxHeight - PANEL_GAP;
+      left = clamp(left, PANEL_EDGE, Math.max(PANEL_EDGE, vw - pw - PANEL_EDGE));
+      top = clamp(top, PANEL_EDGE, Math.max(PANEL_EDGE, vh - maxHeight - PANEL_EDGE));
+      setPanelBox({ left, top, maxHeight });
     }
     place();
     window.addEventListener("resize", place);
@@ -218,13 +252,7 @@ export function AssistantWidget() {
 
   useEffect(() => {
     function onResize() {
-      setPos((current) => {
-        if (!current) return current;
-        return {
-          x: clamp(current.x, 8, window.innerWidth - BUBBLE - 8),
-          y: clamp(current.y, 8, window.innerHeight - BUBBLE - 8),
-        };
-      });
+      setPos((current) => (current ? clampDockPos(current.x, current.y) : current));
     }
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
@@ -275,7 +303,7 @@ export function AssistantWidget() {
 
   function defaultOrigin() {
     return {
-      x: window.innerWidth - BUBBLE - DEFAULT_RIGHT,
+      x: window.innerWidth - bubbleSize() - DEFAULT_RIGHT,
       y: DEFAULT_TOP,
     };
   }
@@ -309,11 +337,7 @@ export function AssistantWidget() {
     const dy = e.clientY - d.startY;
     if (!d.moved && dx * dx + dy * dy < DRAG_THRESHOLD * DRAG_THRESHOLD) return;
     d.moved = true;
-    const next = {
-      x: clamp(d.origX + dx, 8, window.innerWidth - BUBBLE - 8),
-      y: clamp(d.origY + dy, 8, window.innerHeight - BUBBLE - 8),
-    };
-    setPos(next);
+    setPos(clampDockPos(d.origX + dx, d.origY + dy));
   }
 
   function onPointerUp(e: React.PointerEvent<HTMLButtonElement>) {
@@ -326,10 +350,7 @@ export function AssistantWidget() {
       /* ignore */
     }
     if (d.moved) {
-      const next = {
-        x: clamp(d.origX + (e.clientX - d.startX), 8, window.innerWidth - BUBBLE - 8),
-        y: clamp(d.origY + (e.clientY - d.startY), 8, window.innerHeight - BUBBLE - 8),
-      };
+      const next = clampDockPos(d.origX + (e.clientX - d.startX), d.origY + (e.clientY - d.startY));
       setPos(next);
       persistPos(next);
       e.preventDefault();
@@ -354,7 +375,11 @@ export function AssistantWidget() {
           role="dialog"
           aria-labelledby="dbp-assistant-title"
           className={`dbp-assistant-panel${panelBox ? " is-follow" : ""}`}
-          style={panelBox ? { left: panelBox.left, top: panelBox.top } : undefined}
+          style={
+            panelBox
+              ? { left: panelBox.left, top: panelBox.top, maxHeight: panelBox.maxHeight }
+              : undefined
+          }
         >
           <div className="dbp-assistant-head">
             <span className="dbp-assistant-avatar">
@@ -418,7 +443,7 @@ export function AssistantWidget() {
       )}
       <div
         ref={dockRef}
-        className={`dbp-assistant-dock${pos ? " is-custom" : ""}`}
+        className={`dbp-assistant-dock${pos ? " is-custom" : ""}${tipEnd ? " tip-end" : ""}`}
         style={pos ? { left: pos.x, top: pos.y } : undefined}
       >
         <span

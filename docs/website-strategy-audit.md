@@ -1,8 +1,15 @@
+<!-- markdownlint-disable MD013 MD036 -->
+
 # DatabyPassion website strategy and gap audit
 
-**Status:** Recommendation document  
-**Prepared:** 4 September 2026  
+**Status:** Recommendation document
+**Prepared:** 4 September 2026
 **Purpose:** Turn the current site into a credible business card for enterprise buyers of digital, data, and AI product consulting.
+
+**Important limitation:** This is a website, positioning, and technical audit—not
+legal, privacy, security, tax, or procurement advice. Jurisdiction-dependent
+recommendations must be verified against the actual operator, processing
+activities, client obligations, and advice from qualified professionals.
 
 ## Executive verdict
 
@@ -15,14 +22,20 @@ It is not yet ready to perform as an enterprise business card. The main problem 
 3. The global “AI engagement agent” advertises a disabled “Coming soon” product.
 4. The site alternates between “collective,” “studio,” “solo boutique,” “solo practice,” and “freelancer.” A buyer cannot tell what they are buying or how delivery scales.
 5. There is no credible work evidence: no case narratives, verified outcomes, testimonials, named senior profiles, or delivery artefacts.
-6. The homepage explains capabilities but does not show a primary call to action in the first viewport.
+6. The hero itself has no call to action. The only first-viewport CTA is fixed in
+   the navigation and opens the non-delivering form.
 7. Several trust signals are either ambiguous or unsupported: “In production with” above technology logos, “All systems operational” without a status system, absolute confidentiality language, and broad enterprise positioning without procurement facts.
 
 The recommended direction is to position DatabyPassion as:
 
-> A senior-led technology collective that helps enterprises turn high-value digital and AI opportunities into working products, then expand what proves valuable into a managed portfolio.
+> A senior-led boutique technology consultancy that helps enterprises turn
+> high-value digital and AI opportunities into working products. Its collective
+> delivery model can expand successful engagements into a coordinated product
+> portfolio.
 
-This preserves the boutique model without presenting it as a single-person delivery risk. It also adds the missing commercial story: start with a sharp problem, prove value quickly, and grow deliberately.
+This preserves the boutique model, makes the collective the delivery model, and
+adds the missing commercial story: start with a sharp problem, prove value
+quickly, and grow only where the evidence supports it.
 
 ## 1. Business context translated into a website proposition
 
@@ -47,7 +60,7 @@ Use one stable hierarchy everywhere:
 
 **Category**
 
-Senior-led digital and AI product consultancy.
+Senior-led boutique technology consultancy for digital and AI products.
 
 **Core promise**
 
@@ -67,7 +80,9 @@ Clear scope, visible progress, measurable outcomes, secure delivery, and an expl
 
 ### 1.3 Recommended one-line description
 
-> DatabyPassion brings senior technology leaders and specialist teams together to design, build, and scale digital and AI products for enterprises.
+> DatabyPassion is a boutique technology consultancy that brings senior leaders
+> and specialist teams together to design, build, and scale digital and AI
+> products for enterprises.
 
 An outcome-led alternative:
 
@@ -83,9 +98,11 @@ Suggested first draft:
 
 > **Turn digital and AI opportunities into products that perform.**
 >
-> DatabyPassion is a senior-led technology collective. We work with enterprise teams to shape, build, and scale high-value products—starting focused, moving quickly, and growing what proves valuable.
+> DatabyPassion is a senior-led boutique technology consultancy. Our collective
+> works with enterprise teams to shape, build, and scale high-value
+> products—starting focused, moving quickly, and expanding what proves valuable.
 >
-> **Primary CTA:** Discuss a business problem  
+> **Primary CTA:** Discuss a business problem
 > **Secondary CTA:** See selected work
 
 Supporting proof line:
@@ -125,6 +142,38 @@ Evidence used:
 - `npm audit` and the existing lint command.
 
 The performance numbers in this document are one local lab run, not real-user field data. They are diagnostic signals and should be re-baselined on the deployed domain.
+
+### 2.1 Reproduction context
+
+- Site revision: `origin/main` at `2bf335b23f658322e8e20d05f1cfc3ca75d75c8e`.
+- Test date: 4 September 2026.
+- Local URL: `http://127.0.0.1:3000`.
+- axe-core: `4.13.0`, matching Chromium `148`, homepage and
+  `/engineering`.
+- Lighthouse: `13.4.1`, Headless Chrome `148`, mobile emulation at
+  `412 × 823`, simulated `150 ms` RTT, `1,638.4 Kbps` throughput, and `4×`
+  CPU slowdown.
+- Dependency evidence: `npm audit --json` on the same date.
+- Raw outputs are retained with this audit as `site_audit_axe.log` and
+  `site_audit_lighthouse.json` walkthrough artefacts.
+
+Reproduction command shapes:
+
+```bash
+npx --yes @axe-core/cli@4.13.0 \
+  http://127.0.0.1:3000/ \
+  http://127.0.0.1:3000/engineering \
+  --chrome-path <matching-chrome> \
+  --chromedriver-path <matching-chromedriver>
+
+npx --yes lighthouse@13.4.1 http://127.0.0.1:3000/ \
+  --chrome-path=<matching-chrome> \
+  --chrome-flags="--headless --no-sandbox" \
+  --only-categories=performance,accessibility,best-practices,seo
+```
+
+The repository rule that the contact form remains UI-only with no email send is
+treated as a fixed constraint in this recommendation.
 
 ## 3. The buyer and the job of the site
 
@@ -240,13 +289,16 @@ A qualified lead can reasonably believe a request was delivered and wait for a r
 
 **Change**
 
-Choose one:
+Repository rules require the form to remain UI-only and not send email. Within
+that constraint:
 
-1. Implement a dependable form endpoint with spam protection, consent text, delivery monitoring, and a fallback.
-2. Replace the form with a short `mailto:` flow that pre-fills the business problem.
-3. Replace it with a scheduling link plus direct domain email.
-
-Until one is live, remove every claim that a request was received.
+- remove the modal as the primary submission experience;
+- point the primary CTA to a real direct channel, preferably a domain
+  `mailto:` link or a deliberately selected scheduling provider;
+- if the UI-only form is retained, present it as a “project brief builder” that
+  the visitor can copy or download—not as a submitted enquiry;
+- remove every claim that a request was received or that follow-up will happen;
+- update privacy text for any external scheduling provider before using it.
 
 ### 6.3 “AI engagement agent” is an unfinished global feature
 
@@ -297,13 +349,18 @@ An enterprise buyer is being asked to infer delivery capability from assertions 
 
 **Change**
 
-Publish at least three evidence units, which may be anonymised:
+Seek clearance for evidence across the core capabilities, ideally:
 
 - a data/platform engagement;
 - an AI or automation engagement;
 - a digital product or analytics engagement.
 
 Each must distinguish the individual’s role, the client team’s work, the problem, what shipped, the measured or observed outcome, and what happened next.
+
+Do not force a case study where contractual or client clearance is absent. If no
+client work can be published, narrow the site’s claims and use verified founder
+career evidence, owned demonstrations, generalised delivery artefacts, or
+approved testimonials without implying they are DatabyPassion client results.
 
 Do not move Mercer or EY-Parthenon to the homepage. Keep them on `/about` as career context, consistent with the current site guardrail.
 
@@ -349,7 +406,13 @@ An individual consumer mailbox weakens the business identity and can create avoi
 
 **Current state**
 
-`npm audit` reports three high-severity vulnerable packages through `next@16.2.9`. The reported fixed path is a newer Next.js release.
+On 4 September 2026, `npm audit` reports the directly declared
+`next@16.2.9` plus transitive `postcss` and `sharp` as three high-severity
+vulnerability entries. The Next.js advisories include
+`GHSA-6gpp-xcg3-4w24`, `GHSA-m99w-x7hq-7vfj`,
+`GHSA-89xv-2m56-2m9x`, and `GHSA-p9j2-gv94-2wf4`; the audit suggested
+`next@16.3.4` as the available fix at review time. Applicability to this static
+deployment was not established by this audit.
 
 **Why it matters**
 
@@ -361,6 +424,103 @@ A consultancy making security claims should not knowingly leave a directly decla
 - Upgrade Next.js and related packages to the latest compatible patched release.
 - Run the complete build and route tests after the upgrade.
 - Add automated dependency review and a defined patching owner.
+
+### 6.9 Consent choices do not control behaviour
+
+**Current state**
+
+The banner says it uses essential “cookies” for language and consent and that
+analytics stay off. The implementation actually stores:
+
+- `dbp_consent` in local storage;
+- `dbp_assistant_seen_v1` in local storage;
+- `dbp_assistant_pos_v1` in local storage;
+- `dbp_network_palette` in session storage.
+
+No language preference is written. “Accept” and “Essentials only” save different
+strings but gate no behaviour. There is no way to reopen the choice.
+
+**Why it matters**
+
+The interface describes a consent system that does not exist. Even without
+analytics, storage, external links, Vercel request logs, and future providers
+need a truthful data-flow inventory.
+
+**Change**
+
+- describe local and session storage accurately;
+- either remove the meaningless choice or make choices operationally distinct;
+- provide a way to review or change the preference where required;
+- inventory Vercel logs, WhatsApp, LinkedIn, email, and any scheduling provider;
+- have the resulting notice and legal basis reviewed for the relevant
+  jurisdictions.
+
+### 6.10 Conceptual graphics can imply a proprietary AI platform
+
+**Current state**
+
+The homepage canvas displays “REASONING ENGINE,” “NEURO-SYMBOLIC ARCHITECTURE,”
+and “Decision deployed.” Active service stages display “DBP Enabled.”
+
+**Why it matters**
+
+These labels can reasonably imply that DatabyPassion owns a deployed reasoning
+platform or proprietary enablement layer. The site provides no product
+description or evidence for that interpretation.
+
+**Change**
+
+- replace the labels with a plain business/product delivery diagram; or
+- label the visual explicitly as a conceptual engagement model;
+- reserve product-like names and “enabled” badges for real, demonstrable
+  intellectual property.
+
+### 6.11 Permanent redirects point to misleading destinations
+
+**Current state**
+
+- `/contato` permanently redirects to `/#contact`, but `#contact` is the Trust
+  section rather than a contact experience.
+- `/servicos` redirects to `/analytics`, although the site offers four
+  capabilities.
+
+**Why it matters**
+
+Permanent redirects are cached and indexed. These destinations can confuse
+returning visitors and search engines.
+
+**Change**
+
+- redirect `/contato` to the actual working contact destination or a correctly
+  named contact anchor;
+- redirect `/servicos` to `/#platform`;
+- test every redirect before deployment and avoid permanent status until the
+  destination is settled.
+
+### 6.12 Visual-system and media provenance need review
+
+**Current state**
+
+Repository guidance says the visual system was cloned from
+`growthprotocol.ai`. The site also uses NASA/ESA-attributed stills with licence
+notes held only in the repository.
+
+**Why it matters**
+
+A cloned layout, motion system, illustration, code, or protected brand element
+can create intellectual-property and differentiation risk. Media attribution
+requirements vary by source and asset; this audit does not establish their
+licence status.
+
+**Change**
+
+- inventory copied code, layout, motion, imagery, wording, and trademarks;
+- replace copied expression with an original DatabyPassion system or document
+  permission;
+- do not add Growth Protocol or restricted client logos;
+- verify each media asset’s source-specific licence and attribution requirement;
+- show attribution publicly when the applicable terms require it;
+- complete this review before actively promoting the site.
 
 ## 7. Strategic messaging gaps
 
@@ -482,13 +642,12 @@ The homepage should work as a complete business card. A new route is not require
 
 Recommended:
 
-- Work
-- Capabilities
-- How we work
-- Collective
-- Trust
-- About
-- Discuss a problem
+- Work (`/#work`, once the section exists)
+- Capabilities (`/#platform`)
+- How we work (`/#approach`, once the section exists)
+- Collective (`/about`)
+- Trust (`/security`)
+- Discuss a problem (a real contact destination)
 
 On smaller screens, preserve all links, indicate menu state with `aria-expanded`, close on Escape, and return focus to the menu button.
 
@@ -496,7 +655,7 @@ The visible EN switch can remain as required, but should not behave like an acti
 
 ### 8.2 Hero
 
-The first viewport should contain:
+The hero—not only the fixed navigation—should contain:
 
 - the category;
 - an outcome-led headline;
@@ -505,7 +664,9 @@ The first viewport should contain:
 - one evidence-oriented secondary CTA;
 - one compact proof statement.
 
-The current hero has no CTA. A visitor must scroll to act.
+The current hero has no CTA. The navigation CTA is visible, but it opens the
+non-delivering form and does not give the proposition an evidence-oriented
+secondary action.
 
 ### 8.3 Buyer-problem section
 
@@ -520,7 +681,7 @@ Each should link to the relevant existing service page.
 
 ### 8.4 Selected work
 
-Show two or three anonymised case cards:
+Show two or three cleared case cards, anonymised where required:
 
 - client context, without identifying details if not cleared;
 - business problem;
@@ -810,7 +971,9 @@ No metric should enter the website without this record.
 
 ### 10.4 Evidence without client names
 
-Confidentiality does not require an empty site. Safe options include:
+Confidentiality does not necessarily require an empty site. Every option below
+still requires contractual/permission review, an assessment of
+re-identification risk, and client approval where applicable:
 
 - “European wealth-management organisation”;
 - architecture diagrams redrawn without proprietary details;
@@ -821,7 +984,9 @@ Confidentiality does not require an empty site. Safe options include:
 - a signed anonymous testimonial attributed by role and sector;
 - founder-authored technical notes based on generalised lessons.
 
-Avoid faux case studies, composite stories presented as real, and invented numbers.
+Avoid faux case studies, composite stories presented as real, invented numbers,
+or “anonymous” details that allow the organisation or individuals to be
+re-identified.
 
 ## 11. Offer and engagement design
 
@@ -891,7 +1056,11 @@ Use one primary phrase consistently.
 
 ### 12.2 Form design
 
-If a working form is implemented, ask only what is needed for the first response:
+The repository requires the form to remain UI-only with no email send. The
+preferred conversion is therefore a direct domain email or an approved external
+scheduling destination. If the existing UI is retained as a non-submitting
+project brief builder, ask only what helps the visitor draft the first
+conversation:
 
 - name;
 - work email, while allowing legitimate non-corporate addresses;
@@ -899,29 +1068,36 @@ If a working form is implemented, ask only what is needed for the first response
 - “What are you trying to change?”;
 - optional timing or urgency;
 - optional procurement/security constraint;
-- privacy acknowledgement.
+- a link to the applicable privacy notice.
 
-The current form asks for first name, last name, business email, company, title, industry, and function but does not ask about the problem. It optimises lead classification before buyer value.
+The current form asks for first name, last name, business email, company, title,
+industry, and function but does not ask about the problem. It optimises lead
+classification before buyer value and then falsely reports submission.
 
-Do not reject Gmail and other personal domains automatically. Senior buyers, founders, advisors, and people between systems may use them legitimately. Flag them internally if needed.
+Do not reject Gmail and other personal domains automatically. Senior buyers,
+founders, advisors, and people between systems may use them legitimately.
 
 ### 12.3 Response and fallback
 
-- Send an acknowledgement only after durable receipt.
-- State the expected response window only if it is monitored.
-- Alert on delivery failures.
+- Do not show an acknowledgement or “received” state from the UI-only form.
+- Make “copy brief” or “download brief” success language describe only that
+  local action.
+- Let any external scheduling provider own its real confirmation state.
+- State the expected response window only for a monitored direct channel.
 - Provide domain email as a visible fallback.
-- Preserve submitted text if an error occurs.
-- Do not close a successful submission before the buyer can read confirmation.
+- Preserve brief text if a local copy/download action fails.
+- Update the privacy data-flow inventory before adding any provider.
 
 ### 12.4 Contact channel hierarchy
 
 Recommended order:
 
-1. working short enquiry form or scheduling flow;
-2. named domain email;
+1. named domain email;
+2. an approved scheduling flow, if wanted;
 3. LinkedIn;
 4. WhatsApp, only if it matches enterprise buyer expectations.
+
+The UI-only brief builder is an optional aid, not a contact channel.
 
 ## 13. Enterprise trust and procurement readiness
 
@@ -1053,7 +1229,7 @@ Visible labels are not programmatically connected to inputs and selects. Axe fla
 - connect every label using `htmlFor`;
 - group related fields;
 - connect errors with `aria-describedby`;
-- announce submission errors and success;
+- announce validation and local copy/download status;
 - retain native validation semantics where useful.
 
 ### 15.3 Modal semantics and focus
@@ -1098,6 +1274,8 @@ The stylesheet defines few explicit focus-visible states. Inputs remove the nati
 
 - add a consistent, high-contrast `:focus-visible` ring;
 - mirror every hover affordance on focus;
+- use semantic buttons for modal triggers instead of `href="#"`;
+- expose service-stage selection with `aria-pressed` or proper tab semantics;
 - ensure all controls have a minimum usable target;
 - test the entire site with keyboard only.
 
@@ -1120,7 +1298,7 @@ Some components respect `prefers-reduced-motion`, but the implementation should 
 **Change**
 
 - stop the ticker, logo marquee, canvas movement, animated reveals, assistant effects, and automatic carousels for reduced motion;
-- allow pause for persistent movement;
+- provide a visible pause/stop control for persistent movement;
 - avoid delaying content visibility behind JavaScript animation;
 - test with reduced motion enabled before release.
 
@@ -1300,7 +1478,8 @@ Add proportionate coverage:
 - browser smoke tests for all required routes;
 - keyboard and accessibility checks for navigation/dialogs;
 - metadata assertions;
-- one end-to-end lead-delivery test once the form is real.
+- one browser test proving that the direct contact destination or local brief
+  action behaves exactly as labelled.
 
 ### 17.7 Security headers and operational controls
 
@@ -1316,8 +1495,7 @@ Evaluate and configure:
 - `Referrer-Policy`;
 - permissions policy;
 - frame-ancestor restrictions;
-- secure handling for any future form endpoint;
-- rate limiting, validation, spam controls, and logging.
+- an allowlist for any approved external contact provider.
 
 Verify what Vercel already supplies before adding duplicate or conflicting headers.
 
@@ -1328,6 +1506,22 @@ Lighthouse reports a missing `/favicon.ico`.
 **Change**
 
 Add complete icon metadata and verify that every referenced asset returns `200` on a fresh build, not only a warmed local build.
+
+### 17.9 Reproducible environment setup
+
+The repository setup instructions disagree:
+
+- `AGENTS.md` requires `npm ci`;
+- `README.md` says `npm install`;
+- `package.json` does not declare the required Node runtime or package-manager
+  version.
+
+**Change**
+
+- make `README.md` and environment automation use `npm ci`;
+- declare the supported Node engine and package manager;
+- keep the lockfile authoritative;
+- verify setup and build in a clean environment.
 
 ## 18. Analytics and learning plan
 
@@ -1341,7 +1535,7 @@ Analytics are currently not wired. That is preferable to pretending consent or m
 - service-stage interaction only if it informs content;
 - contact start;
 - contact validation failure;
-- durable contact submission;
+- brief copied/downloaded, if the UI-only builder remains;
 - scheduling click;
 - mailto click;
 - qualified conversation, recorded in the CRM;
@@ -1353,7 +1547,7 @@ Analytics are currently not wired. That is preferable to pretending consent or m
 - percentage of conversations matching best-fit criteria;
 - selected-work-to-contact progression;
 - service page to contact progression;
-- lead delivery success;
+- qualified-conversation source attribution;
 - response time;
 - opportunity creation and influenced pipeline;
 - buyer objections heard in calls.
@@ -1362,11 +1556,15 @@ Avoid optimising time on page, raw animation interactions, or traffic without bu
 
 ### 18.3 Consent and privacy
 
+- inventory `dbp_consent`, `dbp_assistant_seen_v1`,
+  `dbp_assistant_pos_v1`, and `dbp_network_palette`;
 - keep non-essential analytics off until consent where required;
 - document the actual provider and processing;
 - honour “Essentials only” technically;
 - make changing consent possible;
 - do not claim a cookie when using local storage;
+- include Vercel request logs, WhatsApp, LinkedIn, email, and any scheduling
+  provider in the data-flow review;
 - keep measurement proportionate to a low-volume consultancy site.
 
 ## 19. Prioritised implementation roadmap
@@ -1374,14 +1572,21 @@ Avoid optimising time on page, raw animation interactions, or traffic without bu
 ### P0 — credibility repair
 
 1. Remove every public placeholder instruction, placeholder label, and empty metric.
-2. Remove the simulated form success or connect the form to dependable delivery.
+2. Remove simulated form submission; use an allowed real direct contact
+   destination or an honestly labelled local brief builder.
 3. Remove the unfinished AI assistant; optionally retain a plainly labelled WhatsApp link.
 4. Decide and document the legal contracting identity.
 5. Align “founder-led collective” language across marketing and legal pages without obscuring legal facts.
 6. Configure a business-domain email.
 7. Remove or correct ambiguous logo, status, and security claims.
-8. Add at least one credible evidence unit; do not wait for a perfect case-study library.
-9. Patch the vulnerable framework dependency.
+8. Remove or relabel proprietary-sounding “reasoning engine” and “DBP Enabled”
+   graphics.
+9. Make the consent/storage notice truthful.
+10. Correct `/contato` and `/servicos` redirects.
+11. Complete visual-system and media provenance review.
+12. Add cleared evidence where available; otherwise narrow unsupported claims.
+13. Patch the vulnerable framework dependency after applicability and
+    compatibility review.
 
 ### P1 — proposition and sales enablement
 
@@ -1395,34 +1600,53 @@ Avoid optimising time on page, raw animation interactions, or traffic without bu
 8. Add distinct metadata, canonical URLs, social imagery, structured identity, and favicon.
 9. Fix high-impact accessibility issues.
 10. Establish working lint, type, route, and browser quality gates.
+11. Reduce initial client-side animation/work and meet an agreed performance
+    budget.
 
 ### P2 — optimisation and authority
 
 1. Add further case evidence and cleared testimonials.
 2. Publish a small library of durable buyer decision assets.
 3. Add privacy-respecting analytics and CRM attribution.
-4. Reduce global animation and meet performance budgets.
-5. Refactor the global CSS and effects architecture.
-6. Add visual regression and ongoing accessibility checks.
-7. Consider a dedicated `/work` route only after updating the agreed route map and collecting enough evidence to justify it.
-8. Test proposition and CTA variants using qualified-conversation quality, not click volume alone.
+4. Refactor the global CSS and effects architecture.
+5. Add visual regression and ongoing accessibility checks.
+6. Consider a dedicated `/work` route only after updating the agreed route map and collecting enough evidence to justify it.
+7. Test proposition and CTA variants using qualified-conversation quality, not click volume alone.
 
 ## 20. Suggested implementation tickets
 
-These can be executed independently after the required business decisions are made:
+Execute these in dependency order. Business/legal facts unblock credibility
+repair; credibility repair precedes proposition and proof; those precede
+technical hardening and optimisation.
 
-1. **Content safety pass:** remove placeholders, internal release commentary, simulated status, and unfinished product UI.
-2. **Lead path:** select provider, implement delivery, add monitoring, simplify fields, and update privacy text.
-3. **Identity foundation:** canonical business name, legal identity, domain, domain email, social handles, and contact owner.
-4. **Proof sprint:** evidence register plus three anonymised case narratives.
-5. **Homepage narrative:** hero, buying situations, work, collective model, portfolio path, trust, and CTA.
-6. **Service-page redesign:** one evidence-capable shared template and four service content sets.
-7. **Collective page:** founder profile, operating model, approved profiles, continuity, and career context.
-8. **Trust pack:** security page, supplier facts, NDA/DPA path, privacy, terms, and professional review.
-9. **Accessibility remediation:** landmarks, headings, contrast, forms, dialogs, keyboard, focus, motion, and automated checks.
-10. **Technical hardening:** framework patch, lint/type configuration, tests, headers, favicon, metadata, and performance budget.
-11. **Design-system cleanup:** remove duplicated CSS, isolate effects, and create original brand patterns.
-12. **Measurement:** consent-aware events, CRM source capture, and qualified-conversation reporting.
+1. **Business truth:** confirm operator, offer, collective, evidence permissions,
+   security controls, domain, and contact owner.
+2. **Content safety pass:** remove placeholders, release commentary, simulated
+   status/submission, misleading redirects, and unfinished product UI.
+3. **Provenance review:** inventory and replace copied expression; verify media
+   licensing and attribution.
+4. **Lead path:** use an allowed direct destination, convert or remove the
+   UI-only form, simplify fields, and align privacy text.
+5. **Identity foundation:** canonical business name, legal identity, domain,
+   domain email, social handles, and contact owner.
+6. **Proof work:** create an evidence register and publish only cleared,
+   non-reidentifying narratives.
+7. **Homepage narrative:** hero, buying situations, work, collective model,
+   conditional portfolio path, trust, and CTA.
+8. **Service-page redesign:** one evidence-capable shared template and four
+   service content sets.
+9. **Collective page:** founder profile, operating model, approved profiles,
+   continuity, and career context.
+10. **Trust pack:** security page, supplier facts, applicable NDA/DPA path,
+    privacy, terms, and professional review.
+11. **Accessibility remediation:** landmarks, headings, contrast, forms,
+    dialogs, keyboard, focus, motion, and automated checks.
+12. **Technical hardening:** framework patch, lint/type configuration, tests,
+    headers, favicon, metadata, and performance budget.
+13. **Design-system cleanup:** remove duplicated CSS, isolate effects, and create
+    original brand patterns.
+14. **Measurement:** consent-aware events, CRM source capture, and
+    qualified-conversation reporting.
 
 ## 21. Release acceptance criteria
 
@@ -1437,14 +1661,17 @@ These can be executed independently after the required business decisions are ma
 
 - No placeholder or internal drafting language is public.
 - Every metric has a documented source and approval.
-- At least three evidence units cover more than one capability, or the site clearly limits itself to the evidence currently available.
+- Published evidence is sufficient for the claims made. If fewer than three
+  cleared units exist, the site narrows its claims instead of manufacturing
+  coverage.
 - Founder career experience is clearly distinguished from DatabyPassion client work.
 
 ### Conversion
 
-- A primary CTA appears in the first viewport.
-- Every CTA reaches a working, monitored destination.
-- The site never reports success before durable lead receipt.
+- A primary CTA appears in the hero, with an evidence-oriented secondary action.
+- Every CTA reaches a truthful, working destination, and the published domain
+  mailbox is monitored.
+- The UI-only form never claims to submit or receive a lead.
 - A domain email provides a visible fallback.
 - Contact asks about the buyer’s problem, not only demographic classification.
 

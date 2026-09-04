@@ -275,19 +275,21 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="studio-section studio-frost section-pad" id="why">
+      <section className="studio-section studio-frost section-pad" id="collective">
         <div className="container">
           <div className="studio-header reveal">
-            <div className="label">Why us</div>
+            <div className="label">The right collective</div>
             <h2 className="sh">
               Enterprise thinking. <span className="g">Startup execution.</span>
             </h2>
             <p className="sb">
               Senior judgement from large programmes, delivered at studio speed — with the right
-              people around the problem.
+              people around the problem. A lean founder-led core holds the relationship, the
+              architecture and the standard. Trusted specialists join when the problem needs them.
+              We do not pretend to be a large bench.
             </p>
           </div>
-          <div className="why-grid">
+          <div className="why-grid collective-why-grid">
             {whyUs.map((item) => (
               <article className="studio-card reveal" key={item.title}>
                 <span className="studio-icon" aria-hidden="true">
@@ -298,23 +300,7 @@ export default function HomePage() {
               </article>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="studio-section studio-frost section-pad" id="collective">
-        <div className="container">
-          <div className="studio-header reveal">
-            <div className="label">The collective</div>
-            <h2 className="sh">
-              One core. <span className="g">The right collective around it.</span>
-            </h2>
-            <p className="sb">
-              A lean founder-led core holds the relationship, the architecture and the standard.
-              Trusted specialists join when the problem needs them. We do not pretend to be a
-              large bench.
-            </p>
-          </div>
-          <div className="collective-split">
+          <div className="collective-split collective-core-grid">
             <article className="studio-card reveal">
               <span className="studio-icon" aria-hidden="true">
                 <IconCore />

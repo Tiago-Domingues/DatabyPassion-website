@@ -378,17 +378,17 @@ function getLayout(){
   const boxW=engR-engL, boxH=mobile?H*0.58:H*0.68, boxT=cy-boxH/2;
   const sp=mobile?55:95, sp2=mobile?18:32;
   const src=[
-    {x:col1,y:cy-sp,l:mobile?'CRM':'CRM / ERP',sub:mobile?'':'Systems of record',c:'#fbbf24'},
-    {x:col1,y:cy-sp2,l:mobile?'Sheets':'Spreadsheets',sub:mobile?'':'Files · exports · ops',c:'#fbbf24'},
-    {x:col1,y:cy+sp2,l:mobile?'Warehouse':'Warehouses',sub:mobile?'':'Cloud · lake · marts',c:'#fbbf24'},
-    {x:col1,y:cy+sp,l:mobile?'Models':'Models',sub:mobile?'':'History · scores · IP',c:'#fbbf24'}
+    {x:col1,y:cy-sp,l:mobile?'Platforms':'Data platforms',sub:mobile?'':'Warehouses · lakes',c:'#fbbf24'},
+    {x:col1,y:cy-sp2,l:mobile?'Analytics':'Analytics',sub:mobile?'':'KPIs · decisions',c:'#fbbf24'},
+    {x:col1,y:cy+sp2,l:mobile?'Automation':'AI & Automation',sub:mobile?'':'Workflows · agents',c:'#fbbf24'},
+    {x:col1,y:cy+sp,l:mobile?'Products':'Digital Products',sub:mobile?'':'Apps · experiences',c:'#fbbf24'}
   ];
   const eng={box:{x:engL,y:boxT,w:boxW,h:boxH,r:mobile?10:14},core:{x:cx,y:cy,c:'#1a9afa',r:mobile?7:10}};
   const out=[
-    {x:col5,y:cy-sp,l:mobile?'KPIs':'KPI packs',c:'#1a9afa'},
-    {x:col5,y:cy-sp2,l:mobile?'Forecasts':'Forecasts',c:'#1a9afa'},
-    {x:col5,y:cy+sp2,l:mobile?'Pipelines':'Pipelines',c:'#1a9afa'},
-    {x:col5,y:cy+sp,l:mobile?'Assistants':'AI assistants',c:'#1a9afa'}
+    {x:col5,y:cy-sp,l:mobile?'Pipelines':'Pipelines',c:'#1a9afa'},
+    {x:col5,y:cy-sp2,l:mobile?'Decisions':'Decisions',c:'#1a9afa'},
+    {x:col5,y:cy+sp2,l:mobile?'Workflows':'Workflows',c:'#1a9afa'},
+    {x:col5,y:cy+sp,l:mobile?'Apps':'Experiences',c:'#1a9afa'}
   ];
   return{src,eng,out,cx,cy,col1,col2,engL,engR,col4,col5,boxW,boxH}
 }

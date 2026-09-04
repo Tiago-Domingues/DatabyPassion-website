@@ -1,34 +1,90 @@
 import type { Metadata } from "next";
 import { ServicePage } from "@/components/ServicePage";
 
-export const metadata: Metadata = { title: "ML & AI" };
+export const metadata: Metadata = { title: "AI & Automation" };
 
 export default function AiPage() {
   return (
     <ServicePage
-      kicker="ML & AI"
-      titleRest="Models in the"
+      kicker="AI & Automation"
+      titleRest="Intelligence in the"
       titleEm="workflow"
-      sub="From classical ML to applied LLM systems. Grounded in your data, your rules, and an audit trail — not a demo that dies in a notebook."
+      sub="Intelligent workflows and assistants grounded in your data and processes — not a demo that dies in a notebook."
       cta="Start an AI project"
       accentVar="#f472b6"
       stages={[
-        { num: "01", title: "Use case", hint: "Value", heading: "Pick a decision that pays", body: "We will not start with a model. We start with a decision, a baseline, and a stop rule.", points: [{ title: "Baseline", text: "What happens today, in hours and error." }, { title: "Stop rule", text: "When we kill the experiment." }] },
-        { num: "02", title: "Data", hint: "Fit", heading: "The data you actually have", body: "Labels, leakage, and coverage — before architecture theatre.", points: [{ title: "Labels", text: "Who labelled them, and how noisy." }, { title: "Leakage", text: "What must not be in training." }] },
-        { num: "03", title: "Build", hint: "Train / retrieve", heading: "Classical ML or grounded AI", body: "Forecasts, ranking, and RAG — chosen for the job, not the hype cycle.", points: [{ title: "Classical ML", text: "When a gradient booster is enough." }, { title: "Applied AI", text: "Retrieval and tools over your corpus." }] },
-        { num: "04", title: "Govern", hint: "Audit", heading: "Explainable enough for the committee", body: "We do not claim SOC 2. We do claim you will know why a score or an answer appeared.", points: [{ title: "Trace", text: "Features, prompts, sources." }, { title: "Human in the loop", text: "Where a person must sign." }] },
-        { num: "05", title: "Ship", hint: "Serve", heading: "In the system of record", body: "An API, a batch score, or an assistant in the tool people already open.", points: [{ title: "Serving", text: "Latency and fallback." }, { title: "UX", text: "No orphan chatbot." }] },
-        { num: "06", title: "Watch", hint: "Drift", heading: "Models decay. We plan for it", body: "Monitoring, retraining cadence, and a kill switch.", points: [{ title: "Drift", text: "Input and performance." }, { title: "Retrain", text: "Calendar, not heroics." }] },
+        {
+          num: "01",
+          title: "Understand",
+          hint: "The grind",
+          heading: "Pick a process that pays to automate",
+          body: "We start with the inbox, the spreadsheet, the repeated judgement — and a stop rule if the lift is not there.",
+          points: [
+            { title: "Baseline", text: "What happens today, in hours and error." },
+            { title: "Stop rule", text: "When we kill the experiment." },
+          ],
+        },
+        {
+          num: "02",
+          title: "Shape",
+          hint: "The loop",
+          heading: "Design the workflow, not the model first",
+          body: "Where a person must sign. Where a model or an agent can take the next step. What must be cited.",
+          points: [
+            { title: "Human in the loop", text: "The step that still needs a name." },
+            { title: "Grounding", text: "Your corpus, your rules, your tools." },
+          ],
+        },
+        {
+          num: "03",
+          title: "Build",
+          hint: "Ship",
+          heading: "In the system people already open",
+          body: "An assistant, a batch score or an automated loop — with a fallback when the model is unsure.",
+          points: [
+            { title: "Serving", text: "Latency and a safe default." },
+            { title: "Trace", text: "Why this answer or this score appeared." },
+          ],
+        },
+        {
+          num: "04",
+          title: "Evolve",
+          hint: "Watch",
+          heading: "Workflows decay. We plan for it",
+          body: "Monitoring, retraining and a kill switch. The first loop is a start.",
+          points: [
+            { title: "Drift", text: "Input and performance." },
+            { title: "Retrain", text: "A calendar, not heroics." },
+          ],
+        },
       ]}
       workflows={[
-        { label: "Workflow: Scoring", title: "Placeholder — risk / ops model", body: "A production score with monitoring, not a notebook on a laptop.", headwinds: ["Shadow IT models", "No monitoring", "Unclear owners"], stats: [{ val: "—", desc: "Lift vs baseline (placeholder)" }, { val: "—", desc: "Time-to-score (placeholder)" }] },
-        { label: "Workflow: Grounded AI", title: "Placeholder — document / policy assistant", body: "Answers with citations over your corpus. We do not train on your data.", headwinds: ["Hallucinated policy", "No source trail"], stats: [{ val: "—", desc: "Cited answers (placeholder)" }, { val: "—", desc: "Escalations (placeholder)" }] },
+        {
+          label: "Workflow: Automation",
+          title: "From inbox to a reliable loop",
+          body: "Take a process that still lives in email or a shared sheet and turn it into a workflow people can trust.",
+          headwinds: ["Shadow IT scripts", "No owner when it breaks", "Exceptions that pile up"],
+          stats: [
+            { val: "—", desc: "Hours returned (placeholder)" },
+            { val: "—", desc: "Exception rate (placeholder)" },
+          ],
+        },
+        {
+          label: "Workflow: Assistant",
+          title: "Answers with a source trail",
+          body: "An assistant over your policies, tickets or product data — cited, scoped, and not trained on your corpus.",
+          headwinds: ["Hallucinated policy", "A chatbot nobody opens"],
+          stats: [
+            { val: "—", desc: "Cited answers (placeholder)" },
+            { val: "—", desc: "Escalations (placeholder)" },
+          ],
+        },
       ]}
       results={[
-        { val: "—", desc: "Placeholder · model lift" },
+        { val: "—", desc: "Placeholder · time saved" },
         { val: "—", desc: "Placeholder · time-to-prod" },
-        { val: "—", desc: "Placeholder · drift incidents" },
-        { val: "—", desc: "Placeholder · human review rate" },
+        { val: "—", desc: "Placeholder · exception rate" },
+        { val: "—", desc: "Placeholder · human review" },
       ]}
     />
   );

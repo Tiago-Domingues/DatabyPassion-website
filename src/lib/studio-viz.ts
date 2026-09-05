@@ -881,7 +881,7 @@ function initOrbit(
     { label: "UNDERSTAND", color: "#34d399", scale: 1, segs: 18, dotR: 1.15, labelSide: "top" as const },
     { label: "SHAPE", color: "#67e8f9", scale: 0.74, segs: 14, dotR: 1, labelSide: "top" as const },
     { label: "BUILD", color: "#1a9afa", scale: 0.5, segs: 10, dotR: 0.85, labelSide: "top" as const },
-    { label: "EVOLVE", color: "#c4b5fd", scale: 0.28, segs: 8, dotR: 0.75, labelSide: "left-above" as const },
+    { label: "EVOLVE", color: "#e9d5ff", scale: 0.3, segs: 8, dotR: 0.75, labelSide: "top" as const },
   ];
 
   const { reduced } = frame();
@@ -980,9 +980,9 @@ function initOrbit(
         X.globalAlpha = shaping ? 0.45 : 0.12;
         X.fill();
       }
-      X.font = `500 ${narrow ? 5.5 : 6.5}px 'DM Mono',monospace`;
+      X.font = `600 ${narrow ? 5.5 : 6.5}px 'DM Mono',monospace`;
       X.fillStyle = ring.color;
-      X.globalAlpha = 0.72;
+      X.globalAlpha = 0.88;
       if (ring.labelSide === "left-above") {
         X.textAlign = "right";
         X.fillText(ring.label, cx - r - 8, cy - 6);

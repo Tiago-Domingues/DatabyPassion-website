@@ -41,11 +41,11 @@ export function FounderVideo({ compact = false }: { compact?: boolean }) {
           controls={started}
           playsInline
           preload="metadata"
-          poster="/media/founder-story-placeholder.jpg"
+          poster="/media/executive-film-placeholder.jpg"
           aria-describedby="founder-video-note"
           onPlay={() => setStarted(true)}
         >
-          <source src="/media/founder-story-placeholder.mp4" type="video/mp4" />
+          <source src="/media/executive-film-placeholder.mp4" type="video/mp4" />
           Your browser does not support embedded video.
         </video>
         {!started && (
@@ -53,7 +53,7 @@ export function FounderVideo({ compact = false }: { compact?: boolean }) {
             type="button"
             className="founder-video__play"
             onClick={startVideo}
-            aria-label="Play temporary founder-film layout video"
+            aria-label="Play temporary executive-film layout video"
           >
             <span aria-hidden="true">▶</span>
             Play film
@@ -64,8 +64,8 @@ export function FounderVideo({ compact = false }: { compact?: boolean }) {
       <figcaption id="founder-video-note">
         <strong>{compact ? "A note from the founder" : "Why the collective exists"}</strong>
         <p>
-          Temporary footage is shown only to test the portrait-film experience. The release
-          asset will be an English founder film with captions and a transcript.
+          Temporary executive footage is shown only to test the portrait-film layout. The
+          release asset will be an English founder film with captions and a transcript.
         </p>
       </figcaption>
     </figure>

@@ -879,8 +879,9 @@ function initOrbit(
   ];
   const rings = [
     { label: "UNDERSTAND", color: "#34d399", scale: 1, segs: 18, dotR: 1.15 },
-    { label: "SHAPE", color: "#67e8f9", scale: 0.68, segs: 14, dotR: 1 },
-    { label: "BUILD", color: "#1a9afa", scale: 0.38, segs: 10, dotR: 0.85 },
+    { label: "SHAPE", color: "#67e8f9", scale: 0.74, segs: 14, dotR: 1 },
+    { label: "BUILD", color: "#1a9afa", scale: 0.5, segs: 10, dotR: 0.85 },
+    { label: "EVOLVE", color: "#e9d5ff", scale: 0.3, segs: 8, dotR: 0.75 },
   ];
 
   const { reduced } = frame();
@@ -959,7 +960,7 @@ function initOrbit(
 
     rings.forEach((ring, ri) => {
       const r = maxR * ring.scale;
-      const shaping = phase === "shape" && p > ri * 0.28;
+      const shaping = phase === "shape" && p > ri * 0.22;
       const bright = 0.14 + (shaping ? 0.18 : 0);
       const segArc = (Math.PI * 2) / ring.segs;
       const gap = segArc * 0.16;
@@ -979,9 +980,9 @@ function initOrbit(
         X.globalAlpha = shaping ? 0.45 : 0.12;
         X.fill();
       }
-      X.font = `500 ${narrow ? 5.5 : 6.5}px 'DM Mono',monospace`;
+      X.font = `600 ${narrow ? 5.5 : 6.5}px 'DM Mono',monospace`;
       X.fillStyle = ring.color;
-      X.globalAlpha = 0.62;
+      X.globalAlpha = 0.88;
       X.textAlign = "center";
       X.fillText(ring.label, cx, cy - r - 6);
       X.globalAlpha = 1;
@@ -1092,9 +1093,10 @@ function initOrbit(
       setPhase(phaseEl, "A capability engages");
     } else if (phase === "shape") {
       if (!freeze) p += 0.009;
-      const ri = Math.min(2.999, p * 3);
-      const i0 = Math.min(2, Math.floor(ri));
-      const i1 = Math.min(2, i0 + 1);
+      const last = rings.length - 1;
+      const ri = Math.min(last + 0.999, p * rings.length);
+      const i0 = Math.min(last, Math.floor(ri));
+      const i1 = Math.min(last, i0 + 1);
       const frac = ri - i0;
       const r = maxR * (rings[i0].scale + (rings[i1].scale - rings[i0].scale) * frac);
       const a = cap.angle + p * Math.PI * 1.55;

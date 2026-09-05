@@ -64,7 +64,7 @@ export function ServicePage({
     >
       <section className="ind-hero">
         <div className="container">
-          <Link href="/#platform" className="ind-hero-back">
+          <Link href="/studio" className="ind-hero-back">
             ← Back to The Studio
           </Link>
           <div className="label">{kicker}</div>

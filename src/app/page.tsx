@@ -50,17 +50,25 @@ export default function HomePage() {
           <div className="platform-header reveal">
             <div className="label">The studio</div>
             <h2 className="sh">
-              Start with the problem. <span className="g">Build what earns the next step.</span>
+              Four practices. <span className="g">One path from constraint to product.</span>
             </h2>
             <p className="sb">{HOMEPAGE_NARRATIVE.studio}</p>
           </div>
           <div className="reasoning-viz">
             <div className="reasoning-svg-wrap">
-              <canvas id="reasoningCanvas" aria-label="Animated reasoning engine visual" />
+              <canvas
+                id="reasoningCanvas"
+                aria-label="Value translation from client need through studio expertise to operating value"
+              />
             </div>
             <div className="reasoning-phase" id="reasoningPhase" aria-live="polite" />
           </div>
           <PracticeFlipCards />
+          <div className="studio-preview-link">
+            <Link href="/studio" className="trust-link">
+              Open The Studio →
+            </Link>
+          </div>
         </div>
       </section>
 

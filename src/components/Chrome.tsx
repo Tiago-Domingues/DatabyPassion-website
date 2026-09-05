@@ -25,7 +25,7 @@ const TICKER = [
 ];
 
 const NAV = [
-  { href: "/#platform", label: "The Studio" },
+  { href: "/studio", label: "The Studio" },
   { href: "/about", label: "The Collective" },
   { href: "/security", label: "Trust" },
 ];

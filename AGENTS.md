@@ -17,4 +17,4 @@ npm run build
 - Mercer / EY-Parthenon belong on `/about` only, never the homepage.
 - Form is UI-only (no email send). Cookie banner stores consent in `localStorage` key `dbp_consent`.
 - English only. Language switcher stays visible showing EN.
-- Routes: `/` `/about` `/analytics` `/engineering` `/ai` `/products` `/security` `/careers` `/privacy` `/terms`.
+- Routes: `/` `/studio` `/about` `/analytics` `/engineering` `/ai` `/products` `/security` `/careers` `/privacy` `/terms`.

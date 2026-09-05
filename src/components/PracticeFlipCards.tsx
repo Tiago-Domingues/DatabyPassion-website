@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
+import { PracticeMotif } from "@/components/PracticeMotif";
 import { PRACTICES, TYPICAL_ENGAGEMENTS, type PracticeId } from "@/content/practices";
 
 function IconLayers({ className }: { className?: string }) {
@@ -101,6 +102,7 @@ function PracticeCard({
             </div>
             <h4>{practice.title}</h4>
             <p>{practice.buyerProblem}</p>
+            <PracticeMotif kind={practice.id} paused={flipped} />
             <div className="plat-layer-tags">
               {practice.tags.map((tag) => (
                 <span className="plat-tag" key={tag}>

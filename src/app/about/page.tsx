@@ -7,6 +7,7 @@ import { RoleArchetypes } from "@/components/sections/RoleArchetypes";
 import {
   BEST_FIT,
   COLLECTIVE_DIFFERENTIATORS,
+  DELIVERY_METHOD,
   NOT_THE_RIGHT_FIT,
   OPERATING_MODEL,
 } from "@/content/collective";
@@ -38,33 +39,6 @@ const PRINCIPLES = [
     code: "04",
     title: "Leave an operating capability",
     body: "Code, contracts, runbooks and product context should remain useful after the engagement.",
-  },
-] as const;
-
-const METHOD = [
-  {
-    number: "01",
-    title: "Understand",
-    output: "A problem frame",
-    body: "Map the business decision, real workflow, users, data and delivery constraints.",
-  },
-  {
-    number: "02",
-    title: "Shape",
-    output: "A credible first product",
-    body: "Choose what ships first, what waits, how risk is handled and what evidence matters.",
-  },
-  {
-    number: "03",
-    title: "Build",
-    output: "Working software",
-    body: "Deliver in short, visible loops inside the agreed stack and control model.",
-  },
-  {
-    number: "04",
-    title: "Evolve",
-    output: "A portfolio decision",
-    body: "Observe use, improve the product and decide whether to scale, transfer or stop.",
   },
 ] as const;
 
@@ -207,7 +181,7 @@ export default function AboutPage() {
             <p>Each stage ends with a useful artefact and an explicit decision.</p>
           </div>
           <div className="approach-grid">
-            {METHOD.map((stage) => (
+            {DELIVERY_METHOD.map((stage) => (
               <article className="approach-card" key={stage.number}>
                 <div className="approach-num">
                   {stage.number} {stage.title}

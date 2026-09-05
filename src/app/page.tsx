@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { StartProject } from "@/components/StartProject";
 import { PracticeFlipCards } from "@/components/PracticeFlipCards";
+import { StudioVizFlip } from "@/components/StudioVizFlip";
 import { TOOL_LOGOS, ToolMark } from "@/components/ToolLogos";
-import { FounderVideo } from "@/components/sections/FounderVideo";
-import { PortfolioPath } from "@/components/sections/PortfolioPath";
+import { DeliveryMap } from "@/components/sections/DeliveryMap";
 import { RoleArchetypes } from "@/components/sections/RoleArchetypes";
 import { TrustCharter } from "@/components/sections/TrustCharter";
 import { HOMEPAGE_NARRATIVE, SITE_IDENTITY } from "@/content/identity";
@@ -32,7 +32,7 @@ export default function HomePage() {
       </section>
 
       <section className="logos-section">
-        <div className="logos-label">Technologies we work with</div>
+        <div className="logos-label">Built with the technologies that fit the problem.</div>
         <div className="logos-track-wrapper">
           <div className="logos-track">
             {logos.map((tool, i) => (
@@ -50,25 +50,13 @@ export default function HomePage() {
           <div className="platform-header reveal">
             <div className="label">The studio</div>
             <h2 className="sh">
-              Four practices. <span className="g">One path from constraint to product.</span>
+              {HOMEPAGE_NARRATIVE.studioHeadingLead}{" "}
+              <span className="g">{HOMEPAGE_NARRATIVE.studioHeadingRest}</span>
             </h2>
             <p className="sb">{HOMEPAGE_NARRATIVE.studio}</p>
           </div>
-          <div className="reasoning-viz">
-            <div className="reasoning-svg-wrap">
-              <canvas
-                id="reasoningCanvas"
-                aria-label="Value translation from client need through studio expertise to operating value"
-              />
-            </div>
-            <div className="reasoning-phase" id="reasoningPhase" aria-live="polite" />
-          </div>
+          <StudioVizFlip />
           <PracticeFlipCards />
-          <div className="studio-preview-link">
-            <Link href="/studio" className="trust-link">
-              Open The Studio →
-            </Link>
-          </div>
         </div>
       </section>
 
@@ -81,7 +69,6 @@ export default function HomePage() {
             </h2>
             <p className="sb">{HOMEPAGE_NARRATIVE.collective}</p>
           </div>
-          <PortfolioPath />
           <div className="collective-story">
             <article className="collective-accountability reveal">
               <span className="label">Founder accountability</span>
@@ -99,7 +86,7 @@ export default function HomePage() {
                 See how the collective works →
               </Link>
             </article>
-            <FounderVideo compact />
+            <DeliveryMap />
           </div>
           <div className="collective-role-intro">
             <span className="label">Knowledge Center</span>

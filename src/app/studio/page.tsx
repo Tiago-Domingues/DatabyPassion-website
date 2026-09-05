@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { StartProject } from "@/components/StartProject";
 import { PracticeFlipCards } from "@/components/PracticeFlipCards";
+import { StudioVizFlip } from "@/components/StudioVizFlip";
 import { HOMEPAGE_NARRATIVE, SITE_IDENTITY } from "@/content/identity";
 import { CONTACT_MAILTO } from "@/lib/site";
 
@@ -26,15 +27,7 @@ export default function StudioPage() {
 
       <section className="platform-section section-pad" id="platform">
         <div className="container">
-          <div className="reasoning-viz">
-            <div className="reasoning-svg-wrap">
-              <canvas
-                id="reasoningCanvas"
-                aria-label="Value translation from client need through studio expertise to operating value"
-              />
-            </div>
-            <div className="reasoning-phase" id="reasoningPhase" aria-live="polite" />
-          </div>
+          <StudioVizFlip />
           <PracticeFlipCards />
         </div>
       </section>

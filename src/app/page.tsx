@@ -2,99 +2,14 @@ import Link from "next/link";
 import { StartProject } from "@/components/StartProject";
 import { PracticeFlipCards } from "@/components/PracticeFlipCards";
 import { TOOL_LOGOS, ToolMark } from "@/components/ToolLogos";
-
-function IconSpark({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      <circle cx="12" cy="12" r="2.5" stroke="currentColor" strokeWidth="1.6" />
-    </svg>
-  );
-}
-
-
-
-function IconBuilding({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M4 20V6l8-3 8 3v14" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-      <path d="M9 20v-6h6v6M9 9h.01M12 9h.01M15 9h.01M9 12h.01M12 12h.01M15 12h.01" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function IconBolt({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M13 2 5 13h6l-1 9 9-12h-6l0-8Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function IconPeople({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="9" cy="8" r="3" stroke="currentColor" strokeWidth="1.6" />
-      <circle cx="17" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M3 19c0-3 2.5-5 6-5s6 2 6 5M14 14c2.5 0 5 1.5 5 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function IconCore({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.6" />
-      <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="1.6" strokeDasharray="3 3" />
-    </svg>
-  );
-}
-
-const whyUs = [
-  {
-    title: "Enterprise experience",
-    body: "Years inside large consulting and complex programmes. We know how the hard work actually gets done.",
-    Icon: IconBuilding,
-  },
-  {
-    title: "Startup agility",
-    body: "A lean studio. Short loops. You talk to the people who build, not a layer of account theatre.",
-    Icon: IconBolt,
-  },
-  {
-    title: "AI-native execution",
-    body: "Models, workflows and product surfaces designed together — not bolted on after the deck.",
-    Icon: IconSpark,
-  },
-  {
-    title: "The right experts",
-    body: "A small core, then specialists around the problem. No invented bench. No large-team claim.",
-    Icon: IconPeople,
-  },
-];
-
-const trustPledges = [
-  {
-    n: "01",
-    title: "Confidential by default",
-    body: "Client work stays off this site until it is cleared to publish.",
-  },
-  {
-    n: "02",
-    title: "No model training on your data",
-    body: "We do not use client data to train public or studio models.",
-  },
-  {
-    n: "03",
-    title: "Least-privilege access",
-    body: "Only the systems and people the engagement needs.",
-  },
-  {
-    n: "04",
-    title: "GDPR-minded handling",
-    body: "Purpose-limited, minimised access for European clients.",
-  },
-];
+import { FounderVideo } from "@/components/sections/FounderVideo";
+import { PortfolioPath } from "@/components/sections/PortfolioPath";
+import { RoleArchetypes } from "@/components/sections/RoleArchetypes";
+import { TrustControlCard } from "@/components/sections/TrustControlCard";
+import { COLLECTIVE_DIFFERENTIATORS } from "@/content/collective";
+import { HOMEPAGE_NARRATIVE, SITE_IDENTITY } from "@/content/identity";
+import { HOME_TRUST_CONTROLS } from "@/content/trust";
+import { CONTACT_MAILTO } from "@/lib/site";
 
 export default function HomePage() {
   const logos = [...TOOL_LOGOS, ...TOOL_LOGOS, ...TOOL_LOGOS];
@@ -103,20 +18,22 @@ export default function HomePage() {
       <section className="hero" id="hero">
         <div className="hero-overlay" />
         <div className="hero-content">
-          <div className="hero-tag">Founder-led technology studio</div>
+          <div className="hero-tag">{SITE_IDENTITY.category}</div>
           <h1>
             Enterprise expertise. <span className="em">Built at startup speed.</span>
           </h1>
-          <p className="hero-sub">
-            DatabyPassion is a founder-led technology studio helping companies turn ideas and
-            complex business problems into data systems, intelligent workflows and digital
-            products.
-          </p>
+          <p className="hero-sub">{SITE_IDENTITY.description}</p>
+          <div className="hero-ctas">
+            <StartProject className="btn-primary">{SITE_IDENTITY.primaryCta} →</StartProject>
+            <Link href="/about" className="btn-ghost">
+              Meet the collective
+            </Link>
+          </div>
         </div>
       </section>
 
       <section className="logos-section">
-        <div className="logos-label">In production with</div>
+        <div className="logos-label">Technologies we work with</div>
         <div className="logos-track-wrapper">
           <div className="logos-track">
             {logos.map((tool, i) => (
@@ -134,18 +51,18 @@ export default function HomePage() {
           <div className="platform-header reveal">
             <div className="label">The studio</div>
             <h2 className="sh">
-              What we <span className="g">help you build</span>
+              Start with the problem. <span className="g">Build what earns the next step.</span>
             </h2>
-            <p className="sb">
-              Data platforms, analytics, AI and digital products — one studio, scoped to the
-              problem in front of you.
-            </p>
+            <p className="sb">{HOMEPAGE_NARRATIVE.studio}</p>
           </div>
-          <div className="reasoning-viz">
-            <div className="reasoning-svg-wrap">
-              <canvas id="reasoningCanvas" />
+          <div className="studio-visuals">
+            <div className="reasoning-viz">
+              <div className="reasoning-svg-wrap">
+                <canvas id="reasoningCanvas" aria-label="Animated reasoning engine visual" />
+              </div>
+              <div className="reasoning-phase" id="reasoningPhase" aria-live="polite" />
             </div>
-            <div className="reasoning-phase" id="reasoningPhase" />
+            <PortfolioPath compact />
           </div>
           <PracticeFlipCards />
         </div>
@@ -156,50 +73,43 @@ export default function HomePage() {
           <div className="studio-header reveal">
             <div className="label">The right collective</div>
             <h2 className="sh">
-              Enterprise thinking. <span className="g">Startup execution.</span>
+              One accountable core. <span className="g">The right specialists around it.</span>
             </h2>
-            <p className="sb">
-              Senior judgement from large programmes, delivered at studio speed — with the right
-              people around the problem. A lean founder-led core holds the relationship, the
-              architecture and the standard. Trusted specialists join when the problem needs them.
-              We do not pretend to be a large bench.
-            </p>
+            <p className="sb">{HOMEPAGE_NARRATIVE.collective}</p>
           </div>
           <div className="why-grid collective-why-grid">
-            {whyUs.map((item) => (
+            {COLLECTIVE_DIFFERENTIATORS.map((item) => (
               <article className="studio-card reveal" key={item.title}>
-                <span className="studio-icon" aria-hidden="true">
-                  <item.Icon />
-                </span>
+                <span className="studio-kicker">How we operate</span>
                 <h3>{item.title}</h3>
                 <p>{item.body}</p>
               </article>
             ))}
           </div>
-          <div className="collective-split collective-core-grid">
-            <article className="studio-card reveal">
-              <span className="studio-icon" aria-hidden="true">
-                <IconCore />
-              </span>
-              <div className="studio-kicker">The core</div>
-              <h3>One studio lead you can email</h3>
+          <div className="collective-story">
+            <article className="collective-accountability reveal">
+              <span className="label">Founder accountability</span>
+              <h3>The relationship does not disappear behind an account layer.</h3>
               <p>
-                Scope, quality and delivery stay in the same hands from the first call to the last
-                release.
+                One engagement lead holds the outcome, team shape and standard from the first
+                working session through release. Specialists join for the decisions and build work
+                that need their depth.
               </p>
-            </article>
-            <article className="studio-card reveal">
-              <span className="studio-icon" aria-hidden="true">
-                <IconPeople />
-              </span>
-              <div className="studio-kicker">The collective</div>
-              <h3>Specialists around the problem</h3>
               <p>
-                Designers, engineers and domain specialists pulled in for the work — then released.
-                Right-sized for the problem, not a standing army.
+                Team size is engagement-specific. Independent legal support is optional and agreed
+                for the engagement; it is not presented as an employee or permanent bench.
               </p>
+              <Link href="/about" className="trust-link">
+                See how the collective works →
+              </Link>
             </article>
+            <FounderVideo compact />
           </div>
+          <div className="collective-role-intro">
+            <span className="label">Six role archetypes</span>
+            <p>Not a fixed team—an honest view of the senior capabilities that can form around the work.</p>
+          </div>
+          <RoleArchetypes compact />
         </div>
       </section>
 
@@ -207,35 +117,23 @@ export default function HomePage() {
         <div className="container">
           <div className="security-inner reveal">
             <div className="label">Trust</div>
-            <h2 className="sh">
-              Your data and your business <span className="g">stay yours.</span>
-            </h2>
+            <h2 className="sh">Clear controls before sensitive work starts</h2>
             <p className="sb" style={{ margin: "0 auto" }}>
-              Soft commitments we stand behind on every engagement — confidentiality,
-              scoped access, and no training on your proprietary work.
+              {HOMEPAGE_NARRATIVE.trust}
             </p>
-            <div className="trust-charter" role="list">
-              <p className="trust-charter-kicker">What we carry</p>
-              {trustPledges.map((item) => (
-                <div className="trust-pledge" role="listitem" key={item.n}>
-                  <span className="trust-pledge-n" aria-hidden="true">
-                    {item.n}
-                  </span>
-                  <div className="trust-pledge-copy">
-                    <h3>{item.title}</h3>
-                    <p>{item.body}</p>
-                  </div>
-                </div>
+            <div className="trust-grid">
+              {HOME_TRUST_CONTROLS.map((control) => (
+                <TrustControlCard control={control} compact key={control.id} />
               ))}
             </div>
             <Link href="/security" className="trust-link">
-              Read our Trust page →
+              Review controls and engagement choices →
             </Link>
           </div>
         </div>
       </section>
 
-      <section className="cta-section section-pad">
+      <section className="cta-section section-pad" id="project-brief">
         <div className="cta-inner">
           <h2>Stop guessing. Start shipping.</h2>
           <p className="sb">
@@ -243,8 +141,8 @@ export default function HomePage() {
             inboxes, or a product that needs to exist. We reply with a sharp next step.
           </p>
           <div className="cta-buttons">
-            <StartProject className="btn-primary">Start a project →</StartProject>
-            <a href="mailto:tiagopaixaodomingues@gmail.com" className="btn-ghost">
+            <StartProject className="btn-primary">Create a project brief →</StartProject>
+            <a href={CONTACT_MAILTO} className="btn-ghost">
               Email the founder
             </a>
           </div>

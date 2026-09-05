@@ -6,7 +6,6 @@ import { ContactModal } from "@/components/ContactModal";
 import { CookieBanner } from "@/components/CookieBanner";
 import { GpEffects } from "@/components/GpEffects";
 import { NetworkBackground } from "@/components/NetworkBackground";
-import { AssistantWidget } from "@/components/AssistantWidget";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -32,16 +31,16 @@ const dmMono = DM_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "DatabyPassion | Founder-led technology studio",
+    default: "DatabyPassion | Boutique technology consultancy",
     template: "%s | DatabyPassion",
   },
   description:
-    "DatabyPassion is a founder-led technology studio helping companies turn ideas and complex business problems into data systems, intelligent workflows and digital products.",
+    "A senior-led boutique technology consultancy turning enterprise digital and AI opportunities into working products.",
   robots: { index: true, follow: true },
   openGraph: {
-    title: "DatabyPassion | Founder-led technology studio",
+    title: "DatabyPassion | Boutique technology consultancy",
     description:
-      "Data systems, intelligent workflows and digital products — founder-led, collective-powered.",
+      "Digital, data and AI products — founder-led, collective-powered and shaped around the work.",
     url: SITE_URL,
     siteName: "DatabyPassion",
     locale: "en_US",
@@ -66,7 +65,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
           <ContactModal />
           <CookieBanner />
-          <AssistantWidget />
           <GpEffects />
         </ModalProvider>
       </body>

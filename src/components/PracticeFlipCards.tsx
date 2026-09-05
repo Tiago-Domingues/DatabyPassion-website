@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
+import { PRACTICES, TYPICAL_ENGAGEMENTS, type PracticeId } from "@/content/practices";
 
 function IconLayers({ className }: { className?: string }) {
   return (
@@ -47,88 +48,26 @@ function IconWindow({ className }: { className?: string }) {
   );
 }
 
-const practices = [
-  {
-    id: "platforms",
-    n: "01 — PLATFORMS",
-    h: "Data platforms",
-    p: "Warehouses, lakes and pipelines that stay trustworthy as the business grows.",
-    tags: ["Warehouses", "Pipelines", "Quality"],
-    href: "/engineering",
-    accent: "amber" as const,
-    Icon: IconLayers,
-    detail:
-      "Systems you can operate after we leave — mapped sources, a model the business can name, and pipelines that fail in the job, not in the meeting.",
-    points: [
-      "Connectors with contracts, not one-off scripts",
-      "Raw → conformed → serving layers",
-      "Quality checks and a maintainable handover",
-    ],
-  },
-  {
-    id: "analytics",
-    n: "02 — ANALYTICS",
-    h: "Analytics & decisions",
-    p: "KPI packs, forecasts and operating views that turn data into decisions.",
-    tags: ["KPI packs", "Forecasts", "Experiments"],
-    href: "/analytics",
-    accent: "green" as const,
-    Icon: IconChart,
-    detail:
-      "One definition of the number, used in the room — operating packs and forecasts the team actually opens.",
-    points: [
-      "Decision inventory before dashboards",
-      "Metric contracts with named owners",
-      "Weekly cadence, not a dashboard graveyard",
-    ],
-  },
-  {
-    id: "ai",
-    n: "03 — AUTOMATION",
-    h: "AI & Automation",
-    p: "Intelligent workflows and assistants that remove the grind from the work.",
-    tags: ["Workflows", "Assistants", "Agents"],
-    href: "/ai",
-    accent: "cyan" as const,
-    Icon: IconSpark,
-    detail:
-      "Intelligence in the workflow — grounded in your data and processes, with a human in the loop and a kill switch.",
-    points: [
-      "Pick a process that pays to automate",
-      "Design the loop before the model",
-      "Ship with traceability and a safe default",
-    ],
-  },
-  {
-    id: "products",
-    n: "04 — PRODUCTS",
-    h: "Digital Products",
-    p: "Websites, web apps and internal tools shipped as working products.",
-    tags: ["Web apps", "Internal tools", "Experiences"],
-    href: "/products",
-    accent: "blue" as const,
-    Icon: IconWindow,
-    detail:
-      "Working software in production — a first slice that proves the product is real, then the next release with an honest backlog.",
-    points: [
-      "Start from the job, not a page count",
-      "Auth, data and one workflow that ships",
-      "Instrument, learn, extend",
-    ],
-  },
-];
+const PRACTICE_ICONS: Record<PracticeId, typeof IconLayers> = {
+  engineering: IconLayers,
+  analytics: IconChart,
+  ai: IconSpark,
+  products: IconWindow,
+};
 
 function PracticeCard({
   practice,
   flipped,
   onFlip,
 }: {
-  practice: (typeof practices)[number];
+  practice: (typeof PRACTICES)[number];
   flipped: boolean;
   onFlip: () => void;
 }) {
   const labelId = useId();
   const backId = useId();
+  const Icon = PRACTICE_ICONS[practice.id];
+  const engagement = TYPICAL_ENGAGEMENTS[practice.id];
 
   return (
     <article
@@ -140,7 +79,7 @@ function PracticeCard({
           <Link
             href={practice.href}
             className="plat-flip-goto"
-            aria-label={`Open ${practice.h} practice`}
+            aria-label={`Open ${practice.title} practice`}
             onClick={(e) => e.stopPropagation()}
           >
             Open practice
@@ -155,19 +94,21 @@ function PracticeCard({
             id={labelId}
           >
             <span className="plat-icon" aria-hidden="true">
-              <practice.Icon />
+              <Icon />
             </span>
-            <div className="plat-layer-num">{practice.n}</div>
-            <h4>{practice.h}</h4>
-            <p>{practice.p}</p>
+            <div className="plat-layer-num">
+              {practice.number} — {practice.label}
+            </div>
+            <h4>{practice.title}</h4>
+            <p>{practice.buyerProblem}</p>
             <div className="plat-layer-tags">
-              {practice.tags.map((t) => (
-                <span className="plat-tag" key={t}>
-                  {t}
+              {practice.tags.map((tag) => (
+                <span className="plat-tag" key={tag}>
+                  {tag}
                 </span>
               ))}
             </div>
-            <span className="plat-flip-hint">Tap for details</span>
+            <span className="plat-flip-hint">Tap for a typical engagement</span>
           </button>
         </div>
 
@@ -181,7 +122,7 @@ function PracticeCard({
           <Link
             href={practice.href}
             className="plat-flip-goto"
-            aria-label={`Open ${practice.h} practice`}
+            aria-label={`Open ${practice.title} practice`}
             tabIndex={flipped ? 0 : -1}
           >
             Open practice
@@ -192,16 +133,17 @@ function PracticeCard({
             className="plat-flip-hit plat-flip-hit-back"
             onClick={onFlip}
             tabIndex={flipped ? 0 : -1}
-            aria-label={`Flip back ${practice.h}`}
+            aria-label={`Flip back ${practice.title}`}
           >
-            <div className="plat-layer-num">{practice.n}</div>
-            <h4>{practice.h}</h4>
-            <p className="plat-flip-detail">{practice.detail}</p>
+            <div className="plat-layer-num">{engagement.label}</div>
+            <h4>{engagement.title}</h4>
+            <p className="plat-flip-detail">{practice.preview}</p>
             <ul className="plat-flip-points">
-              {practice.points.map((point) => (
+              {engagement.delivers.map((point) => (
                 <li key={point}>{point}</li>
               ))}
             </ul>
+            <small className="plat-flip-disclaimer">{engagement.disclaimer}</small>
             <span className="plat-flip-hint">Tap to flip back</span>
           </button>
         </div>
@@ -223,7 +165,7 @@ export function PracticeFlipCards() {
 
   return (
     <div className="platform-layers">
-      {practices.map((practice) => (
+      {PRACTICES.map((practice) => (
         <PracticeCard
           key={practice.id}
           practice={practice}

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Wordmark } from "@/components/Wordmark";
 import { useModal } from "@/components/ModalProvider";
+import { SITE_IDENTITY } from "@/content/identity";
+import { CONTACT_EMAIL, CONTACT_MAILTO } from "@/lib/site";
 import {
   DEFAULT_NETWORK_PALETTE,
   NETWORK_PALETTE_EVENT,
@@ -14,18 +16,18 @@ import {
 } from "@/lib/network-palette";
 
 const TICKER = [
+  "Boutique technology consultancy",
   "Founder-led. Collective-powered.",
-  "Enterprise experience",
-  "Startup speed",
-  "AI-native execution",
-  "Built around the problem",
-  "From idea to working product",
+  "Senior accountability",
+  "Problem-shaped teams",
+  "Digital, data and AI products",
+  "From focused product to portfolio",
 ];
 
 const NAV = [
-  { href: "/about", label: "About" },
-  { href: "/#platform", label: "Services" },
-  { href: "/#trust", label: "Trust" },
+  { href: "/#platform", label: "The Studio" },
+  { href: "/about", label: "The Collective" },
+  { href: "/security", label: "Trust" },
 ];
 
 function PaletteDots() {
@@ -99,16 +101,13 @@ export function Nav() {
             <span>EN</span>
           </button>
           <PaletteDots />
-          <a
-            href="#"
+          <button
+            type="button"
             className="nav-cta"
-            onClick={(e) => {
-              e.preventDefault();
-              openModal();
-            }}
+            onClick={openModal}
           >
-            Start a project
-          </a>
+            Create a project brief
+          </button>
         </div>
         <button type="button" className="nav-menu" onClick={() => setMenu((v) => !v)} aria-label="Menu">
           ☰
@@ -124,17 +123,16 @@ export function Nav() {
           <span>EN</span>
         </button>
         <PaletteDots />
-        <a
-          href="#"
+        <button
+          type="button"
           className="nav-cta"
-          onClick={(e) => {
-            e.preventDefault();
+          onClick={() => {
             setMenu(false);
             openModal();
           }}
         >
-          Start a project
-        </a>
+          Create a project brief
+        </button>
       </div>
     </>
   );
@@ -149,10 +147,7 @@ export function Footer() {
             <div className="footer-brand-logo">
               <Wordmark />
             </div>
-            <p className="footer-brand-desc">
-              Founder-led technology studio. Data systems, intelligent workflows and digital
-              products — delivered by a lean core and the right collective around it.
-            </p>
+            <p className="footer-brand-desc">{SITE_IDENTITY.shortDescription}</p>
             <div className="footer-social">
               <a
                 href="https://www.linkedin.com/company/databypassion"
@@ -162,7 +157,7 @@ export function Footer() {
               >
                 in
               </a>
-              <a href="mailto:tiagopaixaodomingues@gmail.com" aria-label="Email">
+              <a href={CONTACT_MAILTO} aria-label="Email">
                 ✉
               </a>
             </div>
@@ -171,8 +166,8 @@ export function Footer() {
             <h5>Services</h5>
             <Link href="/engineering">Data platforms</Link>
             <Link href="/analytics">Analytics &amp; decisions</Link>
-            <Link href="/ai">AI &amp; Automation</Link>
-            <Link href="/products">Digital Products</Link>
+            <Link href="/ai">AI &amp; automation</Link>
+            <Link href="/products">Digital products</Link>
           </div>
           <div className="footer-col">
             <h5>Company</h5>
@@ -184,7 +179,7 @@ export function Footer() {
           </div>
           <div className="footer-col">
             <h5>Contact</h5>
-            <a href="mailto:tiagopaixaodomingues@gmail.com">tiagopaixaodomingues@gmail.com</a>
+            <a href={CONTACT_MAILTO}>{CONTACT_EMAIL}</a>
             <a
               href="https://www.linkedin.com/company/databypassion"
               target="_blank"
@@ -197,7 +192,7 @@ export function Footer() {
         <div className="footer-bottom">
           <p className="footer-copy">© 2026 DatabyPassion. All rights reserved.</p>
           <span className="footer-status">
-            <span className="status-dot" /> All systems operational
+            <span className="status-dot" /> Founder-led · engagement-specific teams
           </span>
         </div>
       </div>

@@ -11,15 +11,12 @@ export function StartProject({
 }) {
   const { openModal } = useModal();
   return (
-    <a
-      href="#"
+    <button
+      type="button"
       className={className}
-      onClick={(e) => {
-        e.preventDefault();
-        openModal();
-      }}
+      onClick={openModal}
     >
       {children}
-    </a>
+    </button>
   );
 }

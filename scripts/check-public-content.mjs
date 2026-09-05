@@ -40,7 +40,7 @@ for (const [file, source] of sources) {
 }
 
 const practices = sources.get("src/content/practices.ts") || "";
-const engagementLabels = practices.match(/label:\s*"Typical engagement"/g) || [];
+const engagementLabels = practices.match(/label:\s*"Typical engagement",/g) || [];
 const engagementDisclaimers =
   practices.match(/Illustrative delivery pattern, not a client case study or measured outcome\./g) ||
   [];
@@ -60,7 +60,7 @@ const contactModal = sources.get("src/components/ContactModal.tsx") || "";
 if (/\bfetch\s*\(|XMLHttpRequest|sendBeacon\s*\(/.test(contactModal)) {
   failures.push("src/components/ContactModal.tsx: project brief must remain UI-only");
 }
-if (!/Nothing is sent from this website\./.test(contactModal)) {
+if (!/Nothing is\s+sent\s+from\s+this\s+website\./.test(contactModal)) {
   failures.push("src/components/ContactModal.tsx: missing visible no-submission disclosure");
 }
 

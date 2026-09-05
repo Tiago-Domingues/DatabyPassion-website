@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     template: "%s | DatabyPassion",
   },
   description:
-    "A senior-led boutique technology consultancy turning enterprise digital and AI opportunities into working products.",
+    "A founder-led technology studio turning enterprise digital and AI opportunities into working products.",
   robots: { index: true, follow: true },
   openGraph: {
     title: "DatabyPassion | Boutique technology consultancy",

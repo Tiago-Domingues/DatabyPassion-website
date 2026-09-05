@@ -59,6 +59,33 @@ export const ROLE_ARCHETYPES: RoleArchetype[] = [
   },
 ];
 
+export const DELIVERY_METHOD = [
+  {
+    number: "01",
+    title: "Understand",
+    output: "A problem frame",
+    body: "Map the business decision, real workflow, users, data and delivery constraints.",
+  },
+  {
+    number: "02",
+    title: "Shape",
+    output: "A credible first product",
+    body: "Choose what ships first, what waits, how risk is handled and what evidence matters.",
+  },
+  {
+    number: "03",
+    title: "Build",
+    output: "Working software",
+    body: "Deliver in short, visible loops inside the agreed stack and control model.",
+  },
+  {
+    number: "04",
+    title: "Evolve",
+    output: "A portfolio decision",
+    body: "Observe use, improve the product and decide whether to scale, transfer or stop.",
+  },
+] as const;
+
 export const OPERATING_MODEL = [
   {
     number: "01",

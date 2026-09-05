@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CONTACT_EMAIL, CONTACT_MAILTO } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Privacy" };
 
@@ -21,19 +22,18 @@ export default function PrivacyPage() {
           <p>
             DatabyPassion is a founder-led studio operated by an individual (not a registered
             company on this page). Contact:{" "}
-            <a href="mailto:tiagopaixaodomingues@gmail.com">tiagopaixaodomingues@gmail.com</a>.
+            <a href={CONTACT_MAILTO}>{CONTACT_EMAIL}</a>.
           </p>
           <h2>What we collect</h2>
           <p>
-            If you submit the Start a project form, we process the fields you enter (name, business
-            email, company, title, industry, function) so we can reply. In this first release the
-            form is UI-only and is not emailed automatically.
+            The project brief builder runs in your browser and does not submit its fields to
+            DatabyPassion. If you choose Open email draft and then send that email yourself, we
+            process the information you send so we can reply.
           </p>
           <h2>Cookies</h2>
           <p>
-            We use a consent cookie (or local storage) to remember your cookie choice and a language
-            preference. Analytics are not wired yet. Essential storage does not require marketing
-            consent.
+            We use local storage key <code>dbp_consent</code> to remember your cookie choice.
+            Analytics are not wired yet. Essential storage does not require marketing consent.
           </p>
           <h2>Legal basis (GDPR)</h2>
           <p>

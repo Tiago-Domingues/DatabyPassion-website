@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import { ServicePage } from "@/components/ServicePage";
+import { TYPICAL_ENGAGEMENTS } from "@/content/practices";
 
-export const metadata: Metadata = { title: "Digital Products" };
+export const metadata: Metadata = {
+  title: "Digital products",
+  description:
+    "Focused web applications and internal products connected to real users and data.",
+};
 
 export default function ProductsPage() {
   return (
@@ -10,7 +15,7 @@ export default function ProductsPage() {
       titleRest="Products people"
       titleEm="actually use"
       sub="Websites, web apps, internal tools and digital experiences — shipped as working products, not a brochure that pretends."
-      cta="Start a product project"
+      cta="Create a product brief"
       accentVar="#5bb8ff"
       stages={[
         {
@@ -58,33 +63,24 @@ export default function ProductsPage() {
           ],
         },
       ]}
-      workflows={[
+      typicalEngagements={[TYPICAL_ENGAGEMENTS.products]}
+      deliverables={[
         {
-          label: "Workflow: Web application",
-          title: "A product surface with real data",
-          body: "Auth, workflows and the data the business already has — a web app people can log into, not a static mock.",
-          headwinds: ["A brochure that pretends to be a product", "No owner after launch"],
-          stats: [
-            { val: "—", desc: "Time-to-first-release (placeholder)" },
-            { val: "—", desc: "Weekly active (placeholder)" },
-          ],
+          title: "First-release product frame",
+          body: "A named user, critical journey, service boundary, backlog and acceptance criteria for the smallest credible product.",
         },
         {
-          label: "Workflow: Internal tool",
-          title: "Replace the shared workbook",
-          body: "An ops console or working tool for the team — scoped to the job, not a second ERP.",
-          headwinds: ["Tribal spreadsheets", "Shadow IT nobody can maintain"],
-          stats: [
-            { val: "—", desc: "Manual hours (placeholder)" },
-            { val: "—", desc: "Error rate (placeholder)" },
-          ],
+          title: "Production product surface",
+          body: "An authenticated web application or internal tool connected to the agreed real data and systems.",
         },
-      ]}
-      results={[
-        { val: "—", desc: "Placeholder · time-to-ship" },
-        { val: "—", desc: "Placeholder · adoption" },
-        { val: "—", desc: "Placeholder · cycle time" },
-        { val: "—", desc: "Placeholder · issues after launch" },
+        {
+          title: "Instrumented workflow",
+          body: "Product events and operational signals that show where people succeed, hesitate or leave the process.",
+        },
+        {
+          title: "Runbook and next-release decision",
+          body: "Ownership, support path, known constraints and an evidence-based choice for release two.",
+        },
       ]}
     />
   );

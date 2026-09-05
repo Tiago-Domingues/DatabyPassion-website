@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import { ServicePage } from "@/components/ServicePage";
+import { TYPICAL_ENGAGEMENTS } from "@/content/practices";
 
-export const metadata: Metadata = { title: "Data platforms" };
+export const metadata: Metadata = {
+  title: "Data platforms",
+  description:
+    "Reliable data platforms, domain migrations and operating handover from DatabyPassion.",
+};
 
 export default function EngineeringPage() {
   return (
@@ -10,7 +15,7 @@ export default function EngineeringPage() {
       titleRest="Platforms that"
       titleEm="hold"
       sub="Warehouses, lakes and pipelines that stay trustworthy as the business grows — systems you can operate after we leave."
-      cta="Start a platforms project"
+      cta="Create a platform brief"
       accentVar="#fbbf24"
       stages={[
         {
@@ -58,33 +63,24 @@ export default function EngineeringPage() {
           ],
         },
       ]}
-      workflows={[
+      typicalEngagements={[TYPICAL_ENGAGEMENTS.engineering]}
+      deliverables={[
         {
-          label: "Workflow: Platform",
-          title: "A lakehouse the team can keep",
-          body: "Stand up a maintainable platform and retire the spreadsheet pipelines that nobody wants to touch.",
-          headwinds: ["Point-to-point jobs", "No tests", "A cloud bill with no owner"],
-          stats: [
-            { val: "—", desc: "Sources onboarded (placeholder)" },
-            { val: "—", desc: "Failed jobs / week (placeholder)" },
-          ],
+          title: "Domain contract and target design",
+          body: "Named source ownership, grains, service expectations and a target architecture the client team can challenge.",
         },
         {
-          label: "Workflow: Migration",
-          title: "Move a domain without a big-bang weekend",
-          body: "Cut over one critical domain at a time, with parity checks and a stop rule.",
-          headwinds: ["Dual running forever", "Unclear cutover criteria"],
-          stats: [
-            { val: "—", desc: "Domains cut over (placeholder)" },
-            { val: "—", desc: "Parity gaps (placeholder)" },
-          ],
+          title: "Migrated production path",
+          body: "Tested ingestion, transformation and serving for the selected domain, with parity and cutover criteria.",
         },
-      ]}
-      results={[
-        { val: "—", desc: "Placeholder · pipeline SLAs" },
-        { val: "—", desc: "Placeholder · incident rate" },
-        { val: "—", desc: "Placeholder · cost / query" },
-        { val: "—", desc: "Placeholder · time-to-source" },
+        {
+          title: "Reliability controls",
+          body: "Data tests, freshness checks, monitoring and incident paths around the new flow.",
+        },
+        {
+          title: "Operating handover",
+          body: "Runbooks, cost visibility, access model and pairing so ownership can move without a hero.",
+        },
       ]}
     />
   );

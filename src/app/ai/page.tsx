@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import { ServicePage } from "@/components/ServicePage";
+import { TYPICAL_ENGAGEMENTS } from "@/content/practices";
 
-export const metadata: Metadata = { title: "AI & Automation" };
+export const metadata: Metadata = {
+  title: "AI & automation",
+  description:
+    "Governed AI workflows with evaluation, human review and safe fallback from DatabyPassion.",
+};
 
 export default function AiPage() {
   return (
@@ -10,7 +15,7 @@ export default function AiPage() {
       titleRest="Intelligence in the"
       titleEm="workflow"
       sub="Intelligent workflows and assistants grounded in your data and processes — not a demo that dies in a notebook."
-      cta="Start an AI project"
+      cta="Create an AI brief"
       accentVar="#f472b6"
       stages={[
         {
@@ -58,33 +63,24 @@ export default function AiPage() {
           ],
         },
       ]}
-      workflows={[
+      typicalEngagements={[TYPICAL_ENGAGEMENTS.ai]}
+      deliverables={[
         {
-          label: "Workflow: Automation",
-          title: "From inbox to a reliable loop",
-          body: "Take a process that still lives in email or a shared sheet and turn it into a workflow people can trust.",
-          headwinds: ["Shadow IT scripts", "No owner when it breaks", "Exceptions that pile up"],
-          stats: [
-            { val: "—", desc: "Hours returned (placeholder)" },
-            { val: "—", desc: "Exception rate (placeholder)" },
-          ],
+          title: "Workflow baseline",
+          body: "The current steps, volumes, decisions, failure modes and a stop rule for the product experiment.",
         },
         {
-          label: "Workflow: Assistant",
-          title: "Answers with a source trail",
-          body: "An assistant over your policies, tickets or product data — cited, scoped, and not trained on your corpus.",
-          headwinds: ["Hallucinated policy", "A chatbot nobody opens"],
-          stats: [
-            { val: "—", desc: "Cited answers (placeholder)" },
-            { val: "—", desc: "Escalations (placeholder)" },
-          ],
+          title: "Evaluation and grounding set",
+          body: "Representative examples, quality criteria, approved knowledge sources and documented model boundaries.",
         },
-      ]}
-      results={[
-        { val: "—", desc: "Placeholder · time saved" },
-        { val: "—", desc: "Placeholder · time-to-prod" },
-        { val: "—", desc: "Placeholder · exception rate" },
-        { val: "—", desc: "Placeholder · human review" },
+        {
+          title: "Human-review design",
+          body: "Named review points, confidence or exception rules, escalation paths and a safe fallback.",
+        },
+        {
+          title: "Monitored production workflow",
+          body: "A traceable workflow in the agreed system, with access controls, operational signals and a kill switch.",
+        },
       ]}
     />
   );

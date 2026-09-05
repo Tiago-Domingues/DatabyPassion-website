@@ -25,7 +25,7 @@ export default function CareersPage() {
               If that changes, they will be listed here. For project work, talk to the founder —
               not a careers inbox.
             </p>
-            <StartProject className="btn-primary">Start a project →</StartProject>
+            <StartProject className="btn-primary">Create a project brief →</StartProject>
           </div>
         </div>
       </section>

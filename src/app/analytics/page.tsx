@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import { ServicePage } from "@/components/ServicePage";
+import { TYPICAL_ENGAGEMENTS } from "@/content/practices";
 
-export const metadata: Metadata = { title: "Analytics & decisions" };
+export const metadata: Metadata = {
+  title: "Analytics & decisions",
+  description:
+    "Shared metric definitions, operating packs and decision rhythms from DatabyPassion.",
+};
 
 export default function AnalyticsPage() {
   return (
@@ -10,7 +15,7 @@ export default function AnalyticsPage() {
       titleRest="Analytics that"
       titleEm="decide"
       sub="KPI packs, forecasts and operating views the team actually opens — one definition of the number, used in the room."
-      cta="Start an analytics project"
+      cta="Create an analytics brief"
       accentVar="#67e8f9"
       stages={[
         {
@@ -58,33 +63,24 @@ export default function AnalyticsPage() {
           ],
         },
       ]}
-      workflows={[
+      typicalEngagements={[TYPICAL_ENGAGEMENTS.analytics]}
+      deliverables={[
         {
-          label: "Workflow: Operating pack",
-          title: "One pack, one grain, one owner",
-          body: "A weekly or monthly pack the leadership team actually opens — assembled from the same definitions, not a month-end scramble.",
-          headwinds: ["Conflicting KPI definitions", "Manual month-end assembly", "No lineage when numbers are challenged"],
-          stats: [
-            { val: "—", desc: "Cycle time (placeholder)" },
-            { val: "—", desc: "Manual hours (placeholder)" },
-          ],
+          title: "Decision and source map",
+          body: "The recurring decisions, owners, source systems and points where today’s process loses time or trust.",
         },
         {
-          label: "Workflow: Forecast",
-          title: "A number the plan can use",
-          body: "Demand, cash or capacity forecasts tied to the same metric layer as the weekly pack.",
-          headwinds: ["Forecasts nobody trusts", "Plans built on last year’s actuals"],
-          stats: [
-            { val: "—", desc: "Forecast lag (placeholder)" },
-            { val: "—", desc: "Plan variance (placeholder)" },
-          ],
+          title: "Metric contracts",
+          body: "Named definitions, grains, owners, quality rules and lineage for the measures used in the room.",
         },
-      ]}
-      results={[
-        { val: "—", desc: "Placeholder · time-to-pack" },
-        { val: "—", desc: "Placeholder · metric disputes" },
-        { val: "—", desc: "Placeholder · forecast use" },
-        { val: "—", desc: "Placeholder · coverage" },
+        {
+          title: "Operating pack",
+          body: "A repeatable view of performance, exceptions and actions assembled from the shared metric layer.",
+        },
+        {
+          title: "Review cadence",
+          body: "A practical rhythm for review, challenge, annotation and ownership of the next decision.",
+        },
       ]}
     />
   );

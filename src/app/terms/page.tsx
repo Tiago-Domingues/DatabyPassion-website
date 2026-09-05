@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CONTACT_EMAIL, CONTACT_MAILTO } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Terms" };
 
@@ -24,8 +25,8 @@ export default function TermsPage() {
           </p>
           <h2>The studio</h2>
           <p>
-            DatabyPassion is operated as a solo practice. Figures and quotes marked as placeholders
-            are not claims of past client results.
+            DatabyPassion is operated as a solo practice. Illustrative engagement patterns are
+            labelled and are not claims of past client results.
           </p>
           <h2>No warranty on the site</h2>
           <p>
@@ -34,7 +35,7 @@ export default function TermsPage() {
           </p>
           <h2>Contact</h2>
           <p>
-            <a href="mailto:tiagopaixaodomingues@gmail.com">tiagopaixaodomingues@gmail.com</a>
+            <a href={CONTACT_MAILTO}>{CONTACT_EMAIL}</a>
           </p>
         </div>
       </section>

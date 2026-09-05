@@ -69,6 +69,14 @@ if (/AssistantWidget/.test(layout)) {
   failures.push("src/app/layout.tsx: unfinished assistant is still mounted");
 }
 
+const homepage = sources.get("src/app/page.tsx") || "";
+if (/Mercer|EY-Parthenon|Jhonny/i.test(homepage)) {
+  failures.push("src/app/page.tsx: career brands and client names must stay off the homepage");
+}
+if (!/Create a project brief/.test(homepage)) {
+  failures.push("src/app/page.tsx: missing first-viewport project-brief CTA copy");
+}
+
 if (failures.length) {
   console.error("Public content assertions failed:\n");
   for (const failure of failures) console.error(`- ${failure}`);

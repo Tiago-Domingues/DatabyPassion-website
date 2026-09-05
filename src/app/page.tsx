@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { StartProject } from "@/components/StartProject";
+import { PracticeFlipCards } from "@/components/PracticeFlipCards";
 import { TOOL_LOGOS, ToolMark } from "@/components/ToolLogos";
 import { FounderVideo } from "@/components/sections/FounderVideo";
 import { PortfolioPath } from "@/components/sections/PortfolioPath";
@@ -7,55 +8,8 @@ import { RoleArchetypes } from "@/components/sections/RoleArchetypes";
 import { TrustControlCard } from "@/components/sections/TrustControlCard";
 import { COLLECTIVE_DIFFERENTIATORS } from "@/content/collective";
 import { HOMEPAGE_NARRATIVE, SITE_IDENTITY } from "@/content/identity";
-import { PRACTICES, type PracticeId } from "@/content/practices";
 import { HOME_TRUST_CONTROLS } from "@/content/trust";
 import { CONTACT_MAILTO } from "@/lib/site";
-
-function IconLayers({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M12 3 3 8l9 5 9-5-9-5Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-      <path d="m3 12 9 5 9-5" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-      <path d="m3 16 9 5 9-5" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function IconChart({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M4 19V5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      <path d="M4 19h16" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      <path d="M8 15v-4M12 15V8M16 15v-7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function IconSpark({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      <circle cx="12" cy="12" r="2.5" stroke="currentColor" strokeWidth="1.6" />
-    </svg>
-  );
-}
-
-function IconWindow({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M3 9h18" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M7 7h.01M9.5 7h.01" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-const PRACTICE_ICONS: Record<PracticeId, typeof IconLayers> = {
-  engineering: IconLayers,
-  analytics: IconChart,
-  ai: IconSpark,
-  products: IconWindow,
-};
 
 export default function HomePage() {
   const logos = [...TOOL_LOGOS, ...TOOL_LOGOS, ...TOOL_LOGOS];
@@ -69,6 +23,12 @@ export default function HomePage() {
             Enterprise expertise. <span className="em">Built at startup speed.</span>
           </h1>
           <p className="hero-sub">{SITE_IDENTITY.description}</p>
+          <div className="hero-ctas">
+            <StartProject className="btn-primary">{SITE_IDENTITY.primaryCta} →</StartProject>
+            <Link href="/about" className="btn-ghost">
+              Meet the collective
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -104,47 +64,7 @@ export default function HomePage() {
             </div>
             <PortfolioPath compact />
           </div>
-          <div className="platform-layers">
-            {PRACTICES.map((practice) => {
-              const Icon = PRACTICE_ICONS[practice.id];
-              return (
-                <Link
-                  className={`plat-layer-card practice-preview-card reveal accent-${practice.accent}`}
-                  href={practice.href}
-                  key={practice.id}
-                >
-                  <span className="plat-icon" aria-hidden="true">
-                    <Icon />
-                  </span>
-                  <div className="plat-layer-num">
-                    {practice.number} — {practice.label}
-                  </div>
-                  <h3>{practice.title}</h3>
-                  <div className="practice-preview-card__block">
-                    <span className="mono-label">The problem</span>
-                    <p>{practice.buyerProblem}</p>
-                  </div>
-                  <div className="practice-preview-card__block">
-                    <span className="mono-label">What we leave</span>
-                    <p>{practice.deliverable}</p>
-                  </div>
-                  <div className="practice-preview-card__example">
-                    <span className="scope-badge scope-badge--example">Typical engagement</span>
-                    <p>{practice.preview}</p>
-                    <small>Illustrative pattern, not a case study.</small>
-                  </div>
-                  <div className="plat-layer-tags">
-                    {practice.tags.map((tag) => (
-                      <span className="plat-tag" key={tag}>
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <span className="plat-view">Explore this practice</span>
-                </Link>
-              );
-            })}
-          </div>
+          <PracticeFlipCards />
         </div>
       </section>
 

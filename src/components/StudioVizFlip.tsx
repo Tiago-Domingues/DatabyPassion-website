@@ -27,7 +27,7 @@ export function StudioVizFlip() {
     if (frontCanvas.current) {
       cleanups.push(
         initStudioViz(frontCanvas.current, {
-          variant: "architecture",
+          variant: "orbit",
           phaseEl: frontPhase.current,
           getPaused: () => flippedRef.current,
         }),
@@ -36,7 +36,7 @@ export function StudioVizFlip() {
     if (backCanvas.current) {
       cleanups.push(
         initStudioViz(backCanvas.current, {
-          variant: "orbit",
+          variant: "architecture",
           phaseEl: backPhase.current,
           getPaused: () => !flippedRef.current,
         }),
@@ -63,11 +63,11 @@ export function StudioVizFlip() {
             <div className="reasoning-svg-wrap">
               <canvas
                 ref={frontCanvas}
-                aria-label="Value translation from client need through studio expertise to operating value"
+                aria-label="Orbital studio: four capabilities around a studio core delivering operating value"
               />
             </div>
             <div className="reasoning-phase" ref={frontPhase} aria-live="polite" />
-            <span className="plat-flip-hint">Tap for another view</span>
+            <span className="plat-flip-hint">Tap for the delivery path</span>
           </button>
         </div>
         <div
@@ -81,12 +81,12 @@ export function StudioVizFlip() {
             className="studio-viz-flip-hit"
             onClick={() => setFlipped(false)}
             tabIndex={flipped ? 0 : -1}
-            aria-label="Flip back to the architecture view"
+            aria-label="Flip back to the orbital studio"
           >
             <div className="reasoning-svg-wrap">
               <canvas
                 ref={backCanvas}
-                aria-label="Orbital studio: four capabilities around a studio core becoming a working product"
+                aria-label="Delivery path from client need through studio expertise to operating value"
               />
             </div>
             <div className="reasoning-phase" ref={backPhase} aria-live="polite" />

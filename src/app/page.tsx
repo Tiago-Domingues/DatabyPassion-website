@@ -5,8 +5,7 @@ import { TOOL_LOGOS, ToolMark } from "@/components/ToolLogos";
 import { FounderVideo } from "@/components/sections/FounderVideo";
 import { PortfolioPath } from "@/components/sections/PortfolioPath";
 import { RoleArchetypes } from "@/components/sections/RoleArchetypes";
-import { TrustControlCard } from "@/components/sections/TrustControlCard";
-import { COLLECTIVE_DIFFERENTIATORS } from "@/content/collective";
+import { TrustCharter } from "@/components/sections/TrustCharter";
 import { HOMEPAGE_NARRATIVE, SITE_IDENTITY } from "@/content/identity";
 import { HOME_TRUST_CONTROLS } from "@/content/trust";
 import { CONTACT_MAILTO } from "@/lib/site";
@@ -55,14 +54,11 @@ export default function HomePage() {
             </h2>
             <p className="sb">{HOMEPAGE_NARRATIVE.studio}</p>
           </div>
-          <div className="studio-visuals">
-            <div className="reasoning-viz">
-              <div className="reasoning-svg-wrap">
-                <canvas id="reasoningCanvas" aria-label="Animated reasoning engine visual" />
-              </div>
-              <div className="reasoning-phase" id="reasoningPhase" aria-live="polite" />
+          <div className="reasoning-viz">
+            <div className="reasoning-svg-wrap">
+              <canvas id="reasoningCanvas" aria-label="Animated reasoning engine visual" />
             </div>
-            <PortfolioPath compact />
+            <div className="reasoning-phase" id="reasoningPhase" aria-live="polite" />
           </div>
           <PracticeFlipCards />
         </div>
@@ -77,15 +73,7 @@ export default function HomePage() {
             </h2>
             <p className="sb">{HOMEPAGE_NARRATIVE.collective}</p>
           </div>
-          <div className="why-grid collective-why-grid">
-            {COLLECTIVE_DIFFERENTIATORS.map((item) => (
-              <article className="studio-card reveal" key={item.title}>
-                <span className="studio-kicker">How we operate</span>
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-              </article>
-            ))}
-          </div>
+          <PortfolioPath />
           <div className="collective-story">
             <article className="collective-accountability reveal">
               <span className="label">Founder accountability</span>
@@ -106,7 +94,7 @@ export default function HomePage() {
             <FounderVideo compact />
           </div>
           <div className="collective-role-intro">
-            <span className="label">Six role archetypes</span>
+            <span className="label">Knowledge Center</span>
             <p>Not a fixed team—an honest view of the senior capabilities that can form around the work.</p>
           </div>
           <RoleArchetypes compact />
@@ -121,11 +109,7 @@ export default function HomePage() {
             <p className="sb" style={{ margin: "0 auto" }}>
               {HOMEPAGE_NARRATIVE.trust}
             </p>
-            <div className="trust-grid">
-              {HOME_TRUST_CONTROLS.map((control) => (
-                <TrustControlCard control={control} compact key={control.id} />
-              ))}
-            </div>
+            <TrustCharter controls={HOME_TRUST_CONTROLS} />
             <Link href="/security" className="trust-link">
               Review controls and engagement choices →
             </Link>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { StartProject } from "@/components/StartProject";
-import { TrustControlCard } from "@/components/sections/TrustControlCard";
+import { TrustCharter } from "@/components/sections/TrustCharter";
 import { TRUST_CONTROLS } from "@/content/trust";
 import { CONTACT_MAILTO } from "@/lib/site";
 
@@ -102,11 +102,7 @@ export default function SecurityPage() {
                   </div>
                   <p className="sb">{section.description}</p>
                 </div>
-                <div className="trust-detail-grid">
-                  {controls.map((control) => (
-                    <TrustControlCard control={control} key={control.id} />
-                  ))}
-                </div>
+                <TrustCharter controls={controls} numbered={false} />
               </div>
             </section>
           );

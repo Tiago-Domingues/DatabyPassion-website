@@ -115,11 +115,11 @@ export default function AboutPage() {
         <div className="container">
           <div className="section-heading-split">
             <div>
-              <span className="label">The collective</span>
+              <span className="label">Knowledge Center</span>
               <h2 className="sh">A capability map, not a fixed bench</h2>
             </div>
             <p className="sb">
-              Six senior role archetypes show how an engagement can form. The actual team, named
+              Six senior capabilities show how an engagement can form. The actual team, named
               people and time commitment are agreed around the scope.
             </p>
           </div>

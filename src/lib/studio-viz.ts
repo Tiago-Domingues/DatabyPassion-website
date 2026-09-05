@@ -69,7 +69,7 @@ function buildSpaceField(kind: "orbit" | "architecture"): SpaceField {
     s = (Math.imul(s, 1664525) + 1013904223) >>> 0;
     return s / 4294967296;
   };
-  const count = kind === "orbit" ? 34 : 20;
+  const count = kind === "orbit" ? 48 : 26;
   for (let i = 0; i < count; i++) {
     const corner = i % 4;
     const alongEdge = rand() < 0.32;
@@ -96,6 +96,8 @@ function buildSpaceField(kind: "orbit" | "architecture"): SpaceField {
           { u: 0.145, v: 0.935, size: 1.6 },
           { u: 0.88, v: 0.91, size: 1.1 },
           { u: 0.95, v: 0.755, size: 1.05 },
+          { u: 0.035, v: 0.44, size: 1.2 },
+          { u: 0.97, v: 0.5, size: 1.25 },
         ]
       : [
           { u: 0.08, v: 0.1, size: 1.2 },
@@ -113,13 +115,15 @@ function buildSpaceField(kind: "orbit" | "architecture"): SpaceField {
           { a: 6, b: 7 },
           { a: 0, b: 4 },
           { a: 3, b: 7 },
+          { a: 0, b: 8 },
+          { a: 3, b: 9 },
         ]
       : [
           { a: 0, b: 2 },
           { a: 1, b: 3 },
         ];
 
-  return { stars, nodes, links, spokes: kind === "orbit" ? [1, 3] : [] };
+  return { stars, nodes, links, spokes: kind === "orbit" ? [1, 3, 8] : [] };
 }
 
 function drawGrid(X: CanvasRenderingContext2D, W: number, H: number, alpha = 0.03) {
@@ -160,7 +164,7 @@ function drawSpaceField(
     const x = star.u * W;
     const y = star.v * H;
     if (Math.hypot(x - cx, y - cy) < wellR) continue;
-    const tw = 0.18 + 0.32 * (0.5 + 0.5 * Math.sin(T * 0.016 + star.twinkle));
+    const tw = 0.24 + 0.36 * (0.5 + 0.5 * Math.sin(T * 0.016 + star.twinkle));
     X.globalAlpha = tw;
     X.fillStyle = "#d7e7ff";
     X.beginPath();
@@ -176,7 +180,7 @@ function drawSpaceField(
     X.beginPath();
     X.moveTo(a.u * W, a.v * H);
     X.lineTo(b.u * W, b.v * H);
-    X.strokeStyle = "rgba(155,188,230,0.13)";
+    X.strokeStyle = "rgba(155,188,230,0.16)";
     X.lineWidth = 0.6;
     X.stroke();
   }
@@ -210,7 +214,7 @@ function drawSpaceField(
     const x = n.u * W;
     const y = n.v * H;
     if (Math.hypot(x - cx, y - cy) < wellR * 0.82) continue;
-    const pulse = 0.2 + 0.1 * (0.5 + 0.5 * Math.sin(T * 0.011 + n.u * 7));
+    const pulse = 0.24 + 0.1 * (0.5 + 0.5 * Math.sin(T * 0.011 + n.u * 7));
     X.globalAlpha = pulse;
     const g = X.createRadialGradient(x, y, 0, x, y, n.size * 4.5);
     g.addColorStop(0, "rgba(180,205,240,0.32)");
@@ -1029,13 +1033,15 @@ function initOrbit(
         X.globalAlpha = active ? 0.82 : 0.22;
         X.fill();
         if (!narrow) {
-          X.font = "500 5.5px 'DM Mono',monospace";
-          X.fillStyle = "#eeedf5";
-          X.globalAlpha = active ? 0.7 : 0.28;
-          X.textAlign = "center";
-          const outward = Math.cos(a) * Math.cos(cap.angle) + Math.sin(a) * Math.sin(cap.angle);
-          if (active || outward > 0.15) {
-            X.fillText(moon, mx + Math.cos(a) * 8, my + Math.sin(a) * 8 + 2);
+          const lx = mx + Math.cos(a) * 8;
+          const ly = my + Math.sin(a) * 8 + 2;
+          if (lx > 26 && lx < W - 26 && ly > 12 && ly < H - 18) {
+            X.font = "500 5.5px 'DM Mono',monospace";
+            X.fillStyle = "#eeedf5";
+            X.globalAlpha = active ? 0.7 : 0.28;
+            X.textAlign = "center";
+            const outward = Math.cos(a) * Math.cos(cap.angle) + Math.sin(a) * Math.sin(cap.angle);
+            if (active || outward > 0.15) X.fillText(moon, lx, ly);
           }
         }
       });

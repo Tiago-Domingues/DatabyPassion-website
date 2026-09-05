@@ -414,17 +414,17 @@ function getLayout(){
   const boxW=engR-engL, boxH=mobile?H*0.58:H*0.68, boxT=cy-boxH/2;
   const sp=mobile?55:95, sp2=mobile?18:32;
   const src=[
-    {x:col1,y:cy-sp,l:mobile?'Platforms':'Data platforms',sub:mobile?'':'Warehouses · lakes',c:'#fbbf24'},
-    {x:col1,y:cy-sp2,l:mobile?'Analytics':'Analytics',sub:mobile?'':'KPIs · decisions',c:'#fbbf24'},
-    {x:col1,y:cy+sp2,l:mobile?'Automation':'AI & Automation',sub:mobile?'':'Workflows · agents',c:'#fbbf24'},
-    {x:col1,y:cy+sp,l:mobile?'Products':'Digital Products',sub:mobile?'':'Apps · experiences',c:'#fbbf24'}
+    {x:col1,y:cy-sp,l:'Data',sub:mobile?'':'Nobody fully trusts it',c:'#fbbf24'},
+    {x:col1,y:cy-sp2,l:'Decision',sub:mobile?'':'The number is disputed',c:'#fbbf24'},
+    {x:col1,y:cy+sp2,l:'Workflow',sub:mobile?'':'Still stuck in inboxes',c:'#fbbf24'},
+    {x:col1,y:cy+sp,l:mobile?'Product':'Product gap',sub:mobile?'':'No path to software',c:'#fbbf24'}
   ];
   const eng={box:{x:engL,y:boxT,w:boxW,h:boxH,r:mobile?10:14},core:{x:cx,y:cy,c:'#1a9afa',r:mobile?7:10}};
   const out=[
-    {x:col5,y:cy-sp,l:mobile?'Pipelines':'Pipelines',c:'#1a9afa'},
-    {x:col5,y:cy-sp2,l:mobile?'Decisions':'Decisions',c:'#1a9afa'},
-    {x:col5,y:cy+sp2,l:mobile?'Workflows':'Workflows',c:'#1a9afa'},
-    {x:col5,y:cy+sp,l:mobile?'Apps':'Experiences',c:'#1a9afa'}
+    {x:col5,y:cy-sp,l:mobile?'Trusted':'Trusted data',c:'#1a9afa'},
+    {x:col5,y:cy-sp2,l:mobile?'Shared':'Shared number',c:'#1a9afa'},
+    {x:col5,y:cy+sp2,l:mobile?'Governed':'Governed workflow',c:'#1a9afa'},
+    {x:col5,y:cy+sp,l:mobile?'Product':'Working product',c:'#1a9afa'}
   ];
   return{src,eng,out,cx,cy,col1,col2,engL,engR,col4,col5,boxW,boxH}
 }
@@ -550,16 +550,16 @@ function animate(){
   roundRect(box.x,box.y,box.w,box.h,box.r);
   X.strokeStyle=`rgba(26,154,250,${0.06+pulse*0.03})`;X.lineWidth=1.2;X.stroke();
   X.font="600 "+(W<500?"8":"10")+"px 'DM Mono',monospace";X.fillStyle='#ffffff';
-  X.globalAlpha=0.85;X.textAlign='center';X.fillText('REASONING ENGINE',cx,box.y+20);
+  X.globalAlpha=0.85;X.textAlign='center';X.fillText('THE STUDIO',cx,box.y+20);
   X.font="400 "+(W<500?"6.5":"7.5")+"px 'DM Mono',monospace";X.fillStyle='#c8e7ff';
-  X.globalAlpha=0.7;X.fillText('NEURO-SYMBOLIC ARCHITECTURE',cx,box.y+34);X.globalAlpha=1;
+  X.globalAlpha=0.7;X.fillText('DATA AND AI EXPERTISE',cx,box.y+34);X.globalAlpha=1;
 
   // ─── ENGINE INTERIOR: Concentric rings ───
   const maxR=Math.min(box.w,box.h)*0.38;
   const rings=[
-    {r:maxR,      label:'INGESTION',  c:'#34d399',segs:16,dotR:1.2},
-    {r:maxR*0.66, label:'REASONING',  c:'#67e8f9',segs:12,dotR:1.0},
-    {r:maxR*0.33, label:'SYNTHESIS',  c:'#1a9afa',segs:8, dotR:0.8}
+    {r:maxR,      label:'LISTEN',  c:'#34d399',segs:16,dotR:1.2},
+    {r:maxR*0.66, label:'SHAPE',   c:'#67e8f9',segs:12,dotR:1.0},
+    {r:maxR*0.33, label:'BUILD',   c:'#1a9afa',segs:8, dotR:0.8}
   ];
   let arcB=[0.04,0.04,0.04];
   if(journey&&journey.phase==='inEngine')arcB=journey.arcBright.map(v=>Math.max(0.04,v));
@@ -649,8 +649,9 @@ function animate(){
   });
 
   X.font="700 "+(W<500?"8":"10")+"px 'DM Mono',monospace";X.globalAlpha=0.9;
-  X.fillStyle='#fbbf24';X.textAlign='center';X.fillText('DATA SOURCES',L.col1,20);
-  X.fillStyle='#5bb8ff';X.fillText('OUTCOMES',L.col5,20);X.globalAlpha=1;
+  X.fillStyle='#fbbf24';X.textAlign='center';X.fillText('CLIENT NEED',L.col1,20);
+  X.fillStyle='#ffffff';X.fillText('THE STUDIO',cx,20);
+  X.fillStyle='#5bb8ff';X.fillText(W<500?'YOU KEEP':'WHAT YOU KEEP',L.col5,20);X.globalAlpha=1;
 
   // ─── JOURNEY STATE MACHINE ───
   if(!journey){journeyCooldown--;if(journeyCooldown<=0)startJourney(L);
@@ -760,7 +761,7 @@ function animate(){
     // Update phase annotation
     const phaseEl=document.getElementById('reasoningPhase');
     if(phaseEl){
-      const labels={toData:'Ingesting data sources',inData:'Unifying data streams',toEngine:'Entering reasoning engine',inEngine:['Ingestion layer processing','Applying symbolic reasoning','Synthesizing recommendations','Core analysis complete'][j.ringFlowStage||0],toDecision:'Generating decision',inDecision:'Crystallizing recommendation',toOutput:'Delivering outcome',bloom:'Decision deployed'};
+      const labels={toData:'Starting from the need',inData:'Naming the constraint',toEngine:'Bringing studio expertise',inEngine:['Listening to the problem','Shaping the approach','Building the path','Expertise applied'][j.ringFlowStage||0],toDecision:'Turning expertise into value',inDecision:'Settling what you keep',toOutput:'Leaving something you can run',bloom:'Operating value in hand'};
       const txt=labels[j.phase]||'';
       if(!phaseEl.querySelector('span'))phaseEl.innerHTML='<span></span>';
       const sp=phaseEl.querySelector('span');

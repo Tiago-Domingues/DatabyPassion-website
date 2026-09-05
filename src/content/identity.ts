@@ -2,15 +2,16 @@ export const SITE_IDENTITY = {
   category: "Senior-led boutique technology consultancy",
   headline: "Enterprise expertise. Built at startup speed.",
   description:
-    "DatabyPassion helps enterprise and functional leaders turn valuable digital and AI opportunities into working products, then scale what proves useful.",
+    "Enterprise judgement at startup pace. We form the team around your problem and leave software the business can operate.",
   shortDescription:
     "Digital, data and AI products delivered by one accountable lead and a senior collective shaped around the work.",
   primaryCta: "Create a project brief",
 } as const;
 
 export const HOMEPAGE_NARRATIVE = {
+  studioHeading: "Four practices. One path from constraint to product.",
   studio:
-    "Four connected practices take a business problem from foundations to a working product. Start where the constraint is; bring in the rest only when the outcome needs it.",
+    "Data, decisions, intelligent workflows and digital products — connected so you start where the pain is and bring depth only when the outcome needs it.",
   collective:
     "A senior core holds the problem, architecture and standard. Product, design, data, AI, engineering and domain specialists join around the decisions they are best placed to make.",
   trust:

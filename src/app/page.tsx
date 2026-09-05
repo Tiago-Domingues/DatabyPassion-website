@@ -2,7 +2,7 @@ import Link from "next/link";
 import { StartProject } from "@/components/StartProject";
 import { PracticeFlipCards } from "@/components/PracticeFlipCards";
 import { StudioVizFlip } from "@/components/StudioVizFlip";
-import { TOOL_LOGOS, ToolMark } from "@/components/ToolLogos";
+import { ToolLogoStrip } from "@/components/ToolLogoStrip";
 import { DeliveryMap } from "@/components/sections/DeliveryMap";
 import { RoleArchetypes } from "@/components/sections/RoleArchetypes";
 import { TrustCharter } from "@/components/sections/TrustCharter";
@@ -11,7 +11,6 @@ import { HOME_TRUST_CONTROLS } from "@/content/trust";
 import { CONTACT_MAILTO } from "@/lib/site";
 
 export default function HomePage() {
-  const logos = [...TOOL_LOGOS, ...TOOL_LOGOS, ...TOOL_LOGOS];
   return (
     <>
       <section className="hero" id="hero">
@@ -31,19 +30,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="logos-section">
-        <div className="logos-label">Built with the technologies that fit the problem.</div>
-        <div className="logos-track-wrapper">
-          <div className="logos-track">
-            {logos.map((tool, i) => (
-              <span className="logo-item" key={`${tool.id}-${i}`} aria-label={tool.label} title={tool.label}>
-                <ToolMark name={tool.id} />
-                <span className="logo-name">{tool.label}</span>
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ToolLogoStrip />
 
       <section className="platform-section section-pad" id="platform">
         <div className="container">

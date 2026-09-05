@@ -33,16 +33,218 @@ function setPhase(phaseEl: HTMLElement | null | undefined, text: string) {
 function sizeCanvas(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   const parent = canvas.parentElement;
   if (!parent) return { W: 320, H: 260 };
-  let W = parent.clientWidth - 40;
+  const styles = getComputedStyle(parent);
+  const padX = parseFloat(styles.paddingLeft) + parseFloat(styles.paddingRight);
+  let W = Math.round(parent.clientWidth - padX);
   if (W < 120) W = Math.max(120, parent.clientWidth);
-  const H = W < 500 ? Math.max(260, W * 0.75) : Math.max(400, Math.min(W * 0.52, 500));
+  const H =
+    W < 500
+      ? Math.max(310, Math.round(W * 0.88))
+      : Math.max(420, Math.min(Math.round(W * 0.56), 520));
   const DPR = Math.min(window.devicePixelRatio || 1, 2);
   canvas.width = W * DPR;
   canvas.height = H * DPR;
-  canvas.style.width = `${W}px`;
+  canvas.style.width = "100%";
   canvas.style.height = `${H}px`;
+  canvas.style.display = "block";
+  canvas.style.marginLeft = "auto";
+  canvas.style.marginRight = "auto";
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
   return { W, H };
+}
+
+type Star = { u: number; v: number; size: number; twinkle: number };
+type DistantNode = { u: number; v: number; size: number };
+type SpaceField = {
+  stars: Star[];
+  nodes: DistantNode[];
+  links: Array<{ a: number; b: number }>;
+  spokes: number[];
+};
+
+function buildSpaceField(kind: "orbit" | "architecture"): SpaceField {
+  const stars: Star[] = [];
+  let s = kind === "orbit" ? 0x51ed : 0xa11e;
+  const rand = () => {
+    s = (Math.imul(s, 1664525) + 1013904223) >>> 0;
+    return s / 4294967296;
+  };
+  const count = kind === "orbit" ? 48 : 26;
+  for (let i = 0; i < count; i++) {
+    const corner = i % 4;
+    const alongEdge = rand() < 0.32;
+    let u: number;
+    let v: number;
+    if (alongEdge) {
+      u = rand();
+      v = rand() < 0.5 ? rand() * 0.14 : 0.86 + rand() * 0.14;
+    } else {
+      u = corner % 2 === 0 ? rand() * 0.22 : 0.78 + rand() * 0.22;
+      v = corner < 2 ? rand() * 0.2 : 0.8 + rand() * 0.2;
+    }
+    stars.push({ u, v, size: 0.35 + rand() * 0.85, twinkle: rand() * Math.PI * 2 });
+  }
+
+  const nodes: DistantNode[] =
+    kind === "orbit"
+      ? [
+          { u: 0.07, v: 0.1, size: 1.55 },
+          { u: 0.155, v: 0.055, size: 1.05 },
+          { u: 0.9, v: 0.085, size: 1.7 },
+          { u: 0.96, v: 0.2, size: 1.0 },
+          { u: 0.055, v: 0.8, size: 1.15 },
+          { u: 0.145, v: 0.935, size: 1.6 },
+          { u: 0.88, v: 0.91, size: 1.1 },
+          { u: 0.95, v: 0.755, size: 1.05 },
+          { u: 0.035, v: 0.44, size: 1.2 },
+          { u: 0.97, v: 0.5, size: 1.25 },
+        ]
+      : [
+          { u: 0.08, v: 0.1, size: 1.2 },
+          { u: 0.93, v: 0.12, size: 1.15 },
+          { u: 0.07, v: 0.88, size: 1.1 },
+          { u: 0.93, v: 0.86, size: 1.05 },
+        ];
+
+  const links =
+    kind === "orbit"
+      ? [
+          { a: 0, b: 1 },
+          { a: 2, b: 3 },
+          { a: 4, b: 5 },
+          { a: 6, b: 7 },
+          { a: 0, b: 4 },
+          { a: 3, b: 7 },
+          { a: 0, b: 8 },
+          { a: 3, b: 9 },
+        ]
+      : [
+          { a: 0, b: 2 },
+          { a: 1, b: 3 },
+        ];
+
+  return { stars, nodes, links, spokes: kind === "orbit" ? [1, 3, 8] : [] };
+}
+
+function drawGrid(X: CanvasRenderingContext2D, W: number, H: number, alpha = 0.03) {
+  X.save();
+  X.globalAlpha = alpha;
+  X.strokeStyle = "#1a9afa";
+  X.lineWidth = 0.5;
+  const step = 36;
+  for (let gx = 0; gx < W; gx += step) {
+    X.beginPath();
+    X.moveTo(gx + 0.5, 0);
+    X.lineTo(gx + 0.5, H);
+    X.stroke();
+  }
+  for (let gy = 0; gy < H; gy += step) {
+    X.beginPath();
+    X.moveTo(0, gy + 0.5);
+    X.lineTo(W, gy + 0.5);
+    X.stroke();
+  }
+  X.restore();
+}
+
+function drawSpaceField(
+  X: CanvasRenderingContext2D,
+  W: number,
+  H: number,
+  T: number,
+  cx: number,
+  cy: number,
+  wellR: number,
+  field: SpaceField,
+  opts: { ticks: boolean; mobile: boolean },
+) {
+  const nodes = opts.mobile ? field.nodes.slice(0, 4) : field.nodes;
+
+  for (const star of field.stars) {
+    const x = star.u * W;
+    const y = star.v * H;
+    if (Math.hypot(x - cx, y - cy) < wellR) continue;
+    const tw = 0.24 + 0.36 * (0.5 + 0.5 * Math.sin(T * 0.016 + star.twinkle));
+    X.globalAlpha = tw;
+    X.fillStyle = "#d7e7ff";
+    X.beginPath();
+    X.arc(x, y, star.size, 0, Math.PI * 2);
+    X.fill();
+  }
+  X.globalAlpha = 1;
+
+  const links = field.links.filter((l) => l.a < nodes.length && l.b < nodes.length);
+  for (const link of links) {
+    const a = nodes[link.a];
+    const b = nodes[link.b];
+    X.beginPath();
+    X.moveTo(a.u * W, a.v * H);
+    X.lineTo(b.u * W, b.v * H);
+    X.strokeStyle = "rgba(155,188,230,0.16)";
+    X.lineWidth = 0.6;
+    X.stroke();
+  }
+
+  for (const spoke of field.spokes) {
+    if (spoke >= nodes.length) continue;
+    const n = nodes[spoke];
+    const x = n.u * W;
+    const y = n.v * H;
+    const ang = Math.atan2(cy - y, cx - x);
+    X.beginPath();
+    X.moveTo(x, y);
+    X.lineTo(cx + Math.cos(ang) * wellR, cy + Math.sin(ang) * wellR);
+    X.strokeStyle = "rgba(155,188,230,0.06)";
+    X.lineWidth = 0.5;
+    X.stroke();
+  }
+
+  if (opts.ticks && links.length && !opts.mobile) {
+    const li = Math.floor((T * 0.0035) % links.length);
+    const t = (T * 0.005) % 1;
+    const a = nodes[links[li].a];
+    const b = nodes[links[li].b];
+    X.fillStyle = "rgba(210,226,255,0.42)";
+    X.beginPath();
+    X.arc(a.u * W + (b.u * W - a.u * W) * t, a.v * H + (b.v * H - a.v * H) * t, 1.1, 0, Math.PI * 2);
+    X.fill();
+  }
+
+  for (const n of nodes) {
+    const x = n.u * W;
+    const y = n.v * H;
+    if (Math.hypot(x - cx, y - cy) < wellR * 0.82) continue;
+    const pulse = 0.24 + 0.1 * (0.5 + 0.5 * Math.sin(T * 0.011 + n.u * 7));
+    X.globalAlpha = pulse;
+    const g = X.createRadialGradient(x, y, 0, x, y, n.size * 4.5);
+    g.addColorStop(0, "rgba(180,205,240,0.32)");
+    g.addColorStop(1, "transparent");
+    X.fillStyle = g;
+    X.beginPath();
+    X.arc(x, y, n.size * 4.5, 0, Math.PI * 2);
+    X.fill();
+    X.fillStyle = "#9eb6d8";
+    X.beginPath();
+    X.arc(x, y, n.size, 0, Math.PI * 2);
+    X.fill();
+  }
+  X.globalAlpha = 1;
+}
+
+function quadPoint(
+  t: number,
+  sx: number,
+  sy: number,
+  cpx: number,
+  cpy: number,
+  ex: number,
+  ey: number,
+) {
+  const mt = 1 - t;
+  return {
+    x: mt * mt * sx + 2 * mt * t * cpx + t * t * ex,
+    y: mt * mt * sy + 2 * mt * t * cpy + t * t * ey,
+  };
 }
 
 export function initStudioViz(canvas: HTMLCanvasElement, options: StudioVizOptions) {
@@ -114,6 +316,7 @@ function initArchitecture(
   frame: () => Frame,
 ) {
   const ringDots: RingDot[] = [];
+  const field = buildSpaceField("architecture");
   let journey: Record<string, unknown> | null = null;
   let journeyCooldown = 30;
 
@@ -232,22 +435,11 @@ function initArchitecture(
     const pulse = Math.sin(T * 0.025) * 0.2 + 0.8;
     const ecy = cy + 4;
 
-    X.globalAlpha = 0.012;
-    X.strokeStyle = "#1a9afa";
-    X.lineWidth = 0.5;
-    for (let gx = 0; gx < W; gx += 40) {
-      X.beginPath();
-      X.moveTo(gx, 0);
-      X.lineTo(gx, H);
-      X.stroke();
-    }
-    for (let gy = 0; gy < H; gy += 40) {
-      X.beginPath();
-      X.moveTo(0, gy);
-      X.lineTo(W, gy);
-      X.stroke();
-    }
-    X.globalAlpha = 1;
+    drawGrid(X, W, H, 0.028);
+    drawSpaceField(X, W, H, T, cx, cy, Math.min(box.w, box.h) * 0.52, field, {
+      ticks: false,
+      mobile: W < 500,
+    });
 
     const zoneH = H * 0.62;
     const zoneTop = cy - zoneH / 2;
@@ -368,7 +560,7 @@ function initArchitecture(
 
     const maxR = Math.min(box.w, box.h) * 0.38;
     const rings = [
-      { r: maxR, label: "LISTEN", c: "#34d399", segs: 16, dotR: 1.2 },
+      { r: maxR, label: "UNDERSTAND", c: "#34d399", segs: 16, dotR: 1.2 },
       { r: maxR * 0.66, label: "SHAPE", c: "#67e8f9", segs: 12, dotR: 1.0 },
       { r: maxR * 0.33, label: "BUILD", c: "#1a9afa", segs: 8, dotR: 0.8 },
     ];
@@ -513,7 +705,7 @@ function initArchitecture(
     X.fillStyle = "#ffffff";
     X.fillText("THE STUDIO", cx, 20);
     X.fillStyle = "#5bb8ff";
-    X.fillText(W < 500 ? "YOU KEEP" : "WHAT YOU KEEP", L.col5, 20);
+    X.fillText("EVOLVE", L.col5, 20);
     X.globalAlpha = 1;
 
     if (!journey) {
@@ -657,7 +849,7 @@ function initArchitecture(
         toData: "Starting from the need",
         inData: "Naming the constraint",
         toEngine: "Bringing studio expertise",
-        inEngine: ["Listening to the problem", "Shaping the approach", "Building the path", "Expertise applied"][j.ringFlowStage || 0],
+        inEngine: ["Understanding the problem", "Shaping the approach", "Building the path", "Expertise applied"][j.ringFlowStage || 0],
         toDecision: "Turning expertise into value",
         inDecision: "Settling what you keep",
         toOutput: "Leaving something you can run",
@@ -678,161 +870,275 @@ function initOrbit(
   phaseEl: HTMLElement | null | undefined,
   frame: () => Frame,
 ) {
+  const field = buildSpaceField("orbit");
   const caps = [
-    { label: "Data", color: "#fbbf24", angle: -Math.PI * 0.72 },
-    { label: "Decisions", color: "#34d399", angle: -Math.PI * 0.28 },
-    { label: "Intelligence", color: "#67e8f9", angle: Math.PI * 0.28 },
-    { label: "Products", color: "#5bb8ff", angle: Math.PI * 0.72 },
+    { label: "Data", color: "#fbbf24", angle: -Math.PI * 0.78, moons: ["Warehouses", "Pipelines", "Quality"] },
+    { label: "Decisions", color: "#34d399", angle: -Math.PI * 0.28, moons: ["Metrics", "Forecasts", "Experiments"] },
+    { label: "Intelligence", color: "#67e8f9", angle: Math.PI * 0.22, moons: ["Workflows", "Assistants", "Agents"] },
+    { label: "Products", color: "#5bb8ff", angle: Math.PI * 0.78, moons: ["Web apps", "Internal tools", "Experiences"] },
   ];
   const rings = [
-    { label: "LISTEN", color: "#34d399", scale: 0.72 },
-    { label: "SHAPE", color: "#67e8f9", scale: 0.48 },
-    { label: "BUILD", color: "#1a9afa", scale: 0.26 },
+    { label: "UNDERSTAND", color: "#34d399", scale: 1, segs: 18, dotR: 1.15 },
+    { label: "SHAPE", color: "#67e8f9", scale: 0.68, segs: 14, dotR: 1 },
+    { label: "BUILD", color: "#1a9afa", scale: 0.38, segs: 10, dotR: 0.85 },
   ];
 
-  let phase: "enter" | "shape" | "bloom" = "enter";
-  let p = 0;
+  const { reduced } = frame();
+  let phase: "engage" | "shape" | "handoff" = reduced ? "shape" : "engage";
+  let p = reduced ? 0.42 : 0;
   let capIndex = 0;
   let bloom = 0;
 
   function draw() {
-    const { W, H, T } = frame();
+    const { W, H, T, reduced: freeze } = frame();
     X.clearRect(0, 0, W, H);
+    const narrow = W < 560;
     const cx = W / 2;
-    const cy = H / 2 + 4;
-    const maxR = Math.min(W, H) * 0.36;
-    const outerR = Math.min(W, H) * 0.42;
-    const pulse = Math.sin(T * 0.025) * 0.2 + 0.8;
+    const cy = H * 0.455;
+    const outerR = Math.min(W, H) * (narrow ? 0.34 : 0.355);
+    const maxR = outerR * 0.7;
+    const pulse = Math.sin(T * 0.02) * 0.12 + 0.88;
 
-    X.globalAlpha = 0.012;
-    X.strokeStyle = "#1a9afa";
-    X.lineWidth = 0.5;
-    for (let gx = 0; gx < W; gx += 48) {
+    drawGrid(X, W, H, 0.03);
+    drawSpaceField(X, W, H, T, cx, cy, outerR * 0.92, field, {
+      ticks: !freeze,
+      mobile: narrow,
+    });
+
+    const well = X.createRadialGradient(cx, cy, 0, cx, cy, maxR * 1.2);
+    well.addColorStop(0, "rgba(26,154,250,0.1)");
+    well.addColorStop(0.5, "rgba(26,154,250,0.03)");
+    well.addColorStop(1, "transparent");
+    X.fillStyle = well;
+    X.beginPath();
+    X.arc(cx, cy, maxR * 1.2, 0, Math.PI * 2);
+    X.fill();
+
+    const valueY = H * 0.905;
+    const valueW = Math.min(W * 0.38, 240);
+    const valueAnchors = caps.map((_, i) => ({
+      x: cx - valueW + (valueW * 2 * (i + 0.5)) / caps.length,
+      y: valueY + 6,
+    }));
+
+    caps.forEach((cap, i) => {
+      const sx = cx + Math.cos(cap.angle) * outerR;
+      const sy = cy + Math.sin(cap.angle) * outerR;
+      const dest = valueAnchors[i];
+      const cpx = (sx + dest.x) * 0.5;
+      const cpy = Math.max(sy, dest.y) * 0.62 + 18;
       X.beginPath();
-      X.moveTo(gx, 0);
-      X.lineTo(gx, H);
+      X.moveTo(sx, sy);
+      X.quadraticCurveTo(cpx, cpy, dest.x, dest.y);
+      X.strokeStyle = cap.color;
+      const live = i === capIndex && phase === "handoff";
+      X.globalAlpha = live ? 0.22 + bloom * 0.35 : 0.06;
+      X.lineWidth = live ? 1.2 : 0.7;
       X.stroke();
-    }
-    for (let gy = 0; gy < H; gy += 48) {
-      X.beginPath();
-      X.moveTo(0, gy);
-      X.lineTo(W, gy);
-      X.stroke();
-    }
+    });
+
+    X.beginPath();
+    X.moveTo(cx - valueW, valueY);
+    X.quadraticCurveTo(cx, valueY + 20, cx + valueW, valueY);
+    X.strokeStyle = "#5bb8ff";
+    X.globalAlpha = 0.28 + (phase === "handoff" ? bloom * 0.22 : 0);
+    X.lineWidth = 1.15;
+    X.stroke();
+    X.globalAlpha = 0.78;
+    X.font = `600 ${narrow ? 6.5 : 8}px 'DM Mono',monospace`;
+    X.fillStyle = "#c8e7ff";
+    X.textAlign = "center";
+    X.fillText("OPERATING VALUE", cx, valueY + 28);
     X.globalAlpha = 1;
 
-    rings.forEach((ring, i) => {
+    X.beginPath();
+    X.arc(cx, cy, outerR, 0, Math.PI * 2);
+    X.strokeStyle = "rgba(238,237,245,0.08)";
+    X.lineWidth = 0.7;
+    X.stroke();
+
+    rings.forEach((ring, ri) => {
       const r = maxR * ring.scale;
-      X.beginPath();
-      X.arc(cx, cy, r, 0, Math.PI * 2);
-      X.strokeStyle = ring.color;
-      X.globalAlpha = 0.16 + (phase === "shape" && p > i * 0.28 ? 0.2 : 0);
-      X.lineWidth = 1;
-      X.stroke();
-      X.globalAlpha = 0.7;
-      X.font = "500 6px 'DM Mono',monospace";
+      const shaping = phase === "shape" && p > ri * 0.28;
+      const bright = 0.14 + (shaping ? 0.18 : 0);
+      const segArc = (Math.PI * 2) / ring.segs;
+      const gap = segArc * 0.16;
+      for (let s = 0; s < ring.segs; s++) {
+        X.beginPath();
+        X.arc(cx, cy, r, s * segArc + gap / 2, (s + 1) * segArc - gap / 2);
+        X.strokeStyle = ring.color;
+        X.globalAlpha = bright;
+        X.lineWidth = 0.9;
+        X.stroke();
+      }
+      for (let d = 0; d < ring.segs; d++) {
+        const a = (d / ring.segs) * Math.PI * 2 + T * 0.0012 * (ri + 1);
+        X.beginPath();
+        X.arc(cx + Math.cos(a) * r, cy + Math.sin(a) * r, ring.dotR, 0, Math.PI * 2);
+        X.fillStyle = ring.color;
+        X.globalAlpha = shaping ? 0.45 : 0.12;
+        X.fill();
+      }
+      X.font = `500 ${narrow ? 5.5 : 6.5}px 'DM Mono',monospace`;
       X.fillStyle = ring.color;
+      X.globalAlpha = 0.62;
       X.textAlign = "center";
       X.fillText(ring.label, cx, cy - r - 6);
       X.globalAlpha = 1;
     });
 
-    const coreR = 9;
-    const coreG = X.createRadialGradient(cx, cy, 0, cx, cy, coreR * 4);
-    coreG.addColorStop(0, `rgba(26,154,250,${0.16 * pulse})`);
+    const coreR = narrow ? 10 : 11.5;
+    const coreG = X.createRadialGradient(cx, cy, 0, cx, cy, coreR * 3.4);
+    coreG.addColorStop(0, `rgba(26,154,250,${0.12 * pulse})`);
     coreG.addColorStop(1, "transparent");
     X.fillStyle = coreG;
     X.beginPath();
-    X.arc(cx, cy, coreR * 4, 0, Math.PI * 2);
+    X.arc(cx, cy, coreR * 3.4, 0, Math.PI * 2);
     X.fill();
     const cg = X.createRadialGradient(cx, cy, 0, cx, cy, coreR);
     cg.addColorStop(0, "#c8e7ff");
     cg.addColorStop(1, "#1a9afa");
     X.fillStyle = cg;
+    X.globalAlpha = 0.92 * pulse;
     X.beginPath();
     X.arc(cx, cy, coreR, 0, Math.PI * 2);
     X.fill();
-    X.font = "600 9px 'DM Mono',monospace";
-    X.fillStyle = "#ffffff";
     X.globalAlpha = 0.88;
+    X.font = `600 ${narrow ? 8 : 9}px 'DM Mono',monospace`;
+    X.fillStyle = "#ffffff";
     X.textAlign = "center";
-    X.fillText("THE STUDIO", cx, cy + coreR + 16);
+    X.fillText("THE STUDIO", cx, cy + coreR + 15);
     X.globalAlpha = 1;
 
+    const moonR = narrow ? 15 : 21;
     caps.forEach((cap, i) => {
       const x = cx + Math.cos(cap.angle) * outerR;
       const y = cy + Math.sin(cap.angle) * outerR;
-      const active = i === capIndex && phase !== "bloom";
+      const active = i === capIndex;
       X.beginPath();
-      X.moveTo(cx + Math.cos(cap.angle) * (maxR * 0.72), cy + Math.sin(cap.angle) * (maxR * 0.72));
+      X.moveTo(cx + Math.cos(cap.angle) * (maxR * 1.02), cy + Math.sin(cap.angle) * (maxR * 1.02));
       X.lineTo(x, y);
       X.strokeStyle = cap.color;
-      X.globalAlpha = active ? 0.28 : 0.1;
+      X.globalAlpha = active ? 0.32 : 0.1;
+      X.lineWidth = 0.9;
       X.stroke();
+
+      cap.moons.forEach((moon, mi) => {
+        const a = T * 0.006 + cap.angle + (mi * Math.PI * 2) / 3;
+        const mx = x + Math.cos(a) * moonR;
+        const my = y + Math.sin(a) * moonR;
+        X.beginPath();
+        X.arc(mx, my, active ? 1.7 : 1.25, 0, Math.PI * 2);
+        X.fillStyle = cap.color;
+        X.globalAlpha = active ? 0.82 : 0.22;
+        X.fill();
+        if (!narrow) {
+          const lx = mx + Math.cos(a) * 8;
+          const ly = my + Math.sin(a) * 8 + 2;
+          if (lx > 26 && lx < W - 26 && ly > 12 && ly < H - 18) {
+            X.font = "500 5.5px 'DM Mono',monospace";
+            X.fillStyle = "#eeedf5";
+            X.globalAlpha = active ? 0.7 : 0.28;
+            X.textAlign = "center";
+            const outward = Math.cos(a) * Math.cos(cap.angle) + Math.sin(a) * Math.sin(cap.angle);
+            if (active || outward > 0.15) X.fillText(moon, lx, ly);
+          }
+        }
+      });
+
+      const nodeG = X.createRadialGradient(x, y, 0, x, y, 14);
+      nodeG.addColorStop(0, active ? `${cap.color}55` : `${cap.color}18`);
+      nodeG.addColorStop(1, "transparent");
+      X.fillStyle = nodeG;
       X.globalAlpha = 1;
       X.beginPath();
-      X.arc(x, y, active ? 5.5 : 4.2, 0, Math.PI * 2);
-      X.fillStyle = cap.color;
-      X.globalAlpha = active ? 1 : 0.72;
+      X.arc(x, y, 14, 0, Math.PI * 2);
       X.fill();
-      X.globalAlpha = 0.9;
-      X.font = "600 8px 'DM Mono',monospace";
+      X.beginPath();
+      X.arc(x, y, active ? 5.4 : 4.1, 0, Math.PI * 2);
+      X.fillStyle = cap.color;
+      X.globalAlpha = active ? 1 : 0.68;
+      X.fill();
+
+      const labelOut = Math.sin(cap.angle) < 0.15 ? 18 : -12;
+      X.globalAlpha = active ? 0.95 : 0.72;
+      X.font = `600 ${narrow ? 7.5 : 8.5}px 'DM Mono',monospace`;
       X.fillStyle = "#eeedf5";
-      X.fillText(cap.label, x, y + 18);
+      X.textAlign = "center";
+      X.fillText(cap.label, x, y + labelOut);
       X.globalAlpha = 1;
     });
 
     const cap = caps[capIndex];
     const sx = cx + Math.cos(cap.angle) * outerR;
     const sy = cy + Math.sin(cap.angle) * outerR;
+    const dest = valueAnchors[capIndex];
+    const cpx = (sx + dest.x) * 0.5;
+    const cpy = Math.max(sy, dest.y) * 0.62 + 18;
 
-    if (phase === "enter") {
-      p += 0.012;
+    if (phase === "engage") {
+      if (!freeze) p += 0.011;
       const ep = ease(Math.min(p, 1));
-      const x = sx + (cx - sx) * ep;
-      const y = sy + (cy - sy) * ep;
+      const x = sx + (cx + Math.cos(cap.angle) * maxR - sx) * ep;
+      const y = sy + (cy + Math.sin(cap.angle) * maxR - sy) * ep;
       X.beginPath();
-      X.arc(x, y, 3.2, 0, Math.PI * 2);
+      X.arc(x, y, 3, 0, Math.PI * 2);
       X.fillStyle = cap.color;
       X.fill();
       if (p >= 1) {
         phase = "shape";
         p = 0;
       }
-      setPhase(phaseEl, "A problem enters");
+      setPhase(phaseEl, "A capability engages");
     } else if (phase === "shape") {
-      p += 0.01;
-      const ring = rings[Math.min(2, Math.floor(p * 3))];
-      const r = maxR * ring.scale;
-      const a = cap.angle + p * Math.PI * 1.4;
+      if (!freeze) p += 0.009;
+      const ri = Math.min(2.999, p * 3);
+      const i0 = Math.min(2, Math.floor(ri));
+      const i1 = Math.min(2, i0 + 1);
+      const frac = ri - i0;
+      const r = maxR * (rings[i0].scale + (rings[i1].scale - rings[i0].scale) * frac);
+      const a = cap.angle + p * Math.PI * 1.55;
       X.beginPath();
-      X.arc(cx + Math.cos(a) * r, cy + Math.sin(a) * r, 2.8, 0, Math.PI * 2);
-      X.fillStyle = ring.color;
+      X.arc(cx + Math.cos(a) * r, cy + Math.sin(a) * r, 2.7, 0, Math.PI * 2);
+      X.fillStyle = rings[i0].color;
       X.fill();
       if (p >= 1) {
-        phase = "bloom";
+        phase = "handoff";
         p = 0;
         bloom = 1;
       }
       setPhase(phaseEl, "The studio shapes it");
     } else {
-      bloom -= 0.012;
-      const productY = cy + maxR * 0.92;
+      if (!freeze) {
+        p += 0.012;
+        bloom = Math.max(0, bloom - 0.01);
+      }
+      const t = ease(Math.min(p, 1));
+      const pt = quadPoint(t, cx, cy, cpx, cpy, dest.x, dest.y);
+      if (p < 1) {
+        X.beginPath();
+        X.arc(pt.x, pt.y, 3.1, 0, Math.PI * 2);
+        X.fillStyle = cap.color;
+        X.fill();
+      }
+      const bloomR = (1 - bloom) * 22;
       X.beginPath();
-      X.arc(cx, productY, 5 + (1 - bloom) * 2, 0, Math.PI * 2);
-      X.fillStyle = bloom > 0.4 ? "#ffffff" : "#5bb8ff";
+      X.arc(dest.x, dest.y, 4.2 + (1 - bloom) * 2, 0, Math.PI * 2);
+      X.fillStyle = bloom > 0.45 ? "#ffffff" : cap.color;
+      X.globalAlpha = 0.95;
       X.fill();
-      X.beginPath();
-      X.arc(cx, productY, (1 - bloom) * 28, 0, Math.PI * 2);
-      X.strokeStyle = `rgba(91,184,255,${bloom * 0.35})`;
-      X.lineWidth = 1.2;
-      X.stroke();
-      X.font = "600 8px 'DM Mono',monospace";
-      X.fillStyle = "#eeedf5";
-      X.fillText("Working product", cx, productY + 18);
-      setPhase(phaseEl, "A product you can run");
-      if (bloom <= 0) {
-        phase = "enter";
+      if (bloomR > 2) {
+        X.beginPath();
+        X.arc(dest.x, dest.y, bloomR, 0, Math.PI * 2);
+        X.strokeStyle = cap.color;
+        X.globalAlpha = bloom * 0.35;
+        X.lineWidth = 1.1;
+        X.stroke();
+      }
+      X.globalAlpha = 1;
+      setPhase(phaseEl, "Operating value in the client's hands");
+      if (!freeze && bloom <= 0 && p >= 1) {
+        phase = "engage";
         p = 0;
         capIndex = (capIndex + 1) % caps.length;
       }

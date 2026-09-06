@@ -56,19 +56,20 @@ const PRACTICE_ICONS: Record<PracticeId, typeof IconLayers> = {
   products: IconWindow,
 };
 
-function PracticeCard({
-  practice,
-  flipped,
-  onFlip,
-}: {
-  practice: (typeof PRACTICES)[number];
-  flipped: boolean;
-  onFlip: () => void;
-}) {
+function PracticeCard({ practice }: { practice: (typeof PRACTICES)[number] }) {
+  const [flipped, setFlipped] = useState(false);
   const labelId = useId();
   const backId = useId();
   const Icon = PRACTICE_ICONS[practice.id];
   const engagement = TYPICAL_ENGAGEMENTS[practice.id];
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setFlipped(false);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   return (
     <article
@@ -89,7 +90,7 @@ function PracticeCard({
           <button
             type="button"
             className="plat-flip-hit"
-            onClick={onFlip}
+            onClick={() => setFlipped((open) => !open)}
             aria-expanded={flipped}
             aria-controls={backId}
             id={labelId}
@@ -133,7 +134,7 @@ function PracticeCard({
           <button
             type="button"
             className="plat-flip-hit plat-flip-hit-back"
-            onClick={onFlip}
+            onClick={() => setFlipped(false)}
             tabIndex={flipped ? 0 : -1}
             aria-label={`Flip back ${practice.title}`}
           >
@@ -155,27 +156,10 @@ function PracticeCard({
 }
 
 export function PracticeFlipCards() {
-  const [flippedId, setFlippedId] = useState<string | null>(null);
-
-  useEffect(() => {
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") setFlippedId(null);
-    }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-
   return (
     <div className="platform-layers">
       {PRACTICES.map((practice) => (
-        <PracticeCard
-          key={practice.id}
-          practice={practice}
-          flipped={flippedId === practice.id}
-          onFlip={() =>
-            setFlippedId((current) => (current === practice.id ? null : practice.id))
-          }
-        />
+        <PracticeCard key={practice.id} practice={practice} />
       ))}
     </div>
   );

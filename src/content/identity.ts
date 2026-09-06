@@ -9,11 +9,11 @@ export const SITE_IDENTITY = {
 } as const;
 
 export const HOMEPAGE_NARRATIVE = {
-  studioHeadingLead: "Four capabilities.",
-  studioHeadingRest: "One path from problem to product.",
-  studioHeading: "Four capabilities. One path from problem to product.",
+  studioHeadingLead: "Four practices.",
+  studioHeadingRest: "One studio built around the problem.",
+  studioHeading: "Four practices. One studio built around the problem.",
   studio:
-    "Data, decisions, intelligent workflows and digital products — connected so you start where the pain is and bring depth only when the outcome needs it.",
+    "From data foundations and decision systems to AI-powered workflows and digital products, our practices connect to shape and build solutions around your business.",
   collective:
     "A senior core holds the problem, architecture and standard. Product, design, data, AI, engineering and domain specialists join around the decisions they are best placed to make.",
   trust:

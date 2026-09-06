@@ -1152,12 +1152,62 @@ footer{
 .trust-charter:not(:has(.trust-pledge-n)) .trust-pledge{
   grid-template-columns:minmax(0,1fr);
 }
+.trust-pledge-index{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:8px;
+  padding-top:4px;
+}
 .trust-pledge-n{
   font-family:var(--font-mono);
   font-size:0.72rem;
   letter-spacing:0.14em;
   color:var(--purple-bright);
-  padding-top:4px;
+}
+.trust-pledge-seal{
+  display:flex;
+  width:16px;
+  height:16px;
+  color:var(--green);
+}
+.trust-pledge-seal svg{width:100%;height:100%;display:block;overflow:visible}
+.trust-seal-ring{
+  fill:rgba(52,211,153,.08);
+  stroke:var(--green);
+  stroke-width:1.15;
+  animation:trust-seal-ring-1 7s linear infinite;
+}
+.trust-seal-tick{
+  fill:none;
+  stroke:var(--green);
+  stroke-width:1.55;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-dasharray:14;
+  stroke-dashoffset:14;
+  animation:trust-seal-tick-1 7s linear infinite;
+}
+.trust-pledge:nth-child(1) .trust-seal-ring{animation-name:trust-seal-ring-1}
+.trust-pledge:nth-child(1) .trust-seal-tick{animation-name:trust-seal-tick-1}
+.trust-pledge:nth-child(2) .trust-seal-ring{animation-name:trust-seal-ring-2}
+.trust-pledge:nth-child(2) .trust-seal-tick{animation-name:trust-seal-tick-2}
+.trust-pledge:nth-child(3) .trust-seal-ring{animation-name:trust-seal-ring-3}
+.trust-pledge:nth-child(3) .trust-seal-tick{animation-name:trust-seal-tick-3}
+.trust-pledge:nth-child(4) .trust-seal-ring{animation-name:trust-seal-ring-4}
+.trust-pledge:nth-child(4) .trust-seal-tick{animation-name:trust-seal-tick-4}
+@keyframes trust-seal-ring-1{0%,82%{opacity:1;filter:drop-shadow(0 0 6px rgba(52,211,153,.45))}100%{opacity:.28;filter:none}}
+@keyframes trust-seal-tick-1{0%,82%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:14;opacity:0}}
+@keyframes trust-seal-ring-2{0%,12%{opacity:.28;filter:none}18%,82%{opacity:1;filter:drop-shadow(0 0 6px rgba(52,211,153,.45))}100%{opacity:.28;filter:none}}
+@keyframes trust-seal-tick-2{0%,12%{stroke-dashoffset:14;opacity:0}18%,82%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:14;opacity:0}}
+@keyframes trust-seal-ring-3{0%,30%{opacity:.28;filter:none}36%,82%{opacity:1;filter:drop-shadow(0 0 6px rgba(52,211,153,.45))}100%{opacity:.28;filter:none}}
+@keyframes trust-seal-tick-3{0%,30%{stroke-dashoffset:14;opacity:0}36%,82%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:14;opacity:0}}
+@keyframes trust-seal-ring-4{0%,48%{opacity:.28;filter:none}54%,82%{opacity:1;filter:drop-shadow(0 0 6px rgba(52,211,153,.45))}100%{opacity:.28;filter:none}}
+@keyframes trust-seal-tick-4{0%,48%{stroke-dashoffset:14;opacity:0}54%,82%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:14;opacity:0}}
+@media(prefers-reduced-motion:reduce){
+  .trust-seal-ring,.trust-seal-tick{animation:none}
+  .trust-seal-ring{opacity:1;filter:drop-shadow(0 0 6px rgba(52,211,153,.45))}
+  .trust-seal-tick{stroke-dashoffset:0;opacity:1}
 }
 .trust-pledge-copy h3{
   font-size:1.02rem;
@@ -1525,7 +1575,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 }
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .portfolio-path__progress,.ticker-track,.logos-track,.practice-motif .motif-anim,.delivery-map__pulse,.delivery-map__fill,.delivery-map__node{animation:none}
+  .portfolio-path__progress,.ticker-track,.logos-track,.practice-motif .motif-anim,.delivery-map__pulse,.delivery-map__fill,.delivery-map__node,.trust-seal-ring,.trust-seal-tick{animation:none}
   .practice-motif .motif-dot-a,.practice-motif .motif-dot-b,.practice-motif .motif-dot-c{opacity:0}
   .reveal{opacity:1!important;transform:none!important}
   *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}

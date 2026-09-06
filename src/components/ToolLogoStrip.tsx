@@ -6,15 +6,15 @@ import { TOOL_LOGOS, ToolMark } from "@/components/ToolLogos";
 type ToolId = (typeof TOOL_LOGOS)[number]["id"];
 
 function slotCountForWidth(width: number) {
-  if (width < 1024) return 6;
-  if (width < 1280) return 8;
-  return 10;
+  if (width < 1024) return 7;
+  if (width < 1280) return 9;
+  return 12;
 }
 
 function LogoSlotGrid() {
   const wrapRef = useRef<HTMLDivElement>(null);
-  const [count, setCount] = useState(6);
-  const [visible, setVisible] = useState<ToolId[]>(() => TOOL_LOGOS.slice(0, 10).map((t) => t.id));
+  const [count, setCount] = useState(12);
+  const [visible, setVisible] = useState<ToolId[]>(() => TOOL_LOGOS.slice(0, 12).map((t) => t.id));
   const [fading, setFading] = useState<number | null>(null);
   const [reduced, setReduced] = useState(false);
   const visibleRef = useRef(visible);

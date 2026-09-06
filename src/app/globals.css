@@ -235,6 +235,7 @@ body.studio-viz-zoomed{overflow:hidden}
 .practice-motif-svg{width:100%;min-width:100%;max-width:100%;height:48px;display:block;overflow:visible}
 .practice-motif-row .practice-motif-svg--wide{min-width:0;width:auto;flex:1 1 auto}
 .practice-motif-row{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-width:100%;height:48px}
+.practice-motif--ai .practice-motif-row{gap:4px}
 .practice-motif-icon{width:28px;height:48px;flex:0 0 28px;display:block;overflow:visible}
 .practice-motif-icon--tick{width:36px;flex:0 0 36px}
 .practice-motif-device{height:48px;flex:1 1 0;min-width:0;display:block;overflow:visible}

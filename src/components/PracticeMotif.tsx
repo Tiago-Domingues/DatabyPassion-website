@@ -161,14 +161,14 @@ function ReturnDot({
 }
 
 function WindowMotif() {
-  const returnTop = "M376 16 C258 4 132 14 28 33";
-  const returnBot = "M376 56 C258 68 132 58 28 39";
+  const returnTop = "M368 18 C248 4 128 16 28 38";
+  const returnBot = "M368 64 C248 78 128 66 28 44";
 
   return (
     <div className="practice-motif-row">
       <svg
         className="practice-motif-return"
-        viewBox="0 0 400 72"
+        viewBox="0 0 400 82"
         preserveAspectRatio="none"
         fill="none"
         aria-hidden="true"

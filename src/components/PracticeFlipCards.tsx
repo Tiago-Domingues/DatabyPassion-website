@@ -76,7 +76,7 @@ function PracticeCard({
       data-practice={practice.id}
     >
       <div className="plat-flip-inner">
-        <div className="plat-flip-face plat-flip-front" aria-hidden={flipped}>
+        <div className="plat-flip-face plat-flip-front card-headlight" aria-hidden={flipped}>
           <Link
             href={practice.href}
             className="plat-flip-goto"
@@ -115,7 +115,7 @@ function PracticeCard({
         </div>
 
         <div
-          className="plat-flip-face plat-flip-back"
+          className="plat-flip-face plat-flip-back card-headlight"
           id={backId}
           role="region"
           aria-labelledby={labelId}

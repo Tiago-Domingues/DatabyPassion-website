@@ -77,50 +77,32 @@ function RobotGlyph() {
   );
 }
 
-function SparkGlyph() {
-  return (
-    <svg className="practice-motif-icon" viewBox="0 0 36 48" fill="none" aria-hidden="true">
-      <g className="motif-anim motif-spark">
-        <path
-          d="M18 8 V14 M18 34 V40 M8 24 H14 M22 24 H28 M10.6 12.6 L14.4 16.4 M21.6 31.6 L25.4 35.4 M25.4 12.6 L21.6 16.4 M14.4 31.6 L10.6 35.4"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-        />
-        <circle cx="18" cy="24" r="3.2" stroke="currentColor" strokeWidth="1.5" />
-      </g>
-    </svg>
-  );
-}
-
 function SignalMotif() {
   return (
     <div className="practice-motif-row">
       <RobotGlyph />
       <svg
         className="practice-motif-svg practice-motif-svg--wide"
-        viewBox="0 0 260 48"
+        viewBox="0 0 320 48"
         preserveAspectRatio="none"
         fill="none"
         aria-hidden="true"
       >
         <path
           className="motif-anim motif-signal"
-          d="M4 28 C24 28 28 10 46 10 C64 10 68 38 90 38 C112 38 116 16 140 16 C164 16 168 30 196 30 C218 30 224 18 252 18"
+          d="M4 28 C24 28 28 10 46 10 C64 10 68 38 90 38 C112 38 116 16 140 16 C164 16 168 30 196 30 C218 30 224 18 252 18 C276 18 284 24 314 24"
           stroke="currentColor"
           strokeWidth="1.6"
           strokeLinecap="round"
         />
-        <circle className="motif-anim motif-signal-head" cx="252" cy="18" r="3.2" fill="currentColor" />
+        <circle className="motif-anim motif-signal-head" cx="314" cy="24" r="3.2" fill="currentColor" />
       </svg>
-      <SparkGlyph />
-      <svg className="practice-motif-icon" viewBox="0 0 28 48" fill="none" aria-hidden="true">
-        <circle cx="14" cy="24" r="8" stroke="currentColor" strokeWidth="1.2" opacity="0.45" />
+      <svg className="practice-motif-icon practice-motif-icon--tick" viewBox="0 0 36 48" fill="none" aria-hidden="true">
         <path
           className="motif-anim motif-tick"
-          d="M10 24.2 L12.8 27 L18.6 20.4"
+          d="M10 24.8 L16.4 31.4 L27.2 17.6"
           stroke="currentColor"
-          strokeWidth="1.6"
+          strokeWidth="2.6"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -129,61 +111,91 @@ function SignalMotif() {
   );
 }
 
+function UserGlyph() {
+  return (
+    <svg className="practice-motif-icon" viewBox="0 0 36 48" fill="none" aria-hidden="true">
+      <circle className="motif-anim motif-agent motif-agent-a" cx="18" cy="24" r="7" stroke="currentColor" strokeWidth="1.3" />
+      <circle className="motif-anim motif-agent motif-agent-a" cx="18" cy="21.4" r="2" fill="currentColor" />
+      <path
+        className="motif-anim motif-agent motif-agent-a"
+        d="M13.2 28.4 C14.6 26.2 21.4 26.2 22.8 28.4"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function EngineGlyph() {
+  return (
+    <svg className="practice-motif-icon" viewBox="0 0 36 48" fill="none" aria-hidden="true">
+      <circle className="motif-anim motif-agent motif-agent-b" cx="18" cy="24" r="7" stroke="currentColor" strokeWidth="1.3" />
+      <path
+        className="motif-anim motif-agent motif-agent-b"
+        d="M18 16 V20 M18 28 V32 M10 24 H14 M22 24 H26 M12.4 18.4 L15 21 M21 27 L23.6 29.6 M23.6 18.4 L21 21 M15 27 L12.4 29.6"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 function WindowMotif() {
   return (
     <div className="practice-motif-row">
-      <svg className="practice-motif-device" viewBox="0 0 120 48" fill="none" aria-hidden="true">
-        <rect
-          className="motif-anim motif-window"
-          x="4"
-          y="6"
-          width="112"
-          height="36"
-          rx="4"
-          stroke="currentColor"
-          strokeWidth="1.4"
-        />
-        <path className="motif-anim motif-window-bar" d="M4 14 H116" stroke="currentColor" strokeWidth="1.2" />
-        <circle className="motif-anim motif-window-dot motif-window-dot-1" cx="12" cy="10" r="1.4" fill="currentColor" />
-        <circle className="motif-anim motif-window-dot motif-window-dot-2" cx="18" cy="10" r="1.4" fill="currentColor" />
-        <rect className="motif-anim motif-window-pane motif-window-pane-1" x="10" y="18" width="48" height="18" rx="2" fill="currentColor" />
-        <rect className="motif-anim motif-window-pane motif-window-pane-2" x="64" y="18" width="42" height="8" rx="2" fill="currentColor" />
-        <rect className="motif-anim motif-window-pane motif-window-pane-3" x="64" y="28" width="42" height="8" rx="2" fill="currentColor" />
-      </svg>
-      <svg className="practice-motif-device practice-motif-device--phone" viewBox="0 0 28 48" fill="none" aria-hidden="true">
-        <rect
-          className="motif-anim motif-phone"
-          x="4"
-          y="4"
-          width="20"
-          height="40"
-          rx="4"
-          stroke="currentColor"
-          strokeWidth="1.4"
-        />
-        <rect className="motif-anim motif-phone-screen" x="7" y="10" width="14" height="24" rx="1.5" fill="currentColor" />
-        <path className="motif-anim motif-phone-bar" d="M11 38 H17" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-      </svg>
-      <svg className="practice-motif-device" viewBox="0 0 92 48" fill="none" aria-hidden="true">
-        <circle className="motif-anim motif-agent motif-agent-a" cx="18" cy="24" r="7" stroke="currentColor" strokeWidth="1.3" />
-        <circle className="motif-anim motif-agent motif-agent-a" cx="18" cy="21.4" r="2" fill="currentColor" />
-        <path className="motif-anim motif-agent motif-agent-a" d="M13.2 28.4 C14.6 26.2 21.4 26.2 22.8 28.4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+      <UserGlyph />
+      <svg
+        className="practice-motif-svg practice-motif-svg--wide"
+        viewBox="0 0 280 48"
+        preserveAspectRatio="none"
+        fill="none"
+        aria-hidden="true"
+      >
         <path
           className="motif-anim motif-agent-link"
-          d="M28 24 H64"
+          d="M4 24 H276"
           stroke="currentColor"
           strokeWidth="1.2"
           strokeDasharray="3 3"
         />
-        <circle className="motif-anim motif-agent motif-agent-b" cx="74" cy="24" r="7" stroke="currentColor" strokeWidth="1.3" />
-        <path
-          className="motif-anim motif-agent motif-agent-b"
-          d="M74 16 V20 M74 28 V32 M66 24 H70 M78 24 H82 M68.4 18.4 L71 21 M77 27 L79.6 29.6 M79.6 18.4 L77 21 M71 27 L68.4 29.6"
-          stroke="currentColor"
-          strokeWidth="1.2"
-          strokeLinecap="round"
-        />
       </svg>
+      <EngineGlyph />
+      <div className="practice-motif-stack">
+        <svg className="practice-motif-device practice-motif-device--phone" viewBox="0 0 28 48" fill="none" aria-hidden="true">
+          <rect
+            className="motif-anim motif-phone"
+            x="4"
+            y="4"
+            width="20"
+            height="40"
+            rx="4"
+            stroke="currentColor"
+            strokeWidth="1.4"
+          />
+          <rect className="motif-anim motif-phone-screen" x="7" y="10" width="14" height="24" rx="1.5" fill="currentColor" />
+          <path className="motif-anim motif-phone-bar" d="M11 38 H17" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+        </svg>
+        <svg className="practice-motif-device practice-motif-device--web" viewBox="0 0 120 48" fill="none" aria-hidden="true">
+          <rect
+            className="motif-anim motif-window"
+            x="4"
+            y="6"
+            width="112"
+            height="36"
+            rx="4"
+            stroke="currentColor"
+            strokeWidth="1.4"
+          />
+          <path className="motif-anim motif-window-bar" d="M4 14 H116" stroke="currentColor" strokeWidth="1.2" />
+          <circle className="motif-anim motif-window-dot motif-window-dot-1" cx="12" cy="10" r="1.4" fill="currentColor" />
+          <circle className="motif-anim motif-window-dot motif-window-dot-2" cx="18" cy="10" r="1.4" fill="currentColor" />
+          <rect className="motif-anim motif-window-pane motif-window-pane-1" x="10" y="18" width="48" height="18" rx="2" fill="currentColor" />
+          <rect className="motif-anim motif-window-pane motif-window-pane-2" x="64" y="18" width="42" height="8" rx="2" fill="currentColor" />
+          <rect className="motif-anim motif-window-pane motif-window-pane-3" x="64" y="28" width="42" height="8" rx="2" fill="currentColor" />
+        </svg>
+      </div>
     </div>
   );
 }

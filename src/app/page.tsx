@@ -50,7 +50,7 @@ export default function HomePage() {
       <section className="studio-section studio-frost section-pad" id="collective">
         <div className="container">
           <div className="studio-header reveal">
-            <div className="label">The right collective</div>
+            <div className="label">The Collective</div>
             <h2 className="sh">
               One accountable core. <span className="g">The right specialists around it.</span>
             </h2>

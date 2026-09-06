@@ -47,7 +47,7 @@ export default function AboutPage() {
     <>
       <section className="about-hero">
         <div className="container">
-          <div className="label">The right collective</div>
+          <div className="label">The Collective</div>
           <h1>
             Senior people, shaped around <span className="em">the work</span>
           </h1>

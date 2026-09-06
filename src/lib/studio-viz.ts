@@ -35,21 +35,26 @@ function sizeCanvas(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   if (!parent) return { W: 320, H: 260 };
   const styles = getComputedStyle(parent);
   const padX = parseFloat(styles.paddingLeft) + parseFloat(styles.paddingRight);
-  let W = Math.round(parent.clientWidth - padX);
-  if (W < 120) W = Math.max(120, parent.clientWidth);
-  const H =
-    W < 500
+  const box = parent.getBoundingClientRect();
+  let W = Math.round(box.width - padX);
+  if (W < 120) W = Math.max(120, Math.round(parent.clientWidth - padX));
+  const zoomed = parent.classList.contains("is-zoom-stage");
+  const H = zoomed
+    ? Math.max(420, Math.min(Math.round(W * 0.62), 720))
+    : W < 500
       ? Math.max(310, Math.round(W * 0.88))
-      : Math.max(420, Math.min(Math.round(W * 0.56), 520));
-  const DPR = Math.min(window.devicePixelRatio || 1, 2);
-  canvas.width = W * DPR;
-  canvas.height = H * DPR;
-  canvas.style.width = "100%";
+      : Math.max(440, Math.min(Math.round(W * 0.58), 560));
+  const DPR = Math.min(window.devicePixelRatio || 1, 3);
+  canvas.width = Math.round(W * DPR);
+  canvas.height = Math.round(H * DPR);
+  canvas.style.width = `${W}px`;
   canvas.style.height = `${H}px`;
   canvas.style.display = "block";
   canvas.style.marginLeft = "auto";
   canvas.style.marginRight = "auto";
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
   return { W, H };
 }
 
@@ -273,6 +278,11 @@ export function initStudioViz(canvas: HTMLCanvasElement, options: StudioVizOptio
       : initArchitecture(canvas, ctx, options.phaseEl, () => ({ W, H, T, reduced, getPaused, stopped, bump: () => T++ }));
 
   window.addEventListener("resize", resize);
+  const ro =
+    canvas.parentElement && "ResizeObserver" in window
+      ? new ResizeObserver(() => resize())
+      : null;
+  if (canvas.parentElement && ro) ro.observe(canvas.parentElement);
   resize();
 
   function tick() {
@@ -295,6 +305,7 @@ export function initStudioViz(canvas: HTMLCanvasElement, options: StudioVizOptio
   return () => {
     stopped = true;
     window.removeEventListener("resize", resize);
+    ro?.disconnect();
     cleanup.stop();
   };
 }
@@ -980,7 +991,7 @@ function initOrbit(
         X.globalAlpha = shaping ? 0.45 : 0.12;
         X.fill();
       }
-      X.font = `600 ${narrow ? 5.5 : 6.5}px 'DM Mono',monospace`;
+      X.font = `600 ${narrow ? 6.5 : 8}px 'DM Mono',monospace`;
       X.fillStyle = ring.color;
       X.globalAlpha = 0.88;
       X.textAlign = "center";
@@ -1005,7 +1016,7 @@ function initOrbit(
     X.arc(cx, cy, coreR, 0, Math.PI * 2);
     X.fill();
     X.globalAlpha = 0.88;
-    X.font = `600 ${narrow ? 8 : 9}px 'DM Mono',monospace`;
+    X.font = `600 ${narrow ? 9 : 11}px 'DM Mono',monospace`;
     X.fillStyle = "#ffffff";
     X.textAlign = "center";
     X.fillText("THE STUDIO", cx, cy + coreR + 15);
@@ -1037,7 +1048,7 @@ function initOrbit(
           const lx = mx + Math.cos(a) * 8;
           const ly = my + Math.sin(a) * 8 + 2;
           if (lx > 26 && lx < W - 26 && ly > 12 && ly < H - 18) {
-            X.font = "500 5.5px 'DM Mono',monospace";
+            X.font = "500 6.5px 'DM Mono',monospace";
             X.fillStyle = "#eeedf5";
             X.globalAlpha = active ? 0.7 : 0.28;
             X.textAlign = "center";
@@ -1063,7 +1074,7 @@ function initOrbit(
 
       const labelOut = Math.sin(cap.angle) < 0.15 ? 18 : -12;
       X.globalAlpha = active ? 0.95 : 0.72;
-      X.font = `600 ${narrow ? 7.5 : 8.5}px 'DM Mono',monospace`;
+      X.font = `600 ${narrow ? 8.5 : 10}px 'DM Mono',monospace`;
       X.fillStyle = "#eeedf5";
       X.textAlign = "center";
       X.fillText(cap.label, x, y + labelOut);

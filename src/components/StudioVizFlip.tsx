@@ -15,18 +15,6 @@ function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
 }
 
-function FlipCue() {
-  return (
-    <div className="studio-viz-flip-cue" aria-hidden="true">
-      <span className="studio-viz-flip-cue-edge studio-viz-flip-cue-edge-left" />
-      <span className="studio-viz-flip-cue-edge studio-viz-flip-cue-edge-right" />
-      <span className="studio-viz-flip-cue-page">
-        <span className="studio-viz-flip-cue-page-face" />
-      </span>
-    </div>
-  );
-}
-
 function VizFace({
   canvasRef,
   phaseRef,
@@ -34,7 +22,7 @@ function VizFace({
   onZoom,
   controlsId,
   canvasLabel,
-  flipLabel,
+  hint,
   tabIndex,
   ariaExpanded,
   ariaHidden,
@@ -45,7 +33,7 @@ function VizFace({
   onZoom: () => void;
   controlsId?: string;
   canvasLabel: string;
-  flipLabel: string;
+  hint: string;
   tabIndex?: number;
   ariaExpanded?: boolean;
   ariaHidden?: boolean;
@@ -56,7 +44,6 @@ function VizFace({
         <div className="reasoning-svg-wrap">
           <div className="reasoning-phase" ref={phaseRef} aria-live="polite" />
           <canvas ref={canvasRef} aria-label={canvasLabel} />
-          <FlipCue />
           <button
             type="button"
             className="studio-viz-zoom"
@@ -75,8 +62,10 @@ function VizFace({
             tabIndex={tabIndex}
             aria-expanded={ariaExpanded}
             aria-controls={controlsId}
-            aria-label={flipLabel}
-          />
+            aria-label={hint}
+          >
+            <span className="plat-flip-hint">{hint}</span>
+          </button>
         </div>
       </div>
     </div>
@@ -442,7 +431,7 @@ export function StudioVizFlip() {
             }}
             controlsId={backId}
             canvasLabel="Orbital studio: four capabilities around a studio core delivering operating value"
-            flipLabel="Flip the studio card to the delivery path"
+            hint="Tap for the delivery path"
             ariaExpanded={flipped}
             ariaHidden={flipped}
           />
@@ -459,7 +448,7 @@ export function StudioVizFlip() {
               setTool("select");
             }}
             canvasLabel="Delivery path from client need through studio expertise to operating value"
-            flipLabel="Flip the studio card back"
+            hint="Tap to flip back"
             tabIndex={flipped ? 0 : -1}
             ariaHidden={!flipped}
           />

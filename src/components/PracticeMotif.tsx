@@ -98,12 +98,11 @@ function SignalMotif() {
         <circle className="motif-anim motif-signal-head" cx="314" cy="24" r="3.2" fill="currentColor" />
       </svg>
       <svg className="practice-motif-icon practice-motif-icon--tick" viewBox="0 0 36 48" fill="none" aria-hidden="true">
-        <circle cx="18" cy="24" r="11" stroke="currentColor" strokeWidth="1.4" opacity="0.45" />
         <path
           className="motif-anim motif-tick"
-          d="M11.2 24.6 L16.2 30.2 L25.6 18.4"
+          d="M10 24.8 L16.4 31.4 L27.2 17.6"
           stroke="currentColor"
-          strokeWidth="2.3"
+          strokeWidth="2.6"
           strokeLinecap="round"
           strokeLinejoin="round"
         />

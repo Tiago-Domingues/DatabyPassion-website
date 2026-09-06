@@ -142,20 +142,55 @@ function EngineGlyph() {
   );
 }
 
+function ReturnDot({
+  path,
+  duration,
+  delay,
+  size,
+}: {
+  path: string;
+  duration: string;
+  delay?: string;
+  size: number;
+}) {
+  return (
+    <circle className="motif-anim motif-return-dot" r={size} fill="currentColor">
+      <animateMotion dur={duration} begin={delay ?? "0s"} repeatCount="indefinite" path={path} />
+    </circle>
+  );
+}
+
 function WindowMotif() {
+  const returnTop = "M376 16 C258 4 132 14 28 33";
+  const returnBot = "M376 56 C258 68 132 58 28 39";
+
   return (
     <div className="practice-motif-row">
+      <svg
+        className="practice-motif-return"
+        viewBox="0 0 400 72"
+        preserveAspectRatio="none"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path className="motif-return-path" d={returnTop} />
+        <path className="motif-return-path" d={returnBot} />
+        <ReturnDot path={returnTop} duration="3.6s" size={1.7} />
+        <ReturnDot path={returnTop} duration="3.6s" delay="-1.2s" size={1.3} />
+        <ReturnDot path={returnBot} duration="4s" size={1.7} />
+        <ReturnDot path={returnBot} duration="4s" delay="-1.8s" size={1.3} />
+      </svg>
       <UserGlyph />
       <svg
         className="practice-motif-svg practice-motif-svg--wide"
-        viewBox="0 0 280 48"
+        viewBox="0 0 180 48"
         preserveAspectRatio="none"
         fill="none"
         aria-hidden="true"
       >
         <path
           className="motif-anim motif-agent-link"
-          d="M4 24 H276"
+          d="M4 24 H176"
           stroke="currentColor"
           strokeWidth="1.2"
           strokeDasharray="3 3"

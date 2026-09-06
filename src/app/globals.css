@@ -236,6 +236,7 @@ body.studio-viz-zoomed{overflow:hidden}
 .practice-motif-row .practice-motif-svg--wide{min-width:0;width:auto;flex:1 1 auto}
 .practice-motif-row{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-width:100%;height:48px}
 .practice-motif-icon{width:28px;height:48px;flex:0 0 28px;display:block;overflow:visible}
+.practice-motif-icon--tick{width:36px;flex:0 0 36px}
 .practice-motif-device{height:48px;flex:1 1 0;min-width:0;display:block;overflow:visible}
 .practice-motif-device--phone{flex:0 0 32px;width:32px}
 .plat-flip.accent-amber .practice-motif{color:var(--amber)}
@@ -255,9 +256,9 @@ body.studio-viz-zoomed{overflow:hidden}
 .motif-bar-6{animation:motif-bar 2.4s ease-in-out infinite;animation-delay:-1.5s}
 .motif-bar-7{animation:motif-bar 2.4s ease-in-out infinite;animation-delay:-1.8s}
 .motif-bar-8{animation:motif-bar 2.4s ease-in-out infinite;animation-delay:-2.1s}
-.motif-signal{stroke-dasharray:280;stroke-dashoffset:0;animation:motif-signal 2.8s ease-in-out infinite}
+.motif-signal{stroke-dasharray:360;stroke-dashoffset:0;animation:motif-signal 2.8s ease-in-out infinite}
 .motif-signal-head{animation:motif-signal-head 2.8s ease-in-out infinite}
-.motif-tick{stroke-dasharray:16;stroke-dashoffset:0;animation:motif-tick 2.8s ease-in-out infinite}
+.motif-tick{stroke-dasharray:24;stroke-dashoffset:0;animation:motif-tick 2.8s ease-in-out infinite}
 .motif-robot-antenna{transform-box:fill-box;transform-origin:center;animation:motif-robot-blink 2.2s ease-in-out infinite}
 .motif-robot-head{transform-box:fill-box;transform-origin:center;animation:motif-robot-bob 2.8s ease-in-out infinite}
 .motif-spark{transform-box:fill-box;transform-origin:center;animation:motif-spark 2.6s ease-in-out infinite}
@@ -278,9 +279,9 @@ body.studio-viz-zoomed{overflow:hidden}
 .practice-motif.is-still .motif-dot-a,.practice-motif.is-still .motif-dot-b,.practice-motif.is-still .motif-dot-c{opacity:0}
 @keyframes motif-pipe{from{transform:translateX(0)}to{transform:translateX(364px)}}
 @keyframes motif-bar{0%,100%{transform:scaleY(.42)}40%{transform:scaleY(1)}70%{transform:scaleY(.82)}}
-@keyframes motif-signal{0%{stroke-dashoffset:280}35%,70%{stroke-dashoffset:0}100%{stroke-dashoffset:280}}
+@keyframes motif-signal{0%{stroke-dashoffset:360}35%,70%{stroke-dashoffset:0}100%{stroke-dashoffset:360}}
 @keyframes motif-signal-head{0%,30%{opacity:0}40%,75%{opacity:1}100%{opacity:0}}
-@keyframes motif-tick{0%,48%{stroke-dashoffset:16;opacity:0}58%,82%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:16;opacity:0}}
+@keyframes motif-tick{0%,48%{stroke-dashoffset:24;opacity:0}58%,82%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:24;opacity:0}}
 @keyframes motif-window-frame{0%{opacity:.2}18%,78%{opacity:1}100%{opacity:.2}}
 @keyframes motif-window-chrome{0%,10%{opacity:0}22%,78%{opacity:1}100%{opacity:0}}
 @keyframes motif-window-pane{0%,18%{opacity:0;transform:scale(.86)}32%,78%{opacity:.22;transform:scale(1)}100%{opacity:0;transform:scale(.86)}}

@@ -77,50 +77,33 @@ function RobotGlyph() {
   );
 }
 
-function SparkGlyph() {
-  return (
-    <svg className="practice-motif-icon" viewBox="0 0 36 48" fill="none" aria-hidden="true">
-      <g className="motif-anim motif-spark">
-        <path
-          d="M18 8 V14 M18 34 V40 M8 24 H14 M22 24 H28 M10.6 12.6 L14.4 16.4 M21.6 31.6 L25.4 35.4 M25.4 12.6 L21.6 16.4 M14.4 31.6 L10.6 35.4"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-        />
-        <circle cx="18" cy="24" r="3.2" stroke="currentColor" strokeWidth="1.5" />
-      </g>
-    </svg>
-  );
-}
-
 function SignalMotif() {
   return (
     <div className="practice-motif-row">
       <RobotGlyph />
       <svg
         className="practice-motif-svg practice-motif-svg--wide"
-        viewBox="0 0 260 48"
+        viewBox="0 0 320 48"
         preserveAspectRatio="none"
         fill="none"
         aria-hidden="true"
       >
         <path
           className="motif-anim motif-signal"
-          d="M4 28 C24 28 28 10 46 10 C64 10 68 38 90 38 C112 38 116 16 140 16 C164 16 168 30 196 30 C218 30 224 18 252 18"
+          d="M4 28 C24 28 28 10 46 10 C64 10 68 38 90 38 C112 38 116 16 140 16 C164 16 168 30 196 30 C218 30 224 18 252 18 C276 18 284 24 314 24"
           stroke="currentColor"
           strokeWidth="1.6"
           strokeLinecap="round"
         />
-        <circle className="motif-anim motif-signal-head" cx="252" cy="18" r="3.2" fill="currentColor" />
+        <circle className="motif-anim motif-signal-head" cx="314" cy="24" r="3.2" fill="currentColor" />
       </svg>
-      <SparkGlyph />
-      <svg className="practice-motif-icon" viewBox="0 0 28 48" fill="none" aria-hidden="true">
-        <circle cx="14" cy="24" r="8" stroke="currentColor" strokeWidth="1.2" opacity="0.45" />
+      <svg className="practice-motif-icon practice-motif-icon--tick" viewBox="0 0 36 48" fill="none" aria-hidden="true">
+        <circle cx="18" cy="24" r="11" stroke="currentColor" strokeWidth="1.4" opacity="0.45" />
         <path
           className="motif-anim motif-tick"
-          d="M10 24.2 L12.8 27 L18.6 20.4"
+          d="M11.2 24.6 L16.2 30.2 L25.6 18.4"
           stroke="currentColor"
-          strokeWidth="1.6"
+          strokeWidth="2.3"
           strokeLinecap="round"
           strokeLinejoin="round"
         />

@@ -1173,10 +1173,12 @@ footer{
 }
 .trust-pledge-seal svg{width:100%;height:100%;display:block;overflow:visible}
 .trust-seal-ring{
-  fill:rgba(52,211,153,.08);
+  fill:rgba(52,211,153,.1);
   stroke:var(--green);
   stroke-width:1.15;
-  animation:trust-seal-ring-1 7s linear infinite;
+  opacity:1;
+  filter:drop-shadow(0 0 5px rgba(52,211,153,.4));
+  animation:trust-seal-glow 5.6s ease-in-out infinite;
 }
 .trust-seal-tick{
   fill:none;
@@ -1185,28 +1187,29 @@ footer{
   stroke-linecap:round;
   stroke-linejoin:round;
   stroke-dasharray:14;
-  stroke-dashoffset:14;
-  animation:trust-seal-tick-1 7s linear infinite;
+  stroke-dashoffset:0;
+  opacity:1;
+  animation:trust-seal-draw 5.6s ease-in-out infinite;
 }
-.trust-pledge:nth-child(1) .trust-seal-ring{animation-name:trust-seal-ring-1}
-.trust-pledge:nth-child(1) .trust-seal-tick{animation-name:trust-seal-tick-1}
-.trust-pledge:nth-child(2) .trust-seal-ring{animation-name:trust-seal-ring-2}
-.trust-pledge:nth-child(2) .trust-seal-tick{animation-name:trust-seal-tick-2}
-.trust-pledge:nth-child(3) .trust-seal-ring{animation-name:trust-seal-ring-3}
-.trust-pledge:nth-child(3) .trust-seal-tick{animation-name:trust-seal-tick-3}
-.trust-pledge:nth-child(4) .trust-seal-ring{animation-name:trust-seal-ring-4}
-.trust-pledge:nth-child(4) .trust-seal-tick{animation-name:trust-seal-tick-4}
-@keyframes trust-seal-ring-1{0%,82%{opacity:1;filter:drop-shadow(0 0 6px rgba(52,211,153,.45))}100%{opacity:.28;filter:none}}
-@keyframes trust-seal-tick-1{0%,82%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:14;opacity:0}}
-@keyframes trust-seal-ring-2{0%,12%{opacity:.28;filter:none}18%,82%{opacity:1;filter:drop-shadow(0 0 6px rgba(52,211,153,.45))}100%{opacity:.28;filter:none}}
-@keyframes trust-seal-tick-2{0%,12%{stroke-dashoffset:14;opacity:0}18%,82%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:14;opacity:0}}
-@keyframes trust-seal-ring-3{0%,30%{opacity:.28;filter:none}36%,82%{opacity:1;filter:drop-shadow(0 0 6px rgba(52,211,153,.45))}100%{opacity:.28;filter:none}}
-@keyframes trust-seal-tick-3{0%,30%{stroke-dashoffset:14;opacity:0}36%,82%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:14;opacity:0}}
-@keyframes trust-seal-ring-4{0%,48%{opacity:.28;filter:none}54%,82%{opacity:1;filter:drop-shadow(0 0 6px rgba(52,211,153,.45))}100%{opacity:.28;filter:none}}
-@keyframes trust-seal-tick-4{0%,48%{stroke-dashoffset:14;opacity:0}54%,82%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:14;opacity:0}}
+.trust-pledge:nth-child(1) .trust-seal-ring,
+.trust-pledge:nth-child(1) .trust-seal-tick{animation-delay:0s}
+.trust-pledge:nth-child(2) .trust-seal-ring,
+.trust-pledge:nth-child(2) .trust-seal-tick{animation-delay:.28s}
+.trust-pledge:nth-child(3) .trust-seal-ring,
+.trust-pledge:nth-child(3) .trust-seal-tick{animation-delay:.56s}
+.trust-pledge:nth-child(4) .trust-seal-ring,
+.trust-pledge:nth-child(4) .trust-seal-tick{animation-delay:.84s}
+@keyframes trust-seal-glow{
+  0%,12%{filter:drop-shadow(0 0 2px rgba(52,211,153,.2))}
+  28%,100%{filter:drop-shadow(0 0 6px rgba(52,211,153,.5))}
+}
+@keyframes trust-seal-draw{
+  0%,8%{stroke-dashoffset:14;opacity:0}
+  20%,100%{stroke-dashoffset:0;opacity:1}
+}
 @media(prefers-reduced-motion:reduce){
   .trust-seal-ring,.trust-seal-tick{animation:none}
-  .trust-seal-ring{opacity:1;filter:drop-shadow(0 0 6px rgba(52,211,153,.45))}
+  .trust-seal-ring{opacity:1;filter:drop-shadow(0 0 5px rgba(52,211,153,.4))}
   .trust-seal-tick{stroke-dashoffset:0;opacity:1}
 }
 .trust-pledge-copy h3{

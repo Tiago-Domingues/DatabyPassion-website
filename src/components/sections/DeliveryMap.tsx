@@ -9,6 +9,7 @@ export function DeliveryMap() {
       </figcaption>
       <div className="delivery-map__track" aria-hidden="true">
         <span className="delivery-map__spine" />
+        <span className="delivery-map__fill" />
         <span className="delivery-map__pulse" />
       </div>
       <ol className="delivery-map__steps">

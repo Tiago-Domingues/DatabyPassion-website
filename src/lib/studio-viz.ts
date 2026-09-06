@@ -30,8 +30,12 @@ function setPhase(phaseEl: HTMLElement | null | undefined, text: string) {
   sp.classList.toggle("visible", !!text);
 }
 
+function sizeHost(canvas: HTMLCanvasElement) {
+  return canvas.closest(".reasoning-svg-wrap") ?? canvas.parentElement;
+}
+
 function sizeCanvas(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-  const parent = canvas.parentElement;
+  const parent = sizeHost(canvas);
   if (!parent) return { W: 320, H: 260 };
   const styles = getComputedStyle(parent);
   const padX = parseFloat(styles.paddingLeft) + parseFloat(styles.paddingRight);
@@ -40,21 +44,23 @@ function sizeCanvas(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   if (W < 120) W = Math.max(120, Math.round(parent.clientWidth - padX));
   const zoomed = parent.classList.contains("is-zoom-stage");
   const H = zoomed
-    ? Math.max(420, Math.min(Math.round(W * 0.62), 720))
+    ? Math.max(520, Math.min(Math.round(W * 0.72), 760))
     : W < 500
-      ? Math.max(310, Math.round(W * 0.88))
-      : Math.max(440, Math.min(Math.round(W * 0.58), 560));
-  const DPR = Math.min(window.devicePixelRatio || 1, 3);
-  canvas.width = Math.round(W * DPR);
-  canvas.height = Math.round(H * DPR);
+      ? Math.max(340, Math.round(W * 0.94))
+      : Math.max(520, Math.min(Math.round(W * 0.68), 680));
+  const dpr = Math.min(window.devicePixelRatio || 1, 3);
+  const quality = zoomed ? 2 : 1;
+  const scale = dpr * quality;
+  canvas.width = Math.round(W * scale);
+  canvas.height = Math.round(H * scale);
   canvas.style.width = `${W}px`;
   canvas.style.height = `${H}px`;
+  canvas.style.maxWidth = "none";
   canvas.style.display = "block";
   canvas.style.marginLeft = "auto";
   canvas.style.marginRight = "auto";
-  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = "high";
+  ctx.setTransform(scale, 0, 0, scale, 0, 0);
+  ctx.imageSmoothingEnabled = false;
   return { W, H };
 }
 
@@ -278,11 +284,9 @@ export function initStudioViz(canvas: HTMLCanvasElement, options: StudioVizOptio
       : initArchitecture(canvas, ctx, options.phaseEl, () => ({ W, H, T, reduced, getPaused, stopped, bump: () => T++ }));
 
   window.addEventListener("resize", resize);
-  const ro =
-    canvas.parentElement && "ResizeObserver" in window
-      ? new ResizeObserver(() => resize())
-      : null;
-  if (canvas.parentElement && ro) ro.observe(canvas.parentElement);
+  const host = sizeHost(canvas);
+  const ro = host && "ResizeObserver" in window ? new ResizeObserver(() => resize()) : null;
+  if (host && ro) ro.observe(host);
   resize();
 
   function tick() {
@@ -700,7 +704,7 @@ function initArchitecture(
       X.globalAlpha = 0.95;
       X.fill();
       X.globalAlpha = 1;
-      X.font = `${bg > 0.3 ? "700" : "600"} ${W < 500 ? "8" : "11"}px 'DM Mono',monospace`;
+      X.font = `${bg > 0.3 ? "700" : "600"} ${W < 500 ? "10" : "13"}px 'DM Mono',monospace`;
       X.fillStyle = "#eeedf5";
       X.globalAlpha = 0.95;
       X.textAlign = "center";
@@ -708,7 +712,7 @@ function initArchitecture(
       X.globalAlpha = 1;
     });
 
-    X.font = `700 ${W < 500 ? "8" : "10"}px 'DM Mono',monospace`;
+    X.font = `700 ${W < 500 ? "10" : "13"}px 'DM Mono',monospace`;
     X.globalAlpha = 0.9;
     X.fillStyle = "#fbbf24";
     X.textAlign = "center";
@@ -844,7 +848,7 @@ function initArchitecture(
           s.y += s.vy;
           s.life -= 0.014;
           X.beginPath();
-          X.arc(s.x, s.y, s.size * s.life, 0, Math.PI * 2);
+          X.arc(s.x, s.y, Math.max(0, s.size * s.life), 0, Math.PI * 2);
           X.fillStyle = s.color;
           X.globalAlpha = s.life * 0.6;
           X.fill();
@@ -906,8 +910,8 @@ function initOrbit(
     X.clearRect(0, 0, W, H);
     const narrow = W < 560;
     const cx = W / 2;
-    const cy = H * 0.455;
-    const outerR = Math.min(W, H) * (narrow ? 0.34 : 0.355);
+    const cy = H * 0.46;
+    const outerR = Math.min(W * (narrow ? 0.4 : 0.42), H * (narrow ? 0.38 : 0.4));
     const maxR = outerR * 0.7;
     const pulse = Math.sin(T * 0.02) * 0.12 + 0.88;
 
@@ -945,7 +949,7 @@ function initOrbit(
       X.strokeStyle = cap.color;
       const live = i === capIndex && phase === "handoff";
       X.globalAlpha = live ? 0.22 + bloom * 0.35 : 0.06;
-      X.lineWidth = live ? 1.2 : 0.7;
+      X.lineWidth = live ? 1.6 : 1;
       X.stroke();
     });
 
@@ -954,10 +958,10 @@ function initOrbit(
     X.quadraticCurveTo(cx, valueY + 20, cx + valueW, valueY);
     X.strokeStyle = "#5bb8ff";
     X.globalAlpha = 0.28 + (phase === "handoff" ? bloom * 0.22 : 0);
-    X.lineWidth = 1.15;
+    X.lineWidth = 1.5;
     X.stroke();
     X.globalAlpha = 0.78;
-    X.font = `600 ${narrow ? 6.5 : 8}px 'DM Mono',monospace`;
+    X.font = `600 ${narrow ? 8 : 11}px 'DM Mono',monospace`;
     X.fillStyle = "#c8e7ff";
     X.textAlign = "center";
     X.fillText("OPERATING VALUE", cx, valueY + 28);
@@ -966,13 +970,13 @@ function initOrbit(
     X.beginPath();
     X.arc(cx, cy, outerR, 0, Math.PI * 2);
     X.strokeStyle = "rgba(238,237,245,0.08)";
-    X.lineWidth = 0.7;
+    X.lineWidth = 1;
     X.stroke();
 
     rings.forEach((ring, ri) => {
       const r = maxR * ring.scale;
       const shaping = phase === "shape" && p > ri * 0.22;
-      const bright = 0.14 + (shaping ? 0.18 : 0);
+      const bright = 0.2 + (shaping ? 0.22 : 0);
       const segArc = (Math.PI * 2) / ring.segs;
       const gap = segArc * 0.16;
       for (let s = 0; s < ring.segs; s++) {
@@ -980,7 +984,7 @@ function initOrbit(
         X.arc(cx, cy, r, s * segArc + gap / 2, (s + 1) * segArc - gap / 2);
         X.strokeStyle = ring.color;
         X.globalAlpha = bright;
-        X.lineWidth = 0.9;
+        X.lineWidth = 1.25;
         X.stroke();
       }
       for (let d = 0; d < ring.segs; d++) {
@@ -991,11 +995,11 @@ function initOrbit(
         X.globalAlpha = shaping ? 0.45 : 0.12;
         X.fill();
       }
-      X.font = `600 ${narrow ? 6.5 : 8}px 'DM Mono',monospace`;
+      X.font = `700 ${narrow ? 8.5 : 12}px 'DM Mono',monospace`;
       X.fillStyle = ring.color;
-      X.globalAlpha = 0.88;
+      X.globalAlpha = 0.95;
       X.textAlign = "center";
-      X.fillText(ring.label, cx, cy - r - 6);
+      X.fillText(ring.label, cx, cy - r - 8);
       X.globalAlpha = 1;
     });
 
@@ -1016,13 +1020,13 @@ function initOrbit(
     X.arc(cx, cy, coreR, 0, Math.PI * 2);
     X.fill();
     X.globalAlpha = 0.88;
-    X.font = `600 ${narrow ? 9 : 11}px 'DM Mono',monospace`;
+    X.font = `700 ${narrow ? 11 : 14}px 'DM Mono',monospace`;
     X.fillStyle = "#ffffff";
     X.textAlign = "center";
-    X.fillText("THE STUDIO", cx, cy + coreR + 15);
+    X.fillText("THE STUDIO", cx, cy + coreR + 18);
     X.globalAlpha = 1;
 
-    const moonR = narrow ? 15 : 21;
+    const moonR = narrow ? 18 : 26;
     caps.forEach((cap, i) => {
       const x = cx + Math.cos(cap.angle) * outerR;
       const y = cy + Math.sin(cap.angle) * outerR;
@@ -1048,9 +1052,9 @@ function initOrbit(
           const lx = mx + Math.cos(a) * 8;
           const ly = my + Math.sin(a) * 8 + 2;
           if (lx > 26 && lx < W - 26 && ly > 12 && ly < H - 18) {
-            X.font = "500 6.5px 'DM Mono',monospace";
+            X.font = "600 9px 'DM Mono',monospace";
             X.fillStyle = "#eeedf5";
-            X.globalAlpha = active ? 0.7 : 0.28;
+            X.globalAlpha = active ? 0.88 : 0.42;
             X.textAlign = "center";
             const outward = Math.cos(a) * Math.cos(cap.angle) + Math.sin(a) * Math.sin(cap.angle);
             if (active || outward > 0.15) X.fillText(moon, lx, ly);
@@ -1074,7 +1078,7 @@ function initOrbit(
 
       const labelOut = Math.sin(cap.angle) < 0.15 ? 18 : -12;
       X.globalAlpha = active ? 0.95 : 0.72;
-      X.font = `600 ${narrow ? 8.5 : 10}px 'DM Mono',monospace`;
+      X.font = `700 ${narrow ? 11 : 14}px 'DM Mono',monospace`;
       X.fillStyle = "#eeedf5";
       X.textAlign = "center";
       X.fillText(cap.label, x, y + labelOut);

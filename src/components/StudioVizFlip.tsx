@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { initStudioViz } from "@/lib/studio-viz";
 
 function VizFace({
@@ -28,6 +29,7 @@ function VizFace({
 }) {
   return (
     <div className="studio-viz-flip-face-body" aria-hidden={ariaHidden}>
+      <div className="studio-viz-shell card-headlight">
       <div className="reasoning-svg-wrap">
         <div className="reasoning-phase" ref={phaseRef} aria-live="polite" />
         <canvas ref={canvasRef} aria-label={canvasLabel} />
@@ -53,6 +55,7 @@ function VizFace({
         >
           <span className="plat-flip-hint">{hint}</span>
         </button>
+      </div>
       </div>
     </div>
   );
@@ -131,8 +134,72 @@ export function StudioVizFlip() {
   }, [zoomed]);
 
   function bumpZoom(delta: number) {
-    setZoomScale((s) => Math.min(2.6, Math.max(1, Number((s + delta).toFixed(2)))));
+    setZoomScale((s) => Math.min(3.2, Math.max(1, Number((s + delta).toFixed(2)))));
   }
+
+  const lightbox =
+    zoomed && typeof document !== "undefined" ? (
+        <div
+          className="studio-viz-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Studio figure, zoomed"
+        >
+          <button
+            type="button"
+            className="studio-viz-lightbox-backdrop"
+            aria-label="Close zoom"
+            onClick={() => {
+              setZoomed(false);
+              setZoomScale(1);
+            }}
+          />
+          <div className="studio-viz-lightbox-panel">
+            <div className="studio-viz-lightbox-bar">
+              <div className="reasoning-phase" ref={zoomPhase} aria-live="polite" />
+              <div className="studio-viz-zoom-controls">
+                <button type="button" onClick={() => bumpZoom(-0.25)} aria-label="Zoom out">
+                  −
+                </button>
+                <button type="button" onClick={() => bumpZoom(0.25)} aria-label="Zoom in">
+                  +
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setZoomed(false);
+                    setZoomScale(1);
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+            <div
+              className="studio-viz-shell card-headlight"
+            >
+            <div
+              className="reasoning-svg-wrap is-zoom-stage"
+              onWheel={(e) => {
+                e.preventDefault();
+                bumpZoom(e.deltaY < 0 ? 0.12 : -0.12);
+              }}
+            >
+              <div className="studio-viz-zoom-frame" style={{ transform: `scale(${zoomScale})` }}>
+                <canvas
+                  ref={zoomCanvas}
+                  aria-label={
+                    flipped
+                      ? "Delivery path from client need through studio expertise to operating value"
+                      : "Orbital studio: four capabilities around a studio core delivering operating value"
+                  }
+                />
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+    ) : null;
 
   return (
     <article className={`studio-viz-flip${flipped ? " is-flipped" : ""}`}>
@@ -172,64 +239,7 @@ export function StudioVizFlip() {
       <span className="sr-only" id={frontId}>
         Studio value path
       </span>
-      {zoomed ? (
-        <div
-          className="studio-viz-lightbox"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Studio figure, zoomed"
-        >
-          <button
-            type="button"
-            className="studio-viz-lightbox-backdrop"
-            aria-label="Close zoom"
-            onClick={() => {
-              setZoomed(false);
-              setZoomScale(1);
-            }}
-          />
-          <div className="studio-viz-lightbox-panel">
-            <div className="studio-viz-lightbox-bar">
-              <div className="reasoning-phase" ref={zoomPhase} aria-live="polite" />
-              <div className="studio-viz-zoom-controls">
-                <button type="button" onClick={() => bumpZoom(-0.25)} aria-label="Zoom out">
-                  −
-                </button>
-                <button type="button" onClick={() => bumpZoom(0.25)} aria-label="Zoom in">
-                  +
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setZoomed(false);
-                    setZoomScale(1);
-                  }}
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-            <div
-              className="reasoning-svg-wrap is-zoom-stage"
-              onWheel={(e) => {
-                e.preventDefault();
-                bumpZoom(e.deltaY < 0 ? 0.12 : -0.12);
-              }}
-            >
-              <div className="studio-viz-zoom-frame is-zoom-stage" style={{ transform: `scale(${zoomScale})` }}>
-                <canvas
-                  ref={zoomCanvas}
-                  aria-label={
-                    flipped
-                      ? "Delivery path from client need through studio expertise to operating value"
-                      : "Orbital studio: four capabilities around a studio core delivering operating value"
-                  }
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : null}
+      {lightbox ? createPortal(lightbox, document.body) : null}
     </article>
   );
 }

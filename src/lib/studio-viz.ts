@@ -288,12 +288,21 @@ export function initStudioViz(canvas: HTMLCanvasElement, options: StudioVizOptio
   const ro = host && "ResizeObserver" in window ? new ResizeObserver(() => resize()) : null;
   if (host && ro) ro.observe(host);
   resize();
+  requestAnimationFrame(() => {
+    if (stopped) return;
+    resize();
+    cleanup.draw();
+  });
 
   function tick() {
     if (stopped) return;
     if (!getPaused()) {
       T += 1;
-      cleanup.draw();
+      try {
+        cleanup.draw();
+      } catch {
+        /* Keep the loop alive if a frame throws (Safari arc/radius edge cases). */
+      }
     }
     requestAnimationFrame(tick);
   }

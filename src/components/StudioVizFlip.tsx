@@ -2,11 +2,25 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { initStudioViz } from "@/lib/studio-viz";
+import { StudioVizFigure } from "@/components/StudioVizFigure";
+import { canvasHasInk, initStudioViz } from "@/lib/studio-viz";
 
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 4;
 const ZOOM_STEP = 0.25;
+
+const ORBIT_PHASES = [
+  "A capability engages",
+  "The studio shapes it",
+  "Operating value in the client's hands",
+] as const;
+
+const ARCH_PHASES = [
+  "Starting from the need",
+  "Bringing studio expertise",
+  "Turning expertise into value",
+  "Operating value in hand",
+] as const;
 
 type Point = { x: number; y: number };
 type Rect = { x: number; y: number; w: number; h: number };
@@ -15,58 +29,87 @@ function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
 }
 
-function VizFace({
-  canvasRef,
+function useStudioPhase(flipped: boolean, paused: boolean) {
+  const phases = flipped ? ARCH_PHASES : ORBIT_PHASES;
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    setIndex(0);
+  }, [flipped]);
+
+  useEffect(() => {
+    if (paused) return;
+    const id = window.setInterval(() => {
+      setIndex((current) => (current + 1) % phases.length);
+    }, 3200);
+    return () => window.clearInterval(id);
+  }, [paused, phases.length]);
+
+  return phases[index] ?? phases[0];
+}
+
+function VizStage({
+  flipped,
+  phase,
   phaseRef,
+  canvasRef,
+  usingFallback,
   onFlip,
   onZoom,
   controlsId,
-  canvasLabel,
   hint,
   tabIndex,
   ariaExpanded,
-  ariaHidden,
 }: {
-  canvasRef: React.RefObject<HTMLCanvasElement | null>;
+  flipped: boolean;
+  phase: string;
   phaseRef: React.RefObject<HTMLDivElement | null>;
+  canvasRef: React.RefObject<HTMLCanvasElement | null>;
+  usingFallback: boolean;
   onFlip: () => void;
   onZoom: () => void;
   controlsId?: string;
-  canvasLabel: string;
   hint: string;
   tabIndex?: number;
   ariaExpanded?: boolean;
-  ariaHidden?: boolean;
 }) {
   return (
-    <div className="studio-viz-flip-face-body" aria-hidden={ariaHidden}>
-      <div className="studio-viz-shell card-headlight">
-        <div className="reasoning-svg-wrap">
-          <div className="reasoning-phase" ref={phaseRef} aria-live="polite" />
-          <canvas ref={canvasRef} aria-label={canvasLabel} />
-          <button
-            type="button"
-            className="studio-viz-zoom"
-            onClick={(e) => {
-              e.stopPropagation();
-              onZoom();
-            }}
-            aria-label="Zoom in on the studio figure"
-          >
-            Zoom
-          </button>
-          <button
-            type="button"
-            className="studio-viz-flip-hit"
-            onClick={onFlip}
-            tabIndex={tabIndex}
-            aria-expanded={ariaExpanded}
-            aria-controls={controlsId}
-            aria-label={hint}
-          >
-            <span className="plat-flip-hint">{hint}</span>
-          </button>
+    <div className="studio-viz-shell card-headlight">
+      <div className={`reasoning-svg-wrap${usingFallback ? " is-using-fallback" : ""}`}>
+        <div className="reasoning-phase" ref={phaseRef} aria-live="polite">
+          {usingFallback ? <span className="visible">{phase}</span> : null}
         </div>
+        <StudioVizFigure variant={flipped ? "architecture" : "orbit"} />
+        <canvas
+          ref={canvasRef}
+          aria-label={
+            flipped
+              ? "Delivery path from client need through studio expertise to operating value"
+              : "Orbital studio: four capabilities around a studio core delivering operating value"
+          }
+        />
+        <button
+          type="button"
+          className="studio-viz-zoom"
+          onClick={(e) => {
+            e.stopPropagation();
+            onZoom();
+          }}
+          aria-label="Zoom in on the studio figure"
+        >
+          Zoom
+        </button>
+        <button
+          type="button"
+          className="studio-viz-flip-hit"
+          onClick={onFlip}
+          tabIndex={tabIndex}
+          aria-expanded={ariaExpanded}
+          aria-controls={controlsId}
+          aria-label={hint}
+        >
+          <span className="plat-flip-hint">{hint}</span>
+        </button>
       </div>
     </div>
   );
@@ -79,7 +122,6 @@ export function StudioVizFlip() {
   const [pan, setPan] = useState<Point>({ x: 0, y: 0 });
   const [tool, setTool] = useState<"select" | "pan">("select");
   const [marquee, setMarquee] = useState<Rect | null>(null);
-  const flippedRef = useRef(false);
   const zoomedRef = useRef(false);
   const scaleRef = useRef(1);
   const panRef = useRef<Point>({ x: 0, y: 0 });
@@ -92,19 +134,44 @@ export function StudioVizFlip() {
     mode: "select" | "pan";
   } | null>(null);
   const stageRef = useRef<HTMLDivElement>(null);
-  const frontCanvas = useRef<HTMLCanvasElement>(null);
-  const backCanvas = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const zoomCanvas = useRef<HTMLCanvasElement>(null);
-  const frontPhase = useRef<HTMLDivElement>(null);
-  const backPhase = useRef<HTMLDivElement>(null);
+  const phaseRef = useRef<HTMLDivElement>(null);
   const zoomPhase = useRef<HTMLDivElement>(null);
+  const [usingFallback, setUsingFallback] = useState(false);
   const frontId = useId();
   const backId = useId();
-  flippedRef.current = flipped;
   zoomedRef.current = zoomed;
   scaleRef.current = zoomScale;
   panRef.current = pan;
   toolRef.current = tool;
+
+  const phase = useStudioPhase(flipped, zoomed);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const stop = initStudioViz(canvas, {
+      variant: flipped ? "architecture" : "orbit",
+      phaseEl: phaseRef.current,
+      getPaused: () => zoomedRef.current,
+    });
+    const probe = window.setTimeout(() => {
+      setUsingFallback(!canvasHasInk(canvas));
+    }, 280);
+    return () => {
+      window.clearTimeout(probe);
+      stop();
+    };
+  }, [flipped]);
+
+  useEffect(() => {
+    if (!zoomed || !zoomCanvas.current) return;
+    return initStudioViz(zoomCanvas.current, {
+      variant: flipped ? "architecture" : "orbit",
+      phaseEl: zoomPhase.current,
+    });
+  }, [zoomed, flipped]);
 
   function closeZoom() {
     setZoomed(false);
@@ -172,42 +239,6 @@ export function StudioVizFlip() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
-
-  useEffect(() => {
-    const cleanups: Array<() => void> = [];
-    if (frontCanvas.current) {
-      cleanups.push(
-        initStudioViz(frontCanvas.current, {
-          variant: "orbit",
-          phaseEl: frontPhase.current,
-          getPaused: () => flippedRef.current || zoomedRef.current,
-        }),
-      );
-    }
-    if (backCanvas.current) {
-      cleanups.push(
-        initStudioViz(backCanvas.current, {
-          variant: "architecture",
-          phaseEl: backPhase.current,
-          getPaused: () => !flippedRef.current || zoomedRef.current,
-        }),
-      );
-    }
-    return () => cleanups.forEach((fn) => fn());
-  }, []);
-
-  useEffect(() => {
-    if (!zoomed || !zoomCanvas.current) return;
-    const variant = flippedRef.current ? "architecture" : "orbit";
-    return initStudioViz(zoomCanvas.current, {
-      variant,
-      phaseEl: zoomPhase.current,
-    });
-  }, [zoomed, flipped]);
-
-  useEffect(() => {
-    window.dispatchEvent(new Event("resize"));
-  }, [flipped, zoomed]);
 
   useEffect(() => {
     document.body.classList.toggle("studio-viz-zoomed", zoomed);
@@ -308,7 +339,9 @@ export function StudioVizFlip() {
         />
         <div className="studio-viz-lightbox-panel">
           <div className="studio-viz-lightbox-bar">
-            <div className="reasoning-phase" ref={zoomPhase} aria-live="polite" />
+            <div className="reasoning-phase" ref={zoomPhase} aria-live="polite">
+              {usingFallback ? <span className="visible">{phase}</span> : null}
+            </div>
             <p className="studio-viz-zoom-hint">
               {tool === "select" ? "Drag a box to zoom in. Click to point." : "Drag to move. Scroll to zoom."}
             </p>
@@ -389,6 +422,7 @@ export function StudioVizFlip() {
                 className="studio-viz-zoom-frame"
                 style={{ transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoomScale})` }}
               >
+                <StudioVizFigure variant={flipped ? "architecture" : "orbit"} />
                 <canvas
                   ref={zoomCanvas}
                   aria-label={
@@ -417,45 +451,28 @@ export function StudioVizFlip() {
 
   return (
     <article className={`studio-viz-flip${flipped ? " is-flipped" : ""}`}>
-      <div className="studio-viz-flip-inner">
-        <div className="studio-viz-flip-face studio-viz-flip-front">
-          <VizFace
-            canvasRef={frontCanvas}
-            phaseRef={frontPhase}
-            onFlip={() => setFlipped(true)}
-            onZoom={() => {
-              setZoomed(true);
-              setZoomScale(1);
-              setPan({ x: 0, y: 0 });
-              setTool("select");
-            }}
-            controlsId={backId}
-            canvasLabel="Orbital studio: four capabilities around a studio core delivering operating value"
-            hint="Tap for the delivery path"
-            ariaExpanded={flipped}
-            ariaHidden={flipped}
-          />
-        </div>
-        <div className="studio-viz-flip-face studio-viz-flip-back" id={backId} role="region">
-          <VizFace
-            canvasRef={backCanvas}
-            phaseRef={backPhase}
-            onFlip={() => setFlipped(false)}
-            onZoom={() => {
-              setZoomed(true);
-              setZoomScale(1);
-              setPan({ x: 0, y: 0 });
-              setTool("select");
-            }}
-            canvasLabel="Delivery path from client need through studio expertise to operating value"
-            hint="Tap to flip back"
-            tabIndex={flipped ? 0 : -1}
-            ariaHidden={!flipped}
-          />
-        </div>
-      </div>
+      <VizStage
+        flipped={flipped}
+        phase={phase}
+        phaseRef={phaseRef}
+        canvasRef={canvasRef}
+        usingFallback={usingFallback}
+        onFlip={() => setFlipped((open) => !open)}
+        onZoom={() => {
+          setZoomed(true);
+          setZoomScale(1);
+          setPan({ x: 0, y: 0 });
+          setTool("select");
+        }}
+        controlsId={backId}
+        hint={flipped ? "Tap to flip back" : "Tap for the delivery path"}
+        ariaExpanded={flipped}
+      />
       <span className="sr-only" id={frontId}>
         Studio value path
+      </span>
+      <span className="sr-only" id={backId}>
+        Delivery path from client need through studio expertise to operating value
       </span>
       {lightbox ? createPortal(lightbox, document.body) : null}
     </article>

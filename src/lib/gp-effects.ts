@@ -8,9 +8,7 @@ export function initNetworkCanvas() {
   const C=document.getElementById('networkCanvas');if(!C)return () => {};
   const X=C.getContext('2d');if(!X)return () => {};
   let stopped = false;
-  const reduced =
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
-    document.documentElement.classList.contains("dbp-a11y-motion");
+  const reduced = document.documentElement.classList.contains("dbp-a11y-motion");
   let W,H,T=0,mouse={x:-1e4,y:-1e4,active:false};
   const DPR=Math.min(devicePixelRatio||1,2);
   let paletteId=readNetworkPalette();
@@ -371,9 +369,7 @@ return () => {
 export function initGpEffects() {
   if (typeof window === "undefined") return () => {};
   let stopped = false;
-  const reduced =
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
-    document.documentElement.classList.contains("dbp-a11y-motion");
+  const reduced = document.documentElement.classList.contains("dbp-a11y-motion");
   const cleanups = [];
   cleanups.push(() => {
     stopped = true;
@@ -385,7 +381,7 @@ export function initGpEffects() {
     });
   }
 
-/* Studio architecture / orbit canvases now live in StudioVizFlip. */
+/* Studio architecture / orbit figure now lives in StudioVizFlip as SVG. */
 
 
 

@@ -76,89 +76,86 @@ function PracticeCard({ practice }: { practice: (typeof PRACTICES)[number] }) {
       className={`plat-flip accent-${practice.accent}${flipped ? " is-flipped" : ""}`}
       data-practice={practice.id}
     >
-      <div className="plat-flip-inner">
-        <div className="plat-flip-face plat-flip-front card-headlight" aria-hidden={flipped}>
-          <Link
-            href={practice.href}
-            className="plat-flip-goto"
-            aria-label={`Open ${practice.title} practice`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            Open practice
-            <span aria-hidden="true">↗</span>
-          </Link>
-          <button
-            type="button"
-            className="plat-flip-hit"
-            onClick={() => setFlipped((open) => !open)}
-            aria-expanded={flipped}
-            aria-controls={backId}
-            id={labelId}
-          >
-            <span className="plat-icon" aria-hidden="true">
-              <Icon />
-            </span>
-            <div className="plat-layer-num">
-              {practice.number} — {practice.label}
-            </div>
-            <h4>{practice.title}</h4>
-            <p>{practice.buyerProblem}</p>
-            <PracticeMotif kind={practice.id} paused={flipped} />
-            <div className="plat-layer-tags">
-              {practice.tags.map((tag) => (
-                <span className="plat-tag" key={tag}>
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <span className="plat-flip-hint">Tap for the practice</span>
-          </button>
-        </div>
-
-        <div
-          className="plat-flip-face plat-flip-back card-headlight"
-          id={backId}
-          role="region"
-          aria-labelledby={labelId}
-          aria-hidden={!flipped}
+      <div className="plat-flip-face plat-flip-front card-headlight" hidden={flipped} aria-hidden={flipped}>
+        <Link
+          href={practice.href}
+          className="plat-flip-goto"
+          aria-label={`Open ${practice.title} practice`}
+          onClick={(e) => e.stopPropagation()}
         >
-          <Link
-            href={practice.href}
-            className="plat-flip-goto"
-            aria-label={`Open ${practice.title} practice`}
-            tabIndex={flipped ? 0 : -1}
-          >
-            Open practice
-            <span aria-hidden="true">↗</span>
-          </Link>
-          <button
-            type="button"
-            className="plat-flip-hit plat-flip-hit-back"
-            onClick={() => setFlipped(false)}
-            tabIndex={flipped ? 0 : -1}
-            aria-label={`Flip back ${practice.title}`}
-          >
-            <div className="plat-back-kicker">{back.kicker}</div>
-            <h4 className="plat-back-headline">{back.headline}</h4>
-            <p className="plat-back-sub">{back.subhead}</p>
-            <p className="plat-back-body">{back.body}</p>
-            <ul className="plat-back-caps">
-              {back.capabilities.map((capability) => (
-                <li className="plat-back-cap" key={capability.label}>
-                  <span className="plat-back-cap-label">{capability.label}</span>
-                  <span className="plat-back-cap-items">
-                    {capability.items.map((item) => (
-                      <span className="plat-tag" key={item}>
-                        {item}
-                      </span>
-                    ))}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <span className="plat-flip-hint">Tap to flip back</span>
-          </button>
-        </div>
+          Open practice
+          <span aria-hidden="true">↗</span>
+        </Link>
+        <button
+          type="button"
+          className="plat-flip-hit"
+          onClick={() => setFlipped(true)}
+          aria-expanded={flipped}
+          aria-controls={backId}
+          id={labelId}
+        >
+          <span className="plat-icon" aria-hidden="true">
+            <Icon />
+          </span>
+          <div className="plat-layer-num">
+            {practice.number} — {practice.label}
+          </div>
+          <h4>{practice.title}</h4>
+          <p>{practice.buyerProblem}</p>
+          <PracticeMotif kind={practice.id} paused={flipped} />
+          <div className="plat-layer-tags">
+            {practice.tags.map((tag) => (
+              <span className="plat-tag" key={tag}>
+                {tag}
+              </span>
+            ))}
+          </div>
+          <span className="plat-flip-hint">Tap for the practice</span>
+        </button>
+      </div>
+
+      <div
+        className="plat-flip-face plat-flip-back card-headlight"
+        id={backId}
+        role="region"
+        hidden={!flipped}
+        aria-labelledby={labelId}
+        aria-hidden={!flipped}
+      >
+        <Link
+          href={practice.href}
+          className="plat-flip-goto"
+          aria-label={`Open ${practice.title} practice`}
+        >
+          Open practice
+          <span aria-hidden="true">↗</span>
+        </Link>
+        <button
+          type="button"
+          className="plat-flip-hit plat-flip-hit-back"
+          onClick={() => setFlipped(false)}
+          aria-label={`Flip back ${practice.title}`}
+        >
+          <div className="plat-back-kicker">{back.kicker}</div>
+          <h4 className="plat-back-headline">{back.headline}</h4>
+          <p className="plat-back-sub">{back.subhead}</p>
+          <p className="plat-back-body">{back.body}</p>
+          <ul className="plat-back-caps">
+            {back.capabilities.map((capability) => (
+              <li className="plat-back-cap" key={capability.label}>
+                <span className="plat-back-cap-label">{capability.label}</span>
+                <span className="plat-back-cap-items">
+                  {capability.items.map((item) => (
+                    <span className="plat-tag" key={item}>
+                      {item}
+                    </span>
+                  ))}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <span className="plat-flip-hint">Tap to flip back</span>
+        </button>
       </div>
     </article>
   );

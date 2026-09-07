@@ -6,6 +6,23 @@ export type StudioVizOptions = {
   getPaused?: () => boolean;
 };
 
+export function canvasHasInk(canvas: HTMLCanvasElement) {
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  if (!ctx || canvas.width < 8 || canvas.height < 8) return false;
+  try {
+    const w = Math.min(canvas.width, 64);
+    const h = Math.min(canvas.height, 64);
+    const data = ctx.getImageData(Math.floor(canvas.width / 2 - w / 2), Math.floor(canvas.height / 2 - h / 2), w, h)
+      .data;
+    for (let i = 3; i < data.length; i += 4) {
+      if (data[i] > 12) return true;
+    }
+  } catch {
+    return canvas.width > 80 && canvas.height > 80;
+  }
+  return false;
+}
+
 type RingDot = {
   cx: number;
   cy: number;
@@ -262,9 +279,7 @@ export function initStudioViz(canvas: HTMLCanvasElement, options: StudioVizOptio
   const ctx = canvas.getContext("2d");
   if (!ctx) return () => {};
 
-  const reduced =
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
-    document.documentElement.classList.contains("dbp-a11y-motion");
+  const reduced = document.documentElement.classList.contains("dbp-a11y-motion");
 
   let stopped = false;
   let W = 320;

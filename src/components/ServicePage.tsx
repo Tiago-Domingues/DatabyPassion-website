@@ -4,17 +4,10 @@ import { useId, useRef, useState } from "react";
 import Link from "next/link";
 import { StartProject } from "@/components/StartProject";
 import { RepresentativeEngagement } from "@/components/sections/RepresentativeEngagement";
-import type { TypicalEngagement } from "@/content/practices";
+import type { PracticeStage, TypicalEngagement } from "@/content/practices";
 import { CONTACT_MAILTO } from "@/lib/site";
 
-export type ChainStage = {
-  num: string;
-  title: string;
-  hint: string;
-  heading: string;
-  body: string;
-  points: { title: string; text: string }[];
-};
+export type ChainStage = PracticeStage;
 
 export type Deliverable = {
   title: string;
@@ -81,7 +74,7 @@ export function ServicePage({
           <div className="chain-header">
             <div className="label">Understand → Shape → Build → Evolve</div>
             <h2 className="sh">
-              How the practice moves from <span className="g">problem to product</span>
+              The same method, applied to <span className="g">this practice</span>
             </h2>
             <p className="sb">
               Select a stage to inspect the decisions and working outputs inside it.

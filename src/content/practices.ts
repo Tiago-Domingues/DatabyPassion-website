@@ -23,6 +23,15 @@ export type TypicalEngagement = {
   disclaimer: string;
 };
 
+export type PracticeStage = {
+  num: string;
+  title: string;
+  hint: string;
+  heading: string;
+  body: string;
+  points: { title: string; text: string }[];
+};
+
 export const PRACTICES: PracticeSummary[] = [
   {
     id: "engineering",
@@ -219,4 +228,287 @@ export const TYPICAL_ENGAGEMENTS: Record<PracticeId, TypicalEngagement> = {
     disclaimer:
       "Illustrative delivery pattern, not a client case study or measured outcome.",
   },
+};
+
+export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
+  engineering: [
+    {
+      num: "01",
+      title: "Understand",
+      hint: "Data landscape",
+      heading: "Map the data that the business depends on",
+      body: "Identify the systems, data domains, dependencies and reliability gaps shaping the current environment.",
+      points: [
+        {
+          title: "Critical data flows",
+          text: "Which sources, transformations and consumers matter most.",
+        },
+        {
+          title: "Trust boundaries",
+          text: "Where data quality, ownership or lineage starts to break.",
+        },
+      ],
+    },
+    {
+      num: "02",
+      title: "Shape",
+      hint: "Architecture",
+      heading: "Design the platform around the problem",
+      body: "Define the target architecture, delivery boundaries and operating model for the first domain worth fixing.",
+      points: [
+        {
+          title: "Target architecture",
+          text: "Choose the right storage, processing and serving patterns.",
+        },
+        {
+          title: "Data contracts",
+          text: "Define ownership, quality expectations and interfaces between systems.",
+        },
+      ],
+    },
+    {
+      num: "03",
+      title: "Build",
+      hint: "Platform",
+      heading: "Build the foundation that products can depend on",
+      body: "Deliver tested pipelines, governed data models and reliable access to the information that matters.",
+      points: [
+        {
+          title: "Production pipelines",
+          text: "Ingest, transform and serve data through repeatable engineering patterns.",
+        },
+        {
+          title: "Quality and observability",
+          text: "Make failures, changes and data issues visible before they become business problems.",
+        },
+      ],
+    },
+    {
+      num: "04",
+      title: "Evolve",
+      hint: "Operate",
+      heading: "Operate, improve and extend",
+      body: "Monitor how the platform performs, strengthen reliability and expand into the next valuable domain.",
+      points: [
+        {
+          title: "Operational visibility",
+          text: "Track freshness, quality, failures and performance.",
+        },
+        {
+          title: "Domain expansion",
+          text: "Extend the platform where the next business outcome justifies the investment.",
+        },
+      ],
+    },
+  ],
+  analytics: [
+    {
+      num: "01",
+      title: "Understand",
+      hint: "Decisions",
+      heading: "Map the calls that move the business",
+      body: "Start with the decisions that are slow, disputed or based on gut feel — and the people who make them.",
+      points: [
+        {
+          title: "Decision inventory",
+          text: "Which calls need better evidence.",
+        },
+        {
+          title: "Source map",
+          text: "Where the numbers and signals behind those calls really live.",
+        },
+      ],
+    },
+    {
+      num: "02",
+      title: "Shape",
+      hint: "Definitions",
+      heading: "Turn disagreement into a shared definition",
+      body: "Define the metrics, business logic and ownership needed to make the numbers trusted and actionable.",
+      points: [
+        {
+          title: "Metric contracts",
+          text: "Agree what each measure means, how it is calculated and who owns it.",
+        },
+        {
+          title: "Decision design",
+          text: "Connect metrics and thresholds to the actions they are expected to support.",
+        },
+      ],
+    },
+    {
+      num: "03",
+      title: "Build",
+      hint: "Operating view",
+      heading: "Build the operating view around the decision",
+      body: "Turn trusted data and agreed definitions into an interface that makes the next action clearer.",
+      points: [
+        {
+          title: "Decision surfaces",
+          text: "Dashboards, operating packs or applications designed around real questions.",
+        },
+        {
+          title: "Exceptions and signals",
+          text: "Make changes, risks and opportunities visible when they need attention.",
+        },
+      ],
+    },
+    {
+      num: "04",
+      title: "Evolve",
+      hint: "Cadence",
+      heading: "Turn insight into an operating rhythm",
+      body: "Observe how the information is used and evolve the system around the decisions that create the most value.",
+      points: [
+        {
+          title: "Review cadence",
+          text: "Embed the right information into recurring business decisions.",
+        },
+        {
+          title: "Continuous refinement",
+          text: "Improve metrics, forecasts and views as the business changes.",
+        },
+      ],
+    },
+  ],
+  ai: [
+    {
+      num: "01",
+      title: "Understand",
+      hint: "Workflow",
+      heading: "Find the work worth making intelligent",
+      body: "Map the workflow, decisions and repetitive judgement where AI can create meaningful leverage.",
+      points: [
+        {
+          title: "Workflow baseline",
+          text: "Understand how work moves today, where time is spent and where friction appears.",
+        },
+        {
+          title: "Automation boundaries",
+          text: "Identify what should be automated, assisted or kept under human control.",
+        },
+      ],
+    },
+    {
+      num: "02",
+      title: "Shape",
+      hint: "Intelligence design",
+      heading: "Design the intelligence around the workflow",
+      body: "Define the AI behaviour, knowledge sources, controls and evaluation model before moving into production.",
+      points: [
+        {
+          title: "System design",
+          text: "Shape how models, tools, data and users interact.",
+        },
+        {
+          title: "Control model",
+          text: "Define grounding, human review, permissions and failure boundaries.",
+        },
+      ],
+    },
+    {
+      num: "03",
+      title: "Build",
+      hint: "Production loop",
+      heading: "Turn the workflow into a production system",
+      body: "Build and integrate the AI capability into the real environment where the work happens.",
+      points: [
+        {
+          title: "Intelligent workflows",
+          text: "Connect models, knowledge, tools and business systems.",
+        },
+        {
+          title: "Production controls",
+          text: "Add tracing, monitoring, fallback paths and operational safeguards.",
+        },
+      ],
+    },
+    {
+      num: "04",
+      title: "Evolve",
+      hint: "Evaluation",
+      heading: "Improve the system against real work",
+      body: "Measure quality, cost and behaviour in production — then improve where the evidence supports it.",
+      points: [
+        {
+          title: "Evaluation loops",
+          text: "Continuously test outputs against representative business scenarios.",
+        },
+        {
+          title: "Capability expansion",
+          text: "Extend the workflow only when reliability and value have been demonstrated.",
+        },
+      ],
+    },
+  ],
+  products: [
+    {
+      num: "01",
+      title: "Understand",
+      hint: "Opportunity",
+      heading: "Find the product worth building",
+      body: "Understand the problem, users and current workflow before deciding what software should exist.",
+      points: [
+        {
+          title: "Problem framing",
+          text: "Clarify what needs to change and why the current approach is not enough.",
+        },
+        {
+          title: "User and workflow insight",
+          text: "Understand who does the work, where friction happens and what success looks like.",
+        },
+      ],
+    },
+    {
+      num: "02",
+      title: "Shape",
+      hint: "Product",
+      heading: "Turn the opportunity into a credible product",
+      body: "Define the smallest product that can create value without overbuilding the first release.",
+      points: [
+        {
+          title: "Product definition",
+          text: "Prioritise what ships now, what waits and what can be learned later.",
+        },
+        {
+          title: "Experience and architecture",
+          text: "Shape the user journey, technical approach and integration boundaries.",
+        },
+      ],
+    },
+    {
+      num: "03",
+      title: "Build",
+      hint: "Release",
+      heading: "Move from concept to working software",
+      body: "Design and develop the product in visible loops, using AI-first ways of working to move faster without losing engineering discipline.",
+      points: [
+        {
+          title: "Working product",
+          text: "Build the application, integrations and data flows needed for the first real release.",
+        },
+        {
+          title: "Production readiness",
+          text: "Add authentication, monitoring, analytics and the controls needed to operate.",
+        },
+      ],
+    },
+    {
+      num: "04",
+      title: "Evolve",
+      hint: "Growth",
+      heading: "Learn from use and earn the next release",
+      body: "Use real behaviour and business outcomes to decide what improves, expands or stops.",
+      points: [
+        {
+          title: "Product signals",
+          text: "Observe adoption, behaviour and the outcomes the product is creating.",
+        },
+        {
+          title: "Next-release decisions",
+          text: "Prioritise future investment based on evidence rather than assumptions.",
+        },
+      ],
+    },
+  ],
 };

@@ -68,6 +68,65 @@ const RINGS = [
   { label: "Evolve", radius: 52, className: "studio-viz-ring--evolve" },
 ] as const;
 
+const BRAIN_NODES = [
+  { x: CX + 0, y: CY - 36, r: 1.45 },
+  { x: CX + 22, y: CY - 28, r: 1.1 },
+  { x: CX + 32, y: CY - 8, r: 1.3 },
+  { x: CX + 28, y: CY + 18, r: 1.05 },
+  { x: CX + 12, y: CY + 34, r: 1.2 },
+  { x: CX - 10, y: CY + 36, r: 1.1 },
+  { x: CX - 28, y: CY + 20, r: 1.35 },
+  { x: CX - 34, y: CY - 4, r: 1.15 },
+  { x: CX - 24, y: CY - 26, r: 1.05 },
+  { x: CX + 8, y: CY - 22, r: 0.95 },
+  { x: CX + 18, y: CY + 6, r: 1.0 },
+  { x: CX - 6, y: CY + 20, r: 0.9 },
+  { x: CX - 16, y: CY + 4, r: 1.05 },
+  { x: CX + 4, y: CY + 14, r: 0.85 },
+  { x: CX - 18, y: CY - 14, r: 1.0 },
+  { x: CX + 14, y: CY - 10, r: 0.9 },
+  { x: CX + 24, y: CY + 28, r: 1.0 },
+  { x: CX - 32, y: CY + 8, r: 0.95 },
+  { x: CX + 6, y: CY - 32, r: 0.85 },
+  { x: CX - 8, y: CY - 30, r: 1.1 },
+];
+
+const BRAIN_LINKS: Array<[number, number]> = [
+  [0, 1],
+  [1, 2],
+  [2, 3],
+  [3, 4],
+  [4, 5],
+  [5, 6],
+  [6, 7],
+  [7, 8],
+  [8, 0],
+  [0, 9],
+  [9, 15],
+  [2, 10],
+  [10, 13],
+  [5, 11],
+  [11, 12],
+  [7, 14],
+  [14, 12],
+  [1, 19],
+  [8, 19],
+  [3, 16],
+  [6, 17],
+  [0, 18],
+  [12, 13],
+  [15, 2],
+];
+
+const BRAIN_INWARD = [
+  { d: `M${CX} ${CY - 46} L${CX} ${CY - 16}`, duration: "2.4s", delay: "0s", r: 2.2 },
+  { d: `M${CX + 38} ${CY - 22} L${CX + 11} ${CY - 6}`, duration: "2.8s", delay: "-0.7s", r: 1.8 },
+  { d: `M${CX + 28} ${CY + 36} L${CX + 8} ${CY + 10}`, duration: "3.1s", delay: "-1.4s", r: 2.0 },
+  { d: `M${CX - 24} ${CY + 40} L${CX - 7} ${CY + 12}`, duration: "2.6s", delay: "-0.4s", r: 1.7 },
+  { d: `M${CX - 44} ${CY - 6} L${CX - 14} ${CY - 2}`, duration: "2.9s", delay: "-1.9s", r: 2.1 },
+  { d: `M${CX + 16} ${CY + 44} L${CX + 5} ${CY + 14}`, duration: "3.3s", delay: "-2.2s", r: 1.6 },
+] as const;
+
 const PLANETS = [
   {
     id: "data",
@@ -197,8 +256,8 @@ function ArchitectureFigure() {
       <text className="studio-viz-kicker" x="500" y="36" textAnchor="middle">
         The studio
       </text>
-      <text className="studio-viz-kicker studio-viz-kicker--out" x="910" y="36" textAnchor="middle">
-        Evolve
+      <text className="studio-viz-kicker studio-viz-kicker--value" x="910" y="36" textAnchor="middle">
+        Operating value
       </text>
 
       <path className="studio-viz-link studio-viz-link--need" d="M120 150 C 220 150 260 310 320 310" />
@@ -259,19 +318,22 @@ function ArchitectureFigure() {
         </g>
       ))}
 
-      <rect className="studio-viz-studio-box" x="380" y="140" width="240" height="340" rx="16" />
+      <rect className="studio-viz-studio-box" x="380" y="128" width="240" height="364" rx="16" />
       <circle className="studio-viz-core" cx="500" cy="310" r="12" />
-      <text className="studio-viz-core-label" x="500" y="338" textAnchor="middle">
+      <text className="studio-viz-core-label" x="500" y="336" textAnchor="middle">
         The studio
       </text>
-      <text className="studio-viz-ring-label studio-viz-ring-label--understand" x="500" y="188" textAnchor="middle">
+      <text className="studio-viz-ring-label studio-viz-ring-label--understand" x="500" y="176" textAnchor="middle">
         Understand
       </text>
-      <text className="studio-viz-ring-label studio-viz-ring-label--shape" x="500" y="248" textAnchor="middle">
+      <text className="studio-viz-ring-label studio-viz-ring-label--shape" x="500" y="232" textAnchor="middle">
         Shape
       </text>
-      <text className="studio-viz-ring-label studio-viz-ring-label--build" x="500" y="400" textAnchor="middle">
+      <text className="studio-viz-ring-label studio-viz-ring-label--build" x="500" y="392" textAnchor="middle">
         Build
+      </text>
+      <text className="studio-viz-ring-label studio-viz-ring-label--evolve" x="500" y="448" textAnchor="middle">
+        Evolve
       </text>
       <text className="studio-viz-zone" x="320" y="560" textAnchor="middle">
         Unified data layer
@@ -315,6 +377,9 @@ export function StudioVizFigure({ variant }: StudioVizFigureProps) {
           <stop offset="55%" stopColor="rgba(26,154,250,0.035)" />
           <stop offset="100%" stopColor="rgba(26,154,250,0)" />
         </radialGradient>
+        <clipPath id="studio-orbit-brain-clip">
+          <circle cx={CX} cy={CY} r="50" />
+        </clipPath>
       </defs>
 
       {STARS.map((star) => (
@@ -343,6 +408,40 @@ export function StudioVizFigure({ variant }: StudioVizFigureProps) {
       ))}
 
       <circle className="studio-viz-well" cx={CX} cy={CY} r="220" fill="url(#studio-orbit-well)" />
+
+      <g className="studio-viz-brain" clipPath="url(#studio-orbit-brain-clip)">
+        {BRAIN_LINKS.map(([a, b]) => (
+          <line
+            key={`brain-${a}-${b}`}
+            className="studio-viz-brain-link"
+            x1={BRAIN_NODES[a].x}
+            y1={BRAIN_NODES[a].y}
+            x2={BRAIN_NODES[b].x}
+            y2={BRAIN_NODES[b].y}
+          />
+        ))}
+        {BRAIN_NODES.map((node) => (
+          <circle
+            key={`brain-${node.x}-${node.y}`}
+            className="studio-viz-brain-node"
+            cx={node.x}
+            cy={node.y}
+            r={node.r}
+          />
+        ))}
+        {BRAIN_INWARD.map((path) => (
+          <circle
+            key={path.d}
+            className="studio-viz-brain-dot"
+            r={path.r}
+            style={{
+              offsetPath: `path('${path.d}')`,
+              animationDuration: path.duration,
+              animationDelay: path.delay,
+            }}
+          />
+        ))}
+      </g>
 
       {PLANETS.map((planet) => (
         <g key={`${planet.id}-stream`}>

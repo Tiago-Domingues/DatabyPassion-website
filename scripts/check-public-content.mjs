@@ -41,18 +41,25 @@ for (const [file, source] of sources) {
 
 const practices = sources.get("src/content/practices.ts") || "";
 const engagementLabels = practices.match(/label:\s*"Typical engagement",/g) || [];
-const engagementDisclaimers =
-  practices.match(/Illustrative delivery pattern, not a client case study or measured outcome\./g) ||
-  [];
-
 if (engagementLabels.length !== 4) {
   failures.push(
     `src/content/practices.ts: expected 4 labelled typical engagements, found ${engagementLabels.length}`,
   );
 }
-if (engagementDisclaimers.length !== engagementLabels.length) {
+
+const servicePage = sources.get("src/components/ServicePage.tsx") || "";
+if (
+  !/Illustrative delivery pattern, not a client case study or measured outcome\./.test(servicePage)
+) {
   failures.push(
-    "src/content/practices.ts: every typical engagement must carry the illustrative-pattern disclaimer",
+    "src/components/ServicePage.tsx: typical-engagement section must carry the illustrative-pattern disclaimer",
+  );
+}
+
+const engagementCard = sources.get("src/components/sections/RepresentativeEngagement.tsx") || "";
+if (/disclaimer|Illustrative, not a case study/i.test(engagementCard)) {
+  failures.push(
+    "src/components/sections/RepresentativeEngagement.tsx: disclaimer belongs on the section intro, not inside the card",
   );
 }
 

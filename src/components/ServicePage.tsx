@@ -156,8 +156,7 @@ export function ServicePage({
               </h2>
             </div>
             <p className="sb">
-              This is an illustrative delivery pattern. It describes the shape of the work without
-              implying a client, metric or measured case study.
+              Illustrative delivery pattern, not a client case study or measured outcome.
             </p>
           </div>
           <div className="engagements-grid">

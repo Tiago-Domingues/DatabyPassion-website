@@ -156,7 +156,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .studio-viz-flip:hover .card-headlight,.studio-viz-flip.is-flipped .card-headlight{border-color:var(--purple-bright);box-shadow:0 16px 40px rgba(26,154,250,0.28)}
 .reasoning-viz{position:relative;max-width:1100px;margin:0 auto;padding:0 0 20px}
 .reasoning-svg-wrap{position:relative;width:100%;min-height:520px;background:var(--bg-deep);border:1px solid var(--purple);border-radius:20px;padding:40px 12px 16px;overflow:visible;transition:border-color .3s var(--ease-out),box-shadow .3s var(--ease-out);box-shadow:0 16px 40px rgba(26,154,250,0.18)}
-@media(max-width:600px){.reasoning-svg-wrap{min-height:420px;padding:36px 8px 10px;border-radius:12px}.reasoning-viz{padding:0}}
+@media(max-width:600px){
+  .reasoning-svg-wrap{min-height:0;padding:48px 4px 40px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+  .reasoning-viz{padding:0}
+  .studio-viz-figure{margin-inline:auto}
+}
 .reasoning-svg-wrap::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 40% 40% at 50% 50%,rgba(26,154,250,0.04),transparent),radial-gradient(ellipse 30% 30% at 20% 50%,rgba(103,232,249,0.02),transparent),radial-gradient(ellipse 30% 30% at 80% 50%,rgba(52,211,153,0.02),transparent)}
 .studio-viz-figure{position:relative;z-index:1;display:block;width:100%;height:auto;aspect-ratio:1000/620;max-width:100%}
 .studio-viz-kicker,.studio-viz-ring-label,.studio-viz-core-label,.studio-viz-node-label,.studio-viz-value-label,.studio-viz-zone{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.12em;text-anchor:middle}
@@ -1629,7 +1633,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .cta-buttons{flex-direction:column;align-items:stretch}
   .cta-buttons .btn-primary,.cta-buttons .btn-ghost{width:100%;justify-content:center}
   .page-hero{padding:112px 0 40px}
-  .plat-flip,.plat-flip-inner{min-height:640px}
+  .plat-flip,.plat-flip-inner{min-height:0;height:auto}
+  .plat-flip-face{position:relative;inset:auto}
+  .plat-flip-back{position:absolute;inset:0}
+  .plat-flip.is-flipped .plat-flip-front{position:absolute;inset:0}
+  .plat-flip.is-flipped .plat-flip-back{position:relative;inset:auto}
+  .practice-motif{margin-top:16px}
   .sh{font-size:clamp(1.55rem,8vw,2.1rem)}
 }
 

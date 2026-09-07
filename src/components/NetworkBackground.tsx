@@ -9,7 +9,7 @@ import {
 } from "@/lib/network-palette";
 
 export function NetworkBackground() {
-  const [palette, setPalette] = useState<NetworkPaletteId>("mono");
+  const [palette, setPalette] = useState<NetworkPaletteId>("redshift");
 
   useEffect(() => {
     setPalette(readNetworkPalette());

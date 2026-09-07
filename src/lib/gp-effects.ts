@@ -17,7 +17,8 @@ export function initNetworkCanvas() {
   let isGalaxy=paletteId==='galaxy';
   let isStation=paletteId==='station';
   let isSolar=paletteId==='solar';
-  function hexFor(key){return key===0?pal.a:key===1?pal.b:pal.c}
+  let isRedshift=paletteId==='redshift';
+  function hexFor(key){return pal.star||(key===0?pal.a:key===1?pal.b:pal.c)}
   function applyPalette(){
     paletteId=readNetworkPalette();
     pal=NETWORK_PALETTES[paletteId];
@@ -25,6 +26,7 @@ export function initNetworkCanvas() {
     isGalaxy=paletteId==='galaxy';
     isStation=paletteId==='station';
     isSolar=paletteId==='solar';
+    isRedshift=paletteId==='redshift';
     for(const n of nodes) n.color=hexFor(n.colorKey);
     initNodes();
     updateConnections();
@@ -53,7 +55,7 @@ function initNodes(){
     const layer=Math.floor(Math.random()*LAYERS);
     const depth=0.3+layer*0.35; // 0.3, 0.65, 1.0
     // Galaxy keeps occasional sparkle stars; Station/Solar stay matte HD points
-    const bright=isGalaxy&&Math.random()>0.88;
+    const bright=(isGalaxy||isRedshift)&&Math.random()>0.88;
     const planet=isSolar&&Math.random()>0.94;
     const drift=isStation?0.03:isPhoto?0.06:0.15;
     nodes.push({
@@ -291,7 +293,7 @@ function draw(){
     // Node core — Station stays matte (no white flash pulses)
     const pulse=isStation?0.92:Math.sin(T*0.02+n.phase)*0.15+0.85;
     X.beginPath();X.arc(n.x,n.y,n.r*pulse,0,Math.PI*2);
-    X.fillStyle=(n.bright&&!isStation)?'#ffffff':n.color;
+    X.fillStyle=pal.star||((n.bright&&!isStation)?'#ffffff':n.color);
     X.globalAlpha=n.alpha*pulse+(isStation?0:boost);
     X.fill();
     X.globalAlpha=1;

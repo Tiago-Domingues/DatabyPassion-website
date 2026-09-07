@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 export type RoleDetail = {
   code: string;
@@ -20,8 +21,15 @@ export function RoleDetailPanel({
   const closeRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
     returnFocusRef.current = document.activeElement as HTMLElement | null;
     document.body.style.overflow = "hidden";
     window.requestAnimationFrame(() => closeRef.current?.focus());
@@ -54,9 +62,11 @@ export function RoleDetailPanel({
       returnFocusRef.current?.focus();
       window.removeEventListener("keydown", onKey);
     };
-  }, [onClose, role.code]);
+  }, [mounted, onClose, role.code]);
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <div
       className="modal-overlay active role-panel-overlay"
       onClick={(event) => {
@@ -94,6 +104,7 @@ export function RoleDetailPanel({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

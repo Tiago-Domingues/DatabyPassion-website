@@ -383,7 +383,7 @@ body.studio-viz-zoomed{overflow:hidden}
 .plat-flip-disclaimer{display:block;margin-top:10px;color:var(--text-dim);font-size:.68rem;line-height:1.45}
 .plat-flip-back{padding:20px 20px 16px}
 .plat-back-kicker{font-family:var(--font-mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:20px;padding-right:108px;color:var(--purple-bright)}
-.plat-back-headline{font-size:1.22rem!important;font-weight:700!important;letter-spacing:-.02em;margin-bottom:10px!important;line-height:1.25}
+.plat-back-headline{font-size:1.22rem!important;font-weight:700!important;letter-spacing:-.02em;margin-bottom:10px!important;line-height:1.25;color:#fff}
 .plat-back-headline .em{font-family:var(--font-serif);font-style:italic;font-weight:300;color:var(--purple-bright)}
 .plat-back-body{font-size:0.9rem!important;line-height:1.6;color:var(--text-secondary)!important;margin-bottom:0}
 .plat-back-caps{list-style:none;margin:auto 0 0;padding:14px 0 0;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:9px}
@@ -1541,16 +1541,17 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .fit-card--positive li::before{content:"✓";color:var(--green)}
 
 /* Representative engagements and deliverables */
-.engagements-section,.deliverables-section{position:relative;overflow:hidden;background:transparent}
+.engagements-section,.deliverables-section{position:relative;overflow:hidden;background:rgba(5,5,8,.62)}
 .engagements-section::before,.deliverables-section::before{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:rgba(0,0,0,0.42);backdrop-filter:blur(16px) saturate(1.15);-webkit-backdrop-filter:blur(16px) saturate(1.15)
+  background:rgba(0,0,0,0.28);backdrop-filter:blur(16px) saturate(1.15);-webkit-backdrop-filter:blur(16px) saturate(1.15)
 }
 .engagements-section>.container,.deliverables-section>.container{position:relative;z-index:1}
 .deliverables-section{border-top:1px solid var(--border)}
 html.dbp-a11y-motion .engagements-section::before,html.dbp-a11y-motion .deliverables-section::before{
-  backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(5,5,8,.78)
+  backdrop-filter:none;-webkit-backdrop-filter:none;background:transparent
 }
+html.dbp-a11y-motion .engagements-section,html.dbp-a11y-motion .deliverables-section{background:rgba(5,5,8,.78)}
 .engagements-grid{display:grid;gap:20px}
 .representative-engagement{padding:clamp(28px,5vw,52px);border:1px solid rgba(244,114,182,.18);border-radius:18px;background:linear-gradient(145deg,rgba(244,114,182,.055),rgba(19,19,32,.96))}
 .representative-engagement__header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}

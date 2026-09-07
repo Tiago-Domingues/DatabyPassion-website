@@ -118,7 +118,7 @@ export const PRACTICE_BACKS: Record<PracticeId, PracticeBack> = {
     kicker: "01 — Data platforms",
     headline: "Trusted data.",
     headlineEm: "Engineered to last.",
-    body: "From source systems to the warehouse, we design ingestion, transformation and quality controls so the business can trust what it runs on. The result is a foundation the client team can operate and extend — not a pipeline only the last engineer understands.",
+    body: "From source to warehouse, we design ingestion, transformation and quality so the business can trust what it runs on. The client team gets a foundation they can operate — not a pipeline only the last engineer understands.",
     capabilities: [
       { label: "Integration", items: ["Connectors", "APIs", "Databases", "Batch", "Streaming"] },
       { label: "Data engineering", items: ["SQL", "Spark", "Python", "Transformation", "Orchestration"] },

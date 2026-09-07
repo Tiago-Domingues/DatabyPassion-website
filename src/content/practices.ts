@@ -20,7 +20,6 @@ export type TypicalEngagement = {
   intervention: string;
   delivers: string[];
   change: string;
-  disclaimer: string;
 };
 
 export type PracticeStage = {
@@ -164,9 +163,6 @@ export const PRACTICE_BACKS: Record<PracticeId, PracticeBack> = {
   },
 };
 
-const ENGAGEMENT_DISCLAIMER =
-  "Illustrative delivery pattern, not a client case study or measured outcome.";
-
 export const TYPICAL_ENGAGEMENTS: Record<PracticeId, TypicalEngagement> = {
   engineering: {
     label: "Typical engagement",
@@ -182,7 +178,6 @@ export const TYPICAL_ENGAGEMENTS: Record<PracticeId, TypicalEngagement> = {
     ],
     change:
       "One domain runs on a path the team can operate — with freshness and quality visible before the business notices a break.",
-    disclaimer: ENGAGEMENT_DISCLAIMER,
   },
   analytics: {
     label: "Typical engagement",
@@ -198,7 +193,6 @@ export const TYPICAL_ENGAGEMENTS: Record<PracticeId, TypicalEngagement> = {
     ],
     change:
       "The recurring discussion starts from one owned number, with exceptions and a next action made explicit.",
-    disclaimer: ENGAGEMENT_DISCLAIMER,
   },
   ai: {
     label: "Typical engagement",
@@ -214,7 +208,6 @@ export const TYPICAL_ENGAGEMENTS: Record<PracticeId, TypicalEngagement> = {
     ],
     change:
       "Routine work moves through a consistent path. Ambiguous cases stay with a named reviewer, and every action can be traced.",
-    disclaimer: ENGAGEMENT_DISCLAIMER,
   },
   products: {
     label: "Typical engagement",
@@ -230,7 +223,6 @@ export const TYPICAL_ENGAGEMENTS: Record<PracticeId, TypicalEngagement> = {
     ],
     change:
       "The team works from one product surface: the number, the exception and the next action, with evidence for what to build — or stop — next.",
-    disclaimer: ENGAGEMENT_DISCLAIMER,
   },
 };
 
@@ -316,7 +308,7 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Understand",
       hint: "Data landscape",
       heading: "Map the data the business depends on",
-      body: "Start with the systems, domains and consumers that actually move the business — not a catalogue of every table. We identify where trust, ownership and lineage already break, so the first platform work is aimed at a real operating problem.",
+      body: "Start with the systems, domains and consumers that actually move the business — not a catalogue of every table. We identify where trust, ownership and lineage already break, so the first platform work is aimed at a real operating problem. The output is a map the client team can challenge: what must be trusted first, who owns it, and what can wait.",
       points: [
         {
           title: "Critical data flows",
@@ -326,6 +318,10 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
           title: "Trust boundaries",
           text: "Where quality, ownership or lineage fails today — late loads, silent duplicates, or a number nobody will defend.",
         },
+        {
+          title: "First domain",
+          text: "The smallest valuable slice worth fixing now — named sources, consumers and a success condition the business recognises.",
+        },
       ],
     },
     {
@@ -333,7 +329,7 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Shape",
       hint: "Architecture",
       heading: "Design the platform around the problem",
-      body: "Choose the architecture, contracts and operating model for the first domain worth fixing. The design is small enough to build, explicit enough for the client team to challenge, and ready to extend without a rewrite.",
+      body: "Choose the architecture, contracts and operating model for the first domain worth fixing. The design is small enough to build, explicit enough for the client team to challenge, and ready to extend without a rewrite. We settle how data will move, how quality will be proven, and how the team will run the path after handover.",
       points: [
         {
           title: "Target architecture",
@@ -343,6 +339,10 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
           title: "Data contracts",
           text: "Named owners, grains, quality expectations and interfaces between systems, so the next pipeline is not a one-off.",
         },
+        {
+          title: "Operating model",
+          text: "How the client team will own freshness, incidents and change — including access, runbooks and what is explicitly out of the first build.",
+        },
       ],
     },
     {
@@ -350,7 +350,7 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Build",
       hint: "Platform",
       heading: "Build the foundation products can depend on",
-      body: "Deliver tested ingestion, transformation and serving for the selected domain. Quality checks and observability sit on the path, so a break is visible before it becomes a business incident.",
+      body: "Deliver tested ingestion, transformation and serving for the selected domain. Quality checks and observability sit on the path, so a break is visible before it becomes a business incident. The team sees a working pipeline they can operate, not a script only the last engineer understands.",
       points: [
         {
           title: "Production pipelines",
@@ -360,6 +360,10 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
           title: "Quality and observability",
           text: "Freshness, completeness and failure signals on the grain that matters, with a path to act when they fire.",
         },
+        {
+          title: "Handover-ready path",
+          text: "Documented jobs, owners and recovery steps so the foundation can run without the original builder.",
+        },
       ],
     },
     {
@@ -367,7 +371,7 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Evolve",
       hint: "Operate",
       heading: "Operate, improve and extend",
-      body: "Run the new path with the client team. Use freshness, quality and cost to decide where to harden, then expand only where the next business outcome justifies it.",
+      body: "Run the new path with the client team. Use freshness, quality and cost to decide where to harden, then expand only where the next business outcome justifies it. The platform grows by repeating a proven pattern, not by adding another one-off pipeline.",
       points: [
         {
           title: "Operational visibility",
@@ -376,6 +380,10 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
         {
           title: "Domain expansion",
           text: "Reuse the same contracts and patterns on the next valuable domain, rather than starting from a blank pipeline.",
+        },
+        {
+          title: "Cost and hardening",
+          text: "Use operational signals to decide what to lock down, simplify or leave alone before the next domain starts.",
         },
       ],
     },
@@ -386,7 +394,7 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Understand",
       hint: "Decisions",
       heading: "Map the calls that move the business",
-      body: "Begin with the decisions that are slow, disputed or still made on gut feel — and the people who make them. We map the sources behind those calls so the work starts from a real meeting, not a dashboard wishlist.",
+      body: "Begin with the decisions that are slow, disputed or still made on gut feel — and the people who make them. We map the sources behind those calls so the work starts from a real meeting, not a dashboard wishlist. The first output is a short list of calls worth a trusted number, and where that number is currently lost.",
       points: [
         {
           title: "Decision inventory",
@@ -396,6 +404,10 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
           title: "Source map",
           text: "Where those numbers actually live today, and where the process loses time or trust on the way to the room.",
         },
+        {
+          title: "Trust gaps",
+          text: "Where the same KPI means three things, lives in a side spreadsheet, or arrives too late to change the call.",
+        },
       ],
     },
     {
@@ -403,7 +415,7 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Shape",
       hint: "Definitions",
       heading: "Turn disagreement into a shared definition",
-      body: "Agree what each KPI means, how it is calculated and who owns it. Connect those definitions to the actions they are supposed to support, so the pack is built for a decision rather than a slide.",
+      body: "Agree what each KPI means, how it is calculated and who owns it. Connect those definitions to the actions they are supposed to support, so the pack is built for a decision rather than a slide. Forecasts and exceptions are specified on the same layer before anything is built.",
       points: [
         {
           title: "Metric contracts",
@@ -413,6 +425,10 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
           title: "Decision design",
           text: "Thresholds, exceptions and the actions those signals are expected to trigger.",
         },
+        {
+          title: "Pack frame",
+          text: "What the room will see, in what cadence, and which views are explicitly out of the first operating pack.",
+        },
       ],
     },
     {
@@ -420,7 +436,7 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Build",
       hint: "Operating view",
       heading: "Build the operating view around the decision",
-      body: "Turn trusted data and agreed definitions into the pack the team actually opens. Forecasts and exception views sit on the same metric layer, not a side spreadsheet.",
+      body: "Turn trusted data and agreed definitions into the pack the team actually opens. Forecasts and exception views sit on the same metric layer, not a side spreadsheet. The surface is automated enough to survive the next reporting cycle without a hero rebuild.",
       points: [
         {
           title: "Decision surfaces",
@@ -430,6 +446,10 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
           title: "Exceptions and signals",
           text: "Changes, risks and opportunities made visible when they need attention — including a short forecast on the same number.",
         },
+        {
+          title: "Named ownership",
+          text: "Who maintains each measure, who annotates exceptions, and who owns the next action when a threshold is crossed.",
+        },
       ],
     },
     {
@@ -437,7 +457,7 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Evolve",
       hint: "Cadence",
       heading: "Turn insight into an operating rhythm",
-      body: "Watch how the pack is used. Improve the metrics, forecasts and exceptions around the decisions that create value, and retire the views that do not.",
+      body: "Watch how the pack is used. Improve the metrics, forecasts and exceptions around the decisions that create value, and retire the views that do not. The cadence stays useful only if the room keeps using it to decide.",
       points: [
         {
           title: "Review cadence",
@@ -446,6 +466,10 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
         {
           title: "Continuous refinement",
           text: "Metrics, forecasts and experiments evolve with the business, still on one definition of performance.",
+        },
+        {
+          title: "Retire or extend",
+          text: "Evidence from the live pack decides which views to keep, which to stop, and which decision to bring in next.",
         },
       ],
     },
@@ -456,7 +480,7 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Understand",
       hint: "Workflow",
       heading: "Find the work worth making intelligent",
-      body: "Map the workflow, the repeated judgement and the volume where an assistant or agent would actually save time. We separate what should be automated, what should be assisted, and what must stay with a person.",
+      body: "Map the workflow, the repeated judgement and the volume where an assistant or agent would actually save time. We separate what should be automated, what should be assisted, and what must stay with a person. The first output is a baseline of today's work, with a stop rule for anything that must not go live.",
       points: [
         {
           title: "Workflow baseline",
@@ -466,6 +490,10 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
           title: "Automation boundaries",
           text: "What an assistant can draft, what an agent can do, and what a named reviewer must still decide.",
         },
+        {
+          title: "Risk and volume",
+          text: "Where errors hurt, how often the judgement repeats, and whether the case is large enough to justify a production loop.",
+        },
       ],
     },
     {
@@ -473,7 +501,7 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Shape",
       hint: "Intelligence design",
       heading: "Design the intelligence around the workflow",
-      body: "Define behaviour, knowledge sources, evaluation and controls before anything reaches production. The design is specific enough to build and strict enough to stop if quality does not hold.",
+      body: "Define behaviour, knowledge sources, evaluation and controls before anything reaches production. The design is specific enough to build and strict enough to stop if quality does not hold. Assistant, agent and human review each have a named job — not a vague 'AI layer'.",
       points: [
         {
           title: "System design",
@@ -483,6 +511,10 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
           title: "Control model",
           text: "Grounding, human review, permissions, fallback and a clear stop rule.",
         },
+        {
+          title: "Evaluation bar",
+          text: "Representative cases and quality thresholds agreed in advance, including what happens when the system is unsure.",
+        },
       ],
     },
     {
@@ -490,7 +522,7 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Build",
       hint: "Production loop",
       heading: "Turn the workflow into a production system",
-      body: "Integrate the assistant or agent into the environment where the work already happens. Tracing, monitoring and a kill switch ship with the first live loop.",
+      body: "Integrate the assistant or agent into the environment where the work already happens. Tracing, monitoring and a kill switch ship with the first live loop. Routine cases move; ambiguous ones stay with a named reviewer, and every action can be inspected.",
       points: [
         {
           title: "Intelligent workflows",
@@ -500,6 +532,10 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
           title: "Production controls",
           text: "Evaluation, tracing, fallback paths and operational safeguards the client team can run.",
         },
+        {
+          title: "Fallback path",
+          text: "What happens when quality drops, a tool fails, or a reviewer is unavailable — including how to stop the loop.",
+        },
       ],
     },
     {
@@ -507,7 +543,7 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Evolve",
       hint: "Evaluation",
       heading: "Improve the system against real work",
-      body: "Measure quality, cost and behaviour in production. Extend the workflow only when the evidence says the next step is safe and useful.",
+      body: "Measure quality, cost and behaviour in production. Extend the workflow only when the evidence says the next step is safe and useful. Expansion is a decision from evaluation, not a backlog of extra prompts.",
       points: [
         {
           title: "Evaluation loops",
@@ -516,6 +552,10 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
         {
           title: "Capability expansion",
           text: "Add the next action or domain when reliability and value have been demonstrated — not before.",
+        },
+        {
+          title: "Cost and quality",
+          text: "Track whether the loop still earns its keep as volume, models and the underlying work change.",
         },
       ],
     },
@@ -526,7 +566,7 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Understand",
       hint: "Opportunity",
       heading: "Find the product worth building",
-      body: "Understand the users, the current workaround and the data or workflow the product must sit on. We decide what software should exist before we discuss screens.",
+      body: "Understand the users, the current workaround and the data or workflow the product must sit on. We decide what software should exist before we discuss screens. The first output names the job to be done, who is accountable, and why the spreadsheet or handover is no longer enough.",
       points: [
         {
           title: "Problem framing",
@@ -536,6 +576,10 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
           title: "User and workflow insight",
           text: "Who does the work, where it stalls, and what a first useful product would take off their plate.",
         },
+        {
+          title: "Constraints",
+          text: "Systems, data, access and operational limits the first product has to live inside — including what is out of scope.",
+        },
       ],
     },
     {
@@ -543,7 +587,7 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Shape",
       hint: "Product",
       heading: "Turn the opportunity into a credible product",
-      body: "Define the smallest product that can create value without overbuilding the first release. The frame names the user, the journey, the data it uses, and what is explicitly out of scope.",
+      body: "Define the smallest product that can create value without overbuilding the first release. The frame names the user, the journey, the data it uses, and what is explicitly out of scope. Experience and architecture are designed together so the first slice can actually ship.",
       points: [
         {
           title: "Product definition",
@@ -553,6 +597,10 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
           title: "Experience and architecture",
           text: "The user journey, the systems it connects to, and how insights or agents may act on that surface later.",
         },
+        {
+          title: "Success condition",
+          text: "What 'working' means for the first release — who uses it, for which job, and what evidence would justify the next slice.",
+        },
       ],
     },
     {
@@ -560,7 +608,7 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Build",
       hint: "Release",
       heading: "Move from concept to working software",
-      body: "Design and develop in visible loops, connected to real data and the controls needed to operate. The first release is an authenticated product people can use — not a prototype that pretends.",
+      body: "Design and develop in visible loops, connected to real data and the controls needed to operate. The first release is an authenticated product people can use — not a prototype that pretends. Instrumentation ships with the surface so the next decision is based on use, not opinion.",
       points: [
         {
           title: "Working product",
@@ -570,6 +618,10 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
           title: "Production readiness",
           text: "Authentication, monitoring, analytics and the operational path the client team will run.",
         },
+        {
+          title: "Operating path",
+          text: "Support, access, monitoring and a named owner so the product can run after the first release lands.",
+        },
       ],
     },
     {
@@ -577,7 +629,7 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Evolve",
       hint: "Growth",
       heading: "Learn from use and earn the next release",
-      body: "Use adoption, behaviour and business outcomes to decide what improves, expands or stops. The next slice is a decision, not a backlog by default.",
+      body: "Use adoption, behaviour and business outcomes to decide what improves, expands or stops. The next slice is a decision, not a backlog by default. Transfer, invest or stop with evidence from the live product.",
       points: [
         {
           title: "Product signals",
@@ -586,6 +638,10 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
         {
           title: "Next-release decisions",
           text: "Invest, transfer or stop based on evidence from the live product.",
+        },
+        {
+          title: "Transfer",
+          text: "How the client team owns the surface day to day, and what would have to be true before a larger release is earned.",
         },
       ],
     },

@@ -13,7 +13,6 @@ export function RepresentativeEngagement({
     >
       <div className="representative-engagement__header">
         <span className="scope-badge scope-badge--example">{engagement.label}</span>
-        <span className="representative-engagement__notice">Illustrative, not a case study</span>
       </div>
       <h3>{engagement.title}</h3>
       {compact ? (
@@ -44,7 +43,6 @@ export function RepresentativeEngagement({
           </div>
         </>
       )}
-      <p className="representative-engagement__disclaimer">{engagement.disclaimer}</p>
     </article>
   );
 }

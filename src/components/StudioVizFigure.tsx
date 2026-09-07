@@ -1,3 +1,22 @@
+function OrbitTraveler({
+  radius,
+  duration,
+  delay,
+  className,
+}: {
+  radius: number;
+  duration: string;
+  delay?: string;
+  className: string;
+}) {
+  const path = `M ${radius} 0 A ${radius} ${radius} 0 1 1 -${radius} 0 A ${radius} ${radius} 0 1 1 ${radius} 0`;
+  return (
+    <circle className={className} r="3.4">
+      <animateMotion dur={duration} begin={delay ?? "0s"} repeatCount="indefinite" path={path} />
+    </circle>
+  );
+}
+
 type StudioVizFigureProps = {
   variant: "orbit" | "architecture";
 };
@@ -35,8 +54,14 @@ export function StudioVizFigure({ variant }: StudioVizFigureProps) {
         <circle className="studio-viz-flow studio-viz-flow--need" r="4">
           <animateMotion dur="3.6s" repeatCount="indefinite" path="M120 150 C 220 150 260 310 320 310" />
         </circle>
+        <circle className="studio-viz-flow studio-viz-flow--need" r="3.2">
+          <animateMotion dur="4s" begin="-1.4s" repeatCount="indefinite" path="M120 470 C 220 470 260 310 320 310" />
+        </circle>
         <circle className="studio-viz-flow studio-viz-flow--out" r="4">
           <animateMotion dur="3.8s" begin="-1.2s" repeatCount="indefinite" path="M680 310 C 740 310 780 150 880 150" />
+        </circle>
+        <circle className="studio-viz-flow studio-viz-flow--out" r="3.2">
+          <animateMotion dur="4.1s" begin="-2s" repeatCount="indefinite" path="M680 310 C 740 310 780 470 880 470" />
         </circle>
 
         {[
@@ -124,6 +149,10 @@ export function StudioVizFigure({ variant }: StudioVizFigureProps) {
             Evolve
           </text>
         </g>
+        <OrbitTraveler radius={176} duration="6s" className="studio-viz-flow studio-viz-flow--understand" />
+        <OrbitTraveler radius={130} duration="5s" delay="-1.2s" className="studio-viz-flow studio-viz-flow--shape" />
+        <OrbitTraveler radius={88} duration="4s" delay="-2s" className="studio-viz-flow studio-viz-flow--build" />
+        <OrbitTraveler radius={52} duration="3.2s" delay="-0.6s" className="studio-viz-flow studio-viz-flow--evolve" />
         <circle className="studio-viz-core-glow" r="38" />
         <circle className="studio-viz-core" r="12" />
         <text className="studio-viz-core-label" y="32" textAnchor="middle">

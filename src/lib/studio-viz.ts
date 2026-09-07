@@ -262,9 +262,7 @@ export function initStudioViz(canvas: HTMLCanvasElement, options: StudioVizOptio
   const ctx = canvas.getContext("2d");
   if (!ctx) return () => {};
 
-  const reduced =
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
-    document.documentElement.classList.contains("dbp-a11y-motion");
+  const reduced = document.documentElement.classList.contains("dbp-a11y-motion");
 
   let stopped = false;
   let W = 320;

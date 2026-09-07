@@ -119,7 +119,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   .logos-track{gap:48px}
   .logos-track-wrapper::before,.logos-track-wrapper::after{width:48px}
 }
-@media(prefers-reduced-motion:reduce){.logos-track{animation:none}.logo-slot{transition:none}}
+html.dbp-a11y-motion .logos-track{animation:none}
+html.dbp-a11y-motion .logo-slot{transition:none}
 
 /* ═══ CATEGORY SHIFT ═══ */
 .problem-section{background:var(--bg-deep)}
@@ -169,11 +170,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .studio-viz-core-label{fill:#fff;font-size:14px;font-weight:700}
 .studio-viz-orbit-guide{fill:none;stroke:rgba(238,237,245,.1);stroke-width:1.2}
 .studio-viz-ring{fill:none}
-.studio-viz-ring circle{fill:none;stroke-width:1.6;stroke-dasharray:18 7;transform-box:fill-box;transform-origin:center;animation:studio-ring-spin 28s linear infinite}
+.studio-viz-ring circle{fill:none;stroke-width:1.6;stroke-dasharray:18 7;transform-box:fill-box;transform-origin:center;animation:studio-ring-dash 7s linear infinite}
 .studio-viz-ring--understand circle{stroke:#34d399}
-.studio-viz-ring--shape circle{stroke:#67e8f9;animation-duration:22s;animation-direction:reverse}
-.studio-viz-ring--build circle{stroke:#1a9afa;animation-duration:18s}
-.studio-viz-ring--evolve circle{stroke:#e9d5ff;animation-duration:14s;animation-direction:reverse}
+.studio-viz-ring--shape circle{stroke:#67e8f9;animation-duration:5.5s;animation-direction:reverse}
+.studio-viz-ring--build circle{stroke:#1a9afa;animation-duration:4.5s}
+.studio-viz-ring--evolve circle{stroke:#e9d5ff;animation-duration:3.6s;animation-direction:reverse}
 .studio-viz-ring-label{font-size:13px;font-weight:700}
 .studio-viz-ring-label--understand{fill:#34d399}
 .studio-viz-ring-label--shape{fill:#67e8f9}
@@ -193,13 +194,18 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .studio-viz-link--out{stroke:#5bb8ff}
 .studio-viz-flow--need{fill:#fbbf24}
 .studio-viz-flow--out{fill:#5bb8ff}
+.studio-viz-flow--understand{fill:#34d399}
+.studio-viz-flow--shape{fill:#67e8f9}
+.studio-viz-flow--build{fill:#1a9afa}
+.studio-viz-flow--evolve{fill:#e9d5ff}
 .studio-viz-cap .studio-viz-node{transform-box:fill-box;transform-origin:center;animation:studio-node-pulse 2.8s ease-in-out infinite}
 .studio-viz-cap:nth-child(3) .studio-viz-node{animation-delay:.4s}
 .studio-viz-cap:nth-child(4) .studio-viz-node{animation-delay:.8s}
 .studio-viz-cap:nth-child(5) .studio-viz-node{animation-delay:1.2s}
-@keyframes studio-ring-spin{to{transform:rotate(360deg)}}
-@keyframes studio-node-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.28)}}
-html.dbp-a11y-motion .studio-viz-ring circle,html.dbp-a11y-motion .studio-viz-cap .studio-viz-node{animation:none}
+@keyframes studio-ring-dash{to{stroke-dashoffset:-250}}
+@keyframes studio-node-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.28);opacity:.72}}
+.studio-viz-core,.studio-viz-core-glow{transform-box:fill-box;transform-origin:center;animation:studio-node-pulse 2.2s ease-in-out infinite}
+html.dbp-a11y-motion .studio-viz-ring circle,html.dbp-a11y-motion .studio-viz-cap .studio-viz-node,html.dbp-a11y-motion .studio-viz-core,html.dbp-a11y-motion .studio-viz-core-glow{animation:none}
 .reasoning-phase{position:absolute;top:12px;left:16px;right:64px;z-index:3;text-align:left;min-height:20px;margin:0;pointer-events:none}
 .reasoning-phase span{font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--purple-bright);opacity:0;transition:opacity 0.5s ease}
 .reasoning-phase span.visible{opacity:.9}
@@ -954,12 +960,9 @@ input,textarea,select,a[href^="mailto"]{-webkit-user-select:text;-moz-user-selec
 @keyframes delivery-node-2{0%,20%{background:var(--purple-bright);box-shadow:0 0 16px rgba(91,184,255,.22)}26%,88%{background:var(--amber);box-shadow:0 0 16px rgba(251,191,36,.45)}100%{background:var(--purple-bright);box-shadow:0 0 16px rgba(91,184,255,.22)}}
 @keyframes delivery-node-3{0%,44%{background:var(--purple-bright);box-shadow:0 0 16px rgba(91,184,255,.22)}50%,88%{background:var(--amber);box-shadow:0 0 16px rgba(251,191,36,.45)}100%{background:var(--purple-bright);box-shadow:0 0 16px rgba(91,184,255,.22)}}
 @keyframes delivery-node-4{0%,68%{background:var(--purple-bright);box-shadow:0 0 16px rgba(91,184,255,.22)}74%,88%{background:var(--amber);box-shadow:0 0 16px rgba(251,191,36,.45)}100%{background:var(--purple-bright);box-shadow:0 0 16px rgba(91,184,255,.22)}}
-@media(prefers-reduced-motion:reduce){
-  .delivery-map__pulse{animation:none;opacity:.7;top:0}
-  .delivery-map__fill{animation:none;height:28%;opacity:1}
-  .delivery-map__node{animation:none}
-  .delivery-map__step:first-child .delivery-map__node{background:var(--amber);box-shadow:0 0 16px rgba(251,191,36,.45)}
-}
+html.dbp-a11y-motion .delivery-map__pulse{animation:none;opacity:.7;top:0}
+html.dbp-a11y-motion .delivery-map__fill{animation:none;height:28%;opacity:1}
+html.dbp-a11y-motion .delivery-map__node{animation:none}
 .page-hero{padding:140px 0 60px;border-bottom:1px solid var(--border)}
 .page-hero-back{font-size:0.82rem;color:var(--text-dim);display:inline-flex;align-items:center;gap:6px;margin-bottom:28px}
 .page-hero-back:hover{color:var(--text-secondary);text-decoration:none}
@@ -1260,11 +1263,9 @@ footer{
   0%,8%{stroke-dashoffset:14;opacity:0}
   20%,100%{stroke-dashoffset:0;opacity:1}
 }
-@media(prefers-reduced-motion:reduce){
-  .trust-seal-ring,.trust-seal-tick{animation:none}
-  .trust-seal-ring{opacity:1;filter:drop-shadow(0 0 5px rgba(52,211,153,.4))}
-  .trust-seal-tick{stroke-dashoffset:0;opacity:1}
-}
+html.dbp-a11y-motion .trust-seal-ring,html.dbp-a11y-motion .trust-seal-tick{animation:none}
+html.dbp-a11y-motion .trust-seal-ring{opacity:1;filter:drop-shadow(0 0 5px rgba(52,211,153,.4))}
+html.dbp-a11y-motion .trust-seal-tick{stroke-dashoffset:0;opacity:1}
 .trust-pledge-copy h3{
   font-size:1.02rem;
   font-weight:650;
@@ -1366,12 +1367,10 @@ footer{
   0%{transform:rotate(calc(var(--burst-i) * 30deg)) translateY(0) scale(1);opacity:1}
   100%{transform:rotate(calc(var(--burst-i) * 30deg)) translateY(-34px) scale(.2);opacity:0}
 }
-@media(prefers-reduced-motion:reduce){
-.dbp-assistant-tip{transition:none;opacity:1;transform:translate(0,-50%)}
-.dbp-assistant-dock.tip-end .dbp-assistant-tip{transform:translate(0,-50%)}
-.dbp-assistant-panel,.dbp-assistant-typing span,.dbp-assistant-monogram.is-exploding .dbp-assistant-rocket-spin,.dbp-assistant-burst-dot{animation:none}
-.dbp-assistant-ping{display:none}
-}
+html.dbp-a11y-motion .dbp-assistant-tip{transition:none;opacity:1;transform:translate(0,-50%)}
+html.dbp-a11y-motion .dbp-assistant-dock.tip-end .dbp-assistant-tip{transform:translate(0,-50%)}
+html.dbp-a11y-motion .dbp-assistant-panel,html.dbp-a11y-motion .dbp-assistant-typing span,html.dbp-a11y-motion .dbp-assistant-monogram.is-exploding .dbp-assistant-rocket-spin,html.dbp-a11y-motion .dbp-assistant-burst-dot{animation:none}
+html.dbp-a11y-motion .dbp-assistant-ping{display:none}
 
 /* Last-wins hamburger: earlier duplicate .nav-menu{display:none} rules hid it on every viewport */
 @media(max-width:768px){
@@ -1627,11 +1626,8 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .plat-flip,.plat-flip-inner{min-height:520px}
   .sh{font-size:clamp(1.55rem,8vw,2.1rem)}
 }
-@media(prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  .portfolio-path__progress,.ticker-track,.logos-track,.delivery-map__pulse,.delivery-map__fill,.delivery-map__node,.trust-seal-ring,.trust-seal-tick{animation:none}
-  .reveal{opacity:1!important;transform:none!important}
-}
+html.dbp-a11y-motion .portfolio-path__progress,html.dbp-a11y-motion .ticker-track,html.dbp-a11y-motion .logos-track,html.dbp-a11y-motion .delivery-map__pulse,html.dbp-a11y-motion .delivery-map__fill,html.dbp-a11y-motion .delivery-map__node,html.dbp-a11y-motion .trust-seal-ring,html.dbp-a11y-motion .trust-seal-tick{animation:none}
+html.dbp-a11y-motion .reveal{opacity:1!important;transform:none!important}
 html.dbp-a11y-motion *,html.dbp-a11y-motion *::before,html.dbp-a11y-motion *::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
 
 

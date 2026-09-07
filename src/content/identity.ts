@@ -17,5 +17,5 @@ export const HOMEPAGE_NARRATIVE = {
   collective:
     "A senior core holds the problem, architecture and standard. Product, design, data, AI, engineering and domain specialists join around the decisions they are best placed to make.",
   trust:
-    "Clear controls, named environments and engagement-specific commitments make the delivery model easier to assess before work begins.",
+    "Named controls, named environments and engagement terms you can assess before work starts — including independent legal-partner support when the engagement needs it.",
 } as const;

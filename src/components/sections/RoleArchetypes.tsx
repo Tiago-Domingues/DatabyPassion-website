@@ -16,6 +16,7 @@ export function RoleArchetypes({ compact = false }: { compact?: boolean }) {
           setOpenRole({
             code: FOUNDER_ROLE.code,
             title: FOUNDER_ROLE.title,
+            sell: FOUNDER_ROLE.sell,
             when: FOUNDER_ROLE.when,
             owns: FOUNDER_ROLE.owns,
             body: FOUNDER_ROLE.body,
@@ -25,7 +26,13 @@ export function RoleArchetypes({ compact = false }: { compact?: boolean }) {
         <span className="role-archetypes__pulse" aria-hidden="true" />
         <span className="mono-label">{FOUNDER_ROLE.label}</span>
         <strong>{FOUNDER_ROLE.title}</strong>
-        <p>{FOUNDER_ROLE.summary}</p>
+        <p className="role-archetypes__sell">{FOUNDER_ROLE.sell}</p>
+        <ul className="role-archetypes__points">
+          {FOUNDER_ROLE.points.map((point) => (
+            <li key={point}>{point}</li>
+          ))}
+        </ul>
+        <span className="role-archetypes__more">View profile →</span>
       </button>
       <ul className="role-archetypes__grid" aria-label="Knowledge Center roles">
         {ROLE_ARCHETYPES.map((role) => (
@@ -38,9 +45,15 @@ export function RoleArchetypes({ compact = false }: { compact?: boolean }) {
               <span className="role-archetypes__code" aria-hidden="true">
                 {role.code}
               </span>
-              <div>
+              <div className="role-archetypes__body">
                 <h3>{role.title}</h3>
-                <p>{role.when}</p>
+                <p className="role-archetypes__sell">{role.sell}</p>
+                <ul className="role-archetypes__points">
+                  {role.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+                <span className="role-archetypes__more">View profile →</span>
               </div>
             </button>
           </li>

@@ -10,7 +10,7 @@ export default function CareersPage() {
         <div className="container">
           <div className="label">Careers at DatabyPassion</div>
           <h1>
-            Build the delivery layer of <span className="em">enterprise data</span>
+            No open roles. <span className="em">Work with us on the problem.</span>
           </h1>
           <p className="careers-hero-sub">
             DatabyPassion is a founder-led boutique. There are no open roles right now.

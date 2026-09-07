@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export function LegalSupportBar() {
+export function LegalSupportBar({ href = "/security" }: { href?: string | null }) {
   return (
     <aside className="legal-support-card">
       <div>
@@ -8,11 +8,12 @@ export function LegalSupportBar() {
         <h3>Independent legal-partner support</h3>
       </div>
       <p>
-        Contract, privacy and AI-governance support can be brought in when needed. The partner
-        is independent—not an employee or permanent bench member—and scope is agreed before
-        access to client context.
+        Contract, privacy and AI-governance questions are handled with an independent practising
+        counsel — not an employee and not a permanent bench member. The partner is brought in when
+        the engagement needs that depth. Scope, confidentiality and access are agreed before any
+        client context is shared.
       </p>
-      <Link href="/security">Review the Trust model →</Link>
+      {href ? <Link href={href}>Review the Trust model →</Link> : null}
     </aside>
   );
 }

@@ -1,8 +1,11 @@
 export type RoleArchetype = {
   code: string;
   title: string;
+  sell: string;
+  points: readonly string[];
   when: string;
   owns: string;
+  body: readonly string[];
 };
 
 export const COLLECTIVE_DIFFERENTIATORS = [
@@ -24,11 +27,12 @@ export const FOUNDER_ROLE = {
   code: "CORE",
   title: "Founder-led",
   label: "Accountable core",
-  summary: "Problem, quality and communication stay connected.",
+  sell: "The engagement lead stays in the work — not behind an account layer.",
+  points: ["Outcome ownership", "Team shape", "Delivery standard"],
   when: "On every engagement — the relationship does not disappear behind an account layer.",
   owns: "A single engagement lead holds scope, quality, communication and the connection to the business outcome.",
   body: [
-    "The person shaping the work stays close to the decisions, the build and the standard. Specialists join when the work earns them; team shape and provider access are agreed for each engagement.",
+    "This is a senior practitioner who can sit with the sponsor, hold the architecture and stay close to the build. Specialists join when the work earns them; team shape and provider access are agreed for each engagement.",
     "Decisions, designs, code and runbooks live in the engagement record so context can move with the work. Evidence from the first release decides whether to expand the product, transfer ownership or end the work cleanly.",
   ],
 } as const;
@@ -37,38 +41,74 @@ export const ROLE_ARCHETYPES: RoleArchetype[] = [
   {
     code: "P/S",
     title: "Product & strategy lead",
+    sell: "A senior product lead who can hold the value case and the first release — not a slide-only strategist.",
+    points: ["Opportunity framing", "Prioritisation", "Decision cadence"],
     when: "When the opportunity, value case or product direction needs sharpening.",
     owns: "Outcome, prioritisation and the decisions that hold the work together.",
+    body: [
+      "This is someone who has shaped products inside a real operating model — not a junior analyst filling a discovery deck. They sit with the sponsor, name the first credible product and keep the team pointed at evidence.",
+      "They stay through Build and Evolve so the value case does not get lost between a workshop and the release.",
+    ],
   },
   {
     code: "PD",
     title: "Product designer",
+    sell: "A senior designer who understands users, service flow and adoption before anything is built.",
+    points: ["Research", "Interaction design", "Adoption"],
     when: "When users, service flow and adoption need to be understood before build.",
     owns: "Research, interaction design and the product experience.",
+    body: [
+      "This is a designer who can work with executives and operators in the same week — and leave an experience the business can actually run. They do not decorate a specification after the decisions are made.",
+      "They stay close to the people who must live with the product so adoption is designed in, not added as a handover slide.",
+    ],
   },
   {
     code: "D/P",
     title: "Data & platform lead",
+    sell: "A senior data and platform lead who can hold contracts, architecture and handover — not a tooling catalogue.",
+    points: ["Data contracts", "Architecture", "Reliability"],
     when: "When trusted data, architecture or platform constraints shape the product.",
     owns: "Data contracts, platform choices, reliability and technical handover.",
+    body: [
+      "This is someone who has run platforms that other teams depend on. They name what can be trusted, what cannot, and which constraints will kill a clever idea in production.",
+      "They leave contracts, runbooks and a handover the next owner can operate — not a diagram that only the consultant understands.",
+    ],
   },
   {
     code: "AI",
     title: "AI & ML lead",
+    sell: "A senior AI lead who can take a model to a governed workflow — not a demonstration without an owner.",
+    points: ["Model choice", "Evaluation", "Safe fallback"],
     when: "When models, evaluation or intelligent workflows are part of the answer.",
     owns: "Model choice, grounding, evaluation, monitoring and safe fallback.",
+    body: [
+      "This is a practitioner who treats models as part of a product: grounding, evaluation, monitoring and a fallback when the model is wrong. They do not sell a demo with no route to production.",
+      "They work with the people who own the workflow so the system is usable, reviewable and safe to run after we leave.",
+    ],
   },
   {
     code: "SE",
     title: "Software & product engineer",
+    sell: "A senior engineer who ships production surfaces — not a bench resource filling a ticket queue.",
+    points: ["Working software", "Integration", "Maintainability"],
     when: "When a production surface, integration or workflow needs to ship.",
     owns: "Working software, integration, instrumentation and maintainability.",
+    body: [
+      "This is an engineer who can sit with the product decision and still write the code that ships. They work inside the agreed stack and control model, in short visible loops.",
+      "They instrument the product so Evolve is based on use, and they leave something the client team can maintain.",
+    ],
   },
   {
     code: "D/S",
     title: "Domain & security advisor",
+    sell: "A senior advisor who changes the design when sector context, risk or privacy demands it.",
+    points: ["Sector context", "Risk", "Challenge"],
     when: "When sector context, risk, privacy or specialised judgement changes the design.",
     owns: "Constraints, challenge and the evidence needed for a sound decision.",
+    body: [
+      "This is specialised judgement brought in because the work needs it — not a checkbox review at the end. They challenge the design while it can still change.",
+      "They leave the constraints and evidence in the engagement record so the next decision does not depend on a conversation that was never written down.",
+    ],
   },
 ];
 

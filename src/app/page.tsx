@@ -67,8 +67,9 @@ export default function HomePage() {
                 that need their depth.
               </p>
               <p>
-                Team size is engagement-specific. Independent legal support is optional and agreed
-                for the engagement; it is not presented as an employee or permanent bench.
+                Team size is engagement-specific. Independent legal-partner support is available
+                when the engagement needs it. The partner is practising counsel — not an employee
+                or a permanent bench member. Scope is agreed before access to client context.
               </p>
               <Link href="/about" className="trust-link">
                 See how the collective works →

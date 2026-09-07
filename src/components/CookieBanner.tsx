@@ -30,8 +30,8 @@ export function CookieBanner() {
     <div className="cookie-banner" role="dialog" aria-label="Cookies">
       <h3>Cookies and privacy</h3>
       <p>
-        We use local storage key dbp_consent to remember this choice. Analytics stay off until we
-        wire them — you can accept or continue with essentials only.
+        We remember this choice on your device. Continue with essentials only, or accept cookies
+        if you prefer.
       </p>
       <div className="cookie-actions">
         <button type="button" className="cookie-reject" onClick={() => save("essential")}>

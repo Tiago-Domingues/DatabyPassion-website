@@ -1590,7 +1590,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .cta-buttons{flex-direction:column;align-items:stretch}
   .cta-buttons .btn-primary,.cta-buttons .btn-ghost{width:100%;justify-content:center}
   .page-hero{padding:112px 0 40px}
-  .plat-flip,.plat-flip-inner{min-height:430px}
+  .plat-flip,.plat-flip-inner{min-height:520px}
   .sh{font-size:clamp(1.55rem,8vw,2.1rem)}
 }
 @media(prefers-reduced-motion:reduce){

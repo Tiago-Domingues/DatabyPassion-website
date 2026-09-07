@@ -4,15 +4,10 @@ import { useId, useRef, useState } from "react";
 import Link from "next/link";
 import { StartProject } from "@/components/StartProject";
 import { RepresentativeEngagement } from "@/components/sections/RepresentativeEngagement";
-import type { PracticeStage, TypicalEngagement } from "@/content/practices";
+import type { PracticeDeliverable, PracticeStage, TypicalEngagement } from "@/content/practices";
 import { CONTACT_MAILTO } from "@/lib/site";
 
 export type ChainStage = PracticeStage;
-
-export type Deliverable = {
-  title: string;
-  body: string;
-};
 
 export function ServicePage({
   kicker,
@@ -33,7 +28,7 @@ export function ServicePage({
   accentVar?: string;
   stages: ChainStage[];
   typicalEngagements: TypicalEngagement[];
-  deliverables: Deliverable[];
+  deliverables: PracticeDeliverable[];
 }) {
   const [active, setActive] = useState(0);
   const tabsRef = useRef<Array<HTMLButtonElement | null>>([]);
@@ -77,7 +72,8 @@ export function ServicePage({
               The same method, applied to <span className="g">this practice</span>
             </h2>
             <p className="sb">
-              Select a stage to inspect the decisions and working outputs inside it.
+              Understand, shape, build and evolve — the studio method applied to this domain.
+              Select a stage to see the questions we settle and the artefacts we leave behind.
             </p>
           </div>
           <div className="chain-viz">

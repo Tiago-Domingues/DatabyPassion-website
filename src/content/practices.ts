@@ -32,6 +32,11 @@ export type PracticeStage = {
   points: { title: string; text: string }[];
 };
 
+export type PracticeDeliverable = {
+  title: string;
+  body: string;
+};
+
 export const PRACTICES: PracticeSummary[] = [
   {
     id: "engineering",
@@ -103,7 +108,7 @@ export type PracticeCapability = {
 export type PracticeBack = {
   kicker: string;
   headline: string;
-  subhead: string;
+  headlineEm: string;
   body: string;
   capabilities: PracticeCapability[];
 };
@@ -111,9 +116,9 @@ export type PracticeBack = {
 export const PRACTICE_BACKS: Record<PracticeId, PracticeBack> = {
   engineering: {
     kicker: "01 — Data platforms",
-    headline: "What runs underneath",
-    subhead: "The engineering foundation behind trusted data",
-    body: "From source systems to trusted datasets, we build the engineering foundations that make data reliable, scalable and usable.",
+    headline: "Trusted data.",
+    headlineEm: "Engineered to last.",
+    body: "From source to warehouse, we design ingestion, transformation and quality so the business can trust what it runs on. The client team gets a foundation they can operate — not a pipeline only the last engineer understands.",
     capabilities: [
       { label: "Integration", items: ["Connectors", "APIs", "Databases", "Batch", "Streaming"] },
       { label: "Data engineering", items: ["SQL", "Spark", "Python", "Transformation", "Orchestration"] },
@@ -123,9 +128,9 @@ export const PRACTICE_BACKS: Record<PracticeId, PracticeBack> = {
   },
   analytics: {
     kicker: "02 — Analytics & decisions",
-    headline: "The system behind better decisions",
-    subhead: "From fragmented data to confident action",
-    body: "We turn fragmented information into a shared understanding of the business — so teams can measure what matters, understand what is changing and act with confidence.",
+    headline: "Shared numbers.",
+    headlineEm: "Decisions that move.",
+    body: "We turn fragmented reporting into one definition of performance — so teams measure what matters, see what is changing, and walk into the room ready to act. Forecasts and experiments sit on that same number, not a side spreadsheet.",
     capabilities: [
       { label: "Define", items: ["KPIs", "Metrics", "Business logic", "Semantic models"] },
       { label: "Understand", items: ["Dashboards", "Analysis", "Exploration", "Reporting"] },
@@ -135,9 +140,9 @@ export const PRACTICE_BACKS: Record<PracticeId, PracticeBack> = {
   },
   ai: {
     kicker: "03 — AI & automation",
-    headline: "What makes work intelligent",
-    subhead: "From repeated judgement to reliable intelligent systems",
-    body: "We design and build AI-powered workflows that combine models, business knowledge and automation with the controls needed to operate them confidently.",
+    headline: "Intelligent work.",
+    headlineEm: "Governed in production.",
+    body: "We design AI-powered workflows that combine models, business knowledge and automation with the controls needed to run them. Assistants and agents take the repeated judgement; people keep the exceptions, the trace and the stop button.",
     capabilities: [
       { label: "Intelligence", items: ["LLMs", "Machine learning", "Classification", "Prediction"] },
       { label: "Knowledge", items: ["RAG", "Retrieval", "Search", "Context", "Knowledge bases"] },
@@ -147,9 +152,9 @@ export const PRACTICE_BACKS: Record<PracticeId, PracticeBack> = {
   },
   products: {
     kicker: "04 — Digital products",
-    headline: "What turns an idea into software",
-    subhead: "From concept to products people can actually use",
-    body: "We design and build digital products that connect real users, business workflows and technology into production-ready experiences.",
+    headline: "Working software.",
+    headlineEm: "Used by the business.",
+    body: "We turn a high-value idea into a product people actually open — an internal tool or experience connected to real users, data and workflows. The first release is small enough to ship, instrumented enough to learn, and solid enough to operate.",
     capabilities: [
       { label: "Product design", items: ["Discovery", "UX", "User flows", "Prototyping", "Interfaces"] },
       { label: "Applications", items: ["Web apps", "Internal tools", "Portals", "Product experiences"] },
@@ -159,75 +164,149 @@ export const PRACTICE_BACKS: Record<PracticeId, PracticeBack> = {
   },
 };
 
+const ENGAGEMENT_DISCLAIMER =
+  "Illustrative delivery pattern, not a client case study or measured outcome.";
+
 export const TYPICAL_ENGAGEMENTS: Record<PracticeId, TypicalEngagement> = {
   engineering: {
     label: "Typical engagement",
-    title: "Stabilise one data domain, then expand",
+    title: "Put one domain under orchestration, with quality the business can see",
     situation:
-      "A business-critical domain relies on brittle ingestion, duplicated models and manual reconciliation.",
+      "A critical warehouse feed lands late or silently wrong. Reports and products wait on a pipeline nobody owns, and no one can say whether the day’s data is complete.",
     intervention:
-      "Map the source contracts, design the serving model, rebuild the critical path and pair with the client team through cutover.",
+      "Map the sources, orchestrate ingestion and transformation for that domain, put tests on the grain that matters, and serve a trusted table the rest of the business can use.",
     delivers: [
-      "Source and data contracts",
-      "Tested pipelines and serving models",
-      "Observability, runbooks and handover",
+      "Source map and data contracts",
+      "Orchestrated warehouse pipeline",
+      "Quality checks, alerts and handover",
     ],
     change:
-      "The team gains one maintainable path for the domain and a repeatable pattern for the next migration.",
-    disclaimer:
-      "Illustrative delivery pattern, not a client case study or measured outcome.",
+      "One domain runs on a path the team can operate — with freshness and quality visible before the business notices a break.",
+    disclaimer: ENGAGEMENT_DISCLAIMER,
   },
   analytics: {
     label: "Typical engagement",
-    title: "Create one operating view the room can use",
+    title: "Give the room one KPI pack, with a forecast on the same number",
     situation:
-      "A leadership pack takes days to assemble and still produces competing definitions of performance.",
+      "The monthly pack is assembled by hand. The same KPI means three things, the forecast lives in a side spreadsheet, and the meeting spends its time debating the number.",
     intervention:
-      "Map the decisions, agree metric contracts, automate the pack and establish owners for the review cadence.",
+      "Agree metric contracts, automate the operating view from trusted data, add a short forecast and exception list, and put a named review cadence around it.",
     delivers: [
-      "Decision and source map",
-      "Metric contracts and quality rules",
-      "Operating pack, exceptions and review cadence",
+      "KPI and metric contracts",
+      "Automated operating pack and forecast",
+      "Exception view and review cadence",
     ],
     change:
-      "The recurring discussion starts from one owned view, with exceptions and next actions made explicit.",
-    disclaimer:
-      "Illustrative delivery pattern, not a client case study or measured outcome.",
+      "The recurring discussion starts from one owned number, with exceptions and a next action made explicit.",
+    disclaimer: ENGAGEMENT_DISCLAIMER,
   },
   ai: {
     label: "Typical engagement",
-    title: "Turn an inbox process into a governed AI workflow",
+    title: "Move high-volume judgement from the inbox to a governed assistant, then an agent",
     situation:
-      "A team repeatedly reads, classifies and routes high-volume requests using email and shared sheets.",
+      "A team classifies, drafts and routes work from email and documents, hundreds of times a week. The same judgement is applied by hand, and nothing is traced.",
     intervention:
-      "Baseline the work, define the human decision points, ground the model, build evaluations and ship a monitored workflow with fallback.",
+      "Ground an assistant in approved knowledge, wrap it in a workflow with human review, let an agent take the routine next action, and keep evaluation, fallback and a kill switch.",
     delivers: [
-      "Process baseline and stop criteria",
-      "Evaluation set, grounding and review rules",
-      "Traceable workflow, monitoring and kill switch",
+      "Workflow baseline and stop rules",
+      "Grounded assistant with evaluation",
+      "Agent actions, review path and kill switch",
     ],
     change:
-      "Routine work moves through a consistent path while ambiguous cases remain visible to a named reviewer.",
-    disclaimer:
-      "Illustrative delivery pattern, not a client case study or measured outcome.",
+      "Routine work moves through a consistent path. Ambiguous cases stay with a named reviewer, and every action can be traced.",
+    disclaimer: ENGAGEMENT_DISCLAIMER,
   },
   products: {
     label: "Typical engagement",
-    title: "Replace a shared workbook with a working product",
+    title: "Ship an internal app that coordinates the number, the insight and the action",
     situation:
-      "An operational team runs a valuable process through spreadsheets, messages and undocumented hand-offs.",
+      "Dashboards, chat exceptions and spreadsheet follow-up never meet. Nobody has one place to see the metric, the insight and the work that should happen next.",
     intervention:
-      "Shape the first user journey, connect the real data, build the product surface and instrument the workflow before extending it.",
+      "Build a focused internal tool on trusted metrics, surface the exceptions, and let a workflow or agent act — with the same controls as the practices underneath.",
     delivers: [
-      "First-release scope and service flow",
-      "Authenticated product with real data",
-      "Usage instrumentation, runbook and next-release plan",
+      "First-release product frame",
+      "Authenticated operating surface",
+      "Insight-to-action loop and runbook",
     ],
     change:
-      "The team gets a dependable product surface and evidence for what should—or should not—be built next.",
-    disclaimer:
-      "Illustrative delivery pattern, not a client case study or measured outcome.",
+      "The team works from one product surface: the number, the exception and the next action, with evidence for what to build — or stop — next.",
+    disclaimer: ENGAGEMENT_DISCLAIMER,
   },
+};
+
+export const PRACTICE_DELIVERABLES: Record<PracticeId, PracticeDeliverable[]> = {
+  engineering: [
+    {
+      title: "Source-to-warehouse design",
+      body: "Named sources, grain, owners and the target path from ingestion to serving — a design the client team can challenge before build.",
+    },
+    {
+      title: "Orchestrated production pipeline",
+      body: "Scheduled ingest, transform and load for the selected domain, with tests at each contract rather than a hero script.",
+    },
+    {
+      title: "Data quality and observability",
+      body: "Freshness, completeness and anomaly checks on the grain that matters, with alerts before the business notices.",
+    },
+    {
+      title: "Operating handover",
+      body: "Runbooks, access, cost view and pairing so the client team can run the platform without the original builder.",
+    },
+  ],
+  analytics: [
+    {
+      title: "Decision and KPI map",
+      body: "The calls that matter, who owns them, and where today’s number is disputed or assembled by hand.",
+    },
+    {
+      title: "Metric contracts",
+      body: "One definition, grain, owner and quality rule for each measure the room will use.",
+    },
+    {
+      title: "Operating pack",
+      body: "The automated view of performance, exceptions and next actions, with a forecast on the same metric layer.",
+    },
+    {
+      title: "Review cadence",
+      body: "The rhythm for challenge, annotation and ownership of the next decision — not another unused report.",
+    },
+  ],
+  ai: [
+    {
+      title: "Workflow baseline",
+      body: "Steps, volume, judgement points, failure modes and a stop rule for the first live loop.",
+    },
+    {
+      title: "Grounding and evaluation set",
+      body: "Approved knowledge, representative cases and quality bars agreed before anything ships.",
+    },
+    {
+      title: "Human-review and agent design",
+      body: "Where the assistant drafts, where the agent acts, and where a named person must still decide.",
+    },
+    {
+      title: "Monitored production loop",
+      body: "A traceable workflow in the real system, with fallback, operational signals and a kill switch.",
+    },
+  ],
+  products: [
+    {
+      title: "First-release product frame",
+      body: "Named users, the critical journey, the data it sits on, and what is explicitly out of scope.",
+    },
+    {
+      title: "Production product surface",
+      body: "An authenticated internal app or experience connected to real data and systems.",
+    },
+    {
+      title: "Insight-to-action loop",
+      body: "Exceptions, workflows and — where relevant — agents operating on that surface.",
+    },
+    {
+      title: "Runbook and next-release decision",
+      body: "Ownership, support path, and evidence for what to build next — or stop.",
+    },
+  ],
 };
 
 export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
@@ -236,16 +315,16 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       num: "01",
       title: "Understand",
       hint: "Data landscape",
-      heading: "Map the data that the business depends on",
-      body: "Identify the systems, data domains, dependencies and reliability gaps shaping the current environment.",
+      heading: "Map the data the business depends on",
+      body: "Start with the systems, domains and consumers that actually move the business — not a catalogue of every table. We identify where trust, ownership and lineage already break, so the first platform work is aimed at a real operating problem.",
       points: [
         {
           title: "Critical data flows",
-          text: "Which sources, transformations and consumers matter most.",
+          text: "Which sources, transformations and consumers sit on the path that reporting, products or operations cannot afford to get wrong.",
         },
         {
           title: "Trust boundaries",
-          text: "Where data quality, ownership or lineage starts to break.",
+          text: "Where quality, ownership or lineage fails today — late loads, silent duplicates, or a number nobody will defend.",
         },
       ],
     },
@@ -254,15 +333,15 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Shape",
       hint: "Architecture",
       heading: "Design the platform around the problem",
-      body: "Define the target architecture, delivery boundaries and operating model for the first domain worth fixing.",
+      body: "Choose the architecture, contracts and operating model for the first domain worth fixing. The design is small enough to build, explicit enough for the client team to challenge, and ready to extend without a rewrite.",
       points: [
         {
           title: "Target architecture",
-          text: "Choose the right storage, processing and serving patterns.",
+          text: "Storage, processing, orchestration and serving patterns that fit this domain and the way the team will run them.",
         },
         {
           title: "Data contracts",
-          text: "Define ownership, quality expectations and interfaces between systems.",
+          text: "Named owners, grains, quality expectations and interfaces between systems, so the next pipeline is not a one-off.",
         },
       ],
     },
@@ -270,16 +349,16 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       num: "03",
       title: "Build",
       hint: "Platform",
-      heading: "Build the foundation that products can depend on",
-      body: "Deliver tested pipelines, governed data models and reliable access to the information that matters.",
+      heading: "Build the foundation products can depend on",
+      body: "Deliver tested ingestion, transformation and serving for the selected domain. Quality checks and observability sit on the path, so a break is visible before it becomes a business incident.",
       points: [
         {
           title: "Production pipelines",
-          text: "Ingest, transform and serve data through repeatable engineering patterns.",
+          text: "Orchestrated ingest, transform and load through repeatable engineering patterns — not a hero script.",
         },
         {
           title: "Quality and observability",
-          text: "Make failures, changes and data issues visible before they become business problems.",
+          text: "Freshness, completeness and failure signals on the grain that matters, with a path to act when they fire.",
         },
       ],
     },
@@ -288,15 +367,15 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Evolve",
       hint: "Operate",
       heading: "Operate, improve and extend",
-      body: "Monitor how the platform performs, strengthen reliability and expand into the next valuable domain.",
+      body: "Run the new path with the client team. Use freshness, quality and cost to decide where to harden, then expand only where the next business outcome justifies it.",
       points: [
         {
           title: "Operational visibility",
-          text: "Track freshness, quality, failures and performance.",
+          text: "Track freshness, quality, failures and cost so the platform can be owned without the original builder.",
         },
         {
           title: "Domain expansion",
-          text: "Extend the platform where the next business outcome justifies the investment.",
+          text: "Reuse the same contracts and patterns on the next valuable domain, rather than starting from a blank pipeline.",
         },
       ],
     },
@@ -307,15 +386,15 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Understand",
       hint: "Decisions",
       heading: "Map the calls that move the business",
-      body: "Start with the decisions that are slow, disputed or based on gut feel — and the people who make them.",
+      body: "Begin with the decisions that are slow, disputed or still made on gut feel — and the people who make them. We map the sources behind those calls so the work starts from a real meeting, not a dashboard wishlist.",
       points: [
         {
           title: "Decision inventory",
-          text: "Which calls need better evidence.",
+          text: "Which recurring calls need a trusted number, an owner and a next action — not another chart.",
         },
         {
           title: "Source map",
-          text: "Where the numbers and signals behind those calls really live.",
+          text: "Where those numbers actually live today, and where the process loses time or trust on the way to the room.",
         },
       ],
     },
@@ -324,15 +403,15 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Shape",
       hint: "Definitions",
       heading: "Turn disagreement into a shared definition",
-      body: "Define the metrics, business logic and ownership needed to make the numbers trusted and actionable.",
+      body: "Agree what each KPI means, how it is calculated and who owns it. Connect those definitions to the actions they are supposed to support, so the pack is built for a decision rather than a slide.",
       points: [
         {
           title: "Metric contracts",
-          text: "Agree what each measure means, how it is calculated and who owns it.",
+          text: "Named definitions, grains, owners and quality rules for the measures the room will use.",
         },
         {
           title: "Decision design",
-          text: "Connect metrics and thresholds to the actions they are expected to support.",
+          text: "Thresholds, exceptions and the actions those signals are expected to trigger.",
         },
       ],
     },
@@ -341,15 +420,15 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Build",
       hint: "Operating view",
       heading: "Build the operating view around the decision",
-      body: "Turn trusted data and agreed definitions into an interface that makes the next action clearer.",
+      body: "Turn trusted data and agreed definitions into the pack the team actually opens. Forecasts and exception views sit on the same metric layer, not a side spreadsheet.",
       points: [
         {
           title: "Decision surfaces",
-          text: "Dashboards, operating packs or applications designed around real questions.",
+          text: "Dashboards, operating packs or applications designed around the questions asked in the room.",
         },
         {
           title: "Exceptions and signals",
-          text: "Make changes, risks and opportunities visible when they need attention.",
+          text: "Changes, risks and opportunities made visible when they need attention — including a short forecast on the same number.",
         },
       ],
     },
@@ -358,15 +437,15 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Evolve",
       hint: "Cadence",
       heading: "Turn insight into an operating rhythm",
-      body: "Observe how the information is used and evolve the system around the decisions that create the most value.",
+      body: "Watch how the pack is used. Improve the metrics, forecasts and exceptions around the decisions that create value, and retire the views that do not.",
       points: [
         {
           title: "Review cadence",
-          text: "Embed the right information into recurring business decisions.",
+          text: "A practical rhythm for review, challenge and ownership of the next action.",
         },
         {
           title: "Continuous refinement",
-          text: "Improve metrics, forecasts and views as the business changes.",
+          text: "Metrics, forecasts and experiments evolve with the business, still on one definition of performance.",
         },
       ],
     },
@@ -377,15 +456,15 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Understand",
       hint: "Workflow",
       heading: "Find the work worth making intelligent",
-      body: "Map the workflow, decisions and repetitive judgement where AI can create meaningful leverage.",
+      body: "Map the workflow, the repeated judgement and the volume where an assistant or agent would actually save time. We separate what should be automated, what should be assisted, and what must stay with a person.",
       points: [
         {
           title: "Workflow baseline",
-          text: "Understand how work moves today, where time is spent and where friction appears.",
+          text: "How the work moves today, where time is spent, and where the same judgement is applied hundreds of times.",
         },
         {
           title: "Automation boundaries",
-          text: "Identify what should be automated, assisted or kept under human control.",
+          text: "What an assistant can draft, what an agent can do, and what a named reviewer must still decide.",
         },
       ],
     },
@@ -394,15 +473,15 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Shape",
       hint: "Intelligence design",
       heading: "Design the intelligence around the workflow",
-      body: "Define the AI behaviour, knowledge sources, controls and evaluation model before moving into production.",
+      body: "Define behaviour, knowledge sources, evaluation and controls before anything reaches production. The design is specific enough to build and strict enough to stop if quality does not hold.",
       points: [
         {
           title: "System design",
-          text: "Shape how models, tools, data and users interact.",
+          text: "How models, tools, data and users interact inside the real process — not a demo notebook.",
         },
         {
           title: "Control model",
-          text: "Define grounding, human review, permissions and failure boundaries.",
+          text: "Grounding, human review, permissions, fallback and a clear stop rule.",
         },
       ],
     },
@@ -411,15 +490,15 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Build",
       hint: "Production loop",
       heading: "Turn the workflow into a production system",
-      body: "Build and integrate the AI capability into the real environment where the work happens.",
+      body: "Integrate the assistant or agent into the environment where the work already happens. Tracing, monitoring and a kill switch ship with the first live loop.",
       points: [
         {
           title: "Intelligent workflows",
-          text: "Connect models, knowledge, tools and business systems.",
+          text: "Models, knowledge, tools and business systems connected so routine work can move without an inbox pile.",
         },
         {
           title: "Production controls",
-          text: "Add tracing, monitoring, fallback paths and operational safeguards.",
+          text: "Evaluation, tracing, fallback paths and operational safeguards the client team can run.",
         },
       ],
     },
@@ -428,15 +507,15 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Evolve",
       hint: "Evaluation",
       heading: "Improve the system against real work",
-      body: "Measure quality, cost and behaviour in production — then improve where the evidence supports it.",
+      body: "Measure quality, cost and behaviour in production. Extend the workflow only when the evidence says the next step is safe and useful.",
       points: [
         {
           title: "Evaluation loops",
-          text: "Continuously test outputs against representative business scenarios.",
+          text: "Test outputs against representative business cases as the work changes.",
         },
         {
           title: "Capability expansion",
-          text: "Extend the workflow only when reliability and value have been demonstrated.",
+          text: "Add the next action or domain when reliability and value have been demonstrated — not before.",
         },
       ],
     },
@@ -447,15 +526,15 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Understand",
       hint: "Opportunity",
       heading: "Find the product worth building",
-      body: "Understand the problem, users and current workflow before deciding what software should exist.",
+      body: "Understand the users, the current workaround and the data or workflow the product must sit on. We decide what software should exist before we discuss screens.",
       points: [
         {
           title: "Problem framing",
-          text: "Clarify what needs to change and why the current approach is not enough.",
+          text: "What must change, why the current spreadsheet or handover is not enough, and who is accountable for the outcome.",
         },
         {
           title: "User and workflow insight",
-          text: "Understand who does the work, where friction happens and what success looks like.",
+          text: "Who does the work, where it stalls, and what a first useful product would take off their plate.",
         },
       ],
     },
@@ -464,15 +543,15 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Shape",
       hint: "Product",
       heading: "Turn the opportunity into a credible product",
-      body: "Define the smallest product that can create value without overbuilding the first release.",
+      body: "Define the smallest product that can create value without overbuilding the first release. The frame names the user, the journey, the data it uses, and what is explicitly out of scope.",
       points: [
         {
           title: "Product definition",
-          text: "Prioritise what ships now, what waits and what can be learned later.",
+          text: "What ships now, what waits, and what we need to learn from real use.",
         },
         {
           title: "Experience and architecture",
-          text: "Shape the user journey, technical approach and integration boundaries.",
+          text: "The user journey, the systems it connects to, and how insights or agents may act on that surface later.",
         },
       ],
     },
@@ -481,15 +560,15 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Build",
       hint: "Release",
       heading: "Move from concept to working software",
-      body: "Design and develop the product in visible loops, using AI-first ways of working to move faster without losing engineering discipline.",
+      body: "Design and develop in visible loops, connected to real data and the controls needed to operate. The first release is an authenticated product people can use — not a prototype that pretends.",
       points: [
         {
           title: "Working product",
-          text: "Build the application, integrations and data flows needed for the first real release.",
+          text: "The application, integrations and data flows required for the first real release.",
         },
         {
           title: "Production readiness",
-          text: "Add authentication, monitoring, analytics and the controls needed to operate.",
+          text: "Authentication, monitoring, analytics and the operational path the client team will run.",
         },
       ],
     },
@@ -498,15 +577,15 @@ export const PRACTICE_STAGES: Record<PracticeId, PracticeStage[]> = {
       title: "Evolve",
       hint: "Growth",
       heading: "Learn from use and earn the next release",
-      body: "Use real behaviour and business outcomes to decide what improves, expands or stops.",
+      body: "Use adoption, behaviour and business outcomes to decide what improves, expands or stops. The next slice is a decision, not a backlog by default.",
       points: [
         {
           title: "Product signals",
-          text: "Observe adoption, behaviour and the outcomes the product is creating.",
+          text: "Where people succeed, hesitate or leave, and whether the product is changing the work.",
         },
         {
           title: "Next-release decisions",
-          text: "Prioritise future investment based on evidence rather than assumptions.",
+          text: "Invest, transfer or stop based on evidence from the live product.",
         },
       ],
     },

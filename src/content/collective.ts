@@ -109,6 +109,59 @@ export const OPERATING_MODEL = [
   },
 ] as const;
 
+export const COLLECTIVE_PRINCIPLES = [
+  {
+    code: "01",
+    title: "AI is the default",
+    body: "Every task starts with how AI should help. People still own judgement, quality and the call to ship.",
+  },
+  {
+    code: "02",
+    title: "Match the artefact to the room",
+    body: "A working note, a workshop and an executive product are not the same deliverable. Polish follows audience, not habit.",
+  },
+  {
+    code: "03",
+    title: "Need before tool",
+    body: "Stack and tooling follow the problem and the people who must live with it. We do not install a product looking for a use.",
+  },
+  {
+    code: "04",
+    title: "Build first, then harden",
+    body: "Prefer a working increment over a perfect plan. Add contracts, tests and controls as the product earns them.",
+  },
+  {
+    code: "05",
+    title: "Assume, name it, move",
+    body: "When a decision is blocked, document the assumption and continue. Challenge the assumption — do not wait in silence.",
+  },
+  {
+    code: "06",
+    title: "Build and show",
+    body: "Every increment leaves a shareable artefact the client can see, challenge and take into the business.",
+  },
+  {
+    code: "07",
+    title: "Involve to adopt",
+    body: "Move fast to learn. Bring users into the work when they must live with the result — adoption is not a handover slide.",
+  },
+  {
+    code: "08",
+    title: "Design for people and agents",
+    body: "Interfaces, APIs and context should be usable by humans today and by agents tomorrow. Document in the repo, not in someone’s head.",
+  },
+  {
+    code: "09",
+    title: "Work the way we recommend",
+    body: "The collective uses the same AI-first, visible, accountable model it asks clients to trust. We do not sell a way of working we will not run ourselves.",
+  },
+  {
+    code: "10",
+    title: "Leave something they can run",
+    body: "Code, contracts, runbooks and product context stay useful after we leave. The next release is earned with evidence, not momentum.",
+  },
+] as const;
+
 export const BEST_FIT = [
   "A valuable business problem has an accountable executive or functional sponsor.",
   "A focused first product can create evidence before a wider commitment.",

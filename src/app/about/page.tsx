@@ -7,6 +7,7 @@ import { RoleArchetypes } from "@/components/sections/RoleArchetypes";
 import {
   BEST_FIT,
   COLLECTIVE_DIFFERENTIATORS,
+  COLLECTIVE_PRINCIPLES,
   DELIVERY_METHOD,
   NOT_THE_RIGHT_FIT,
   OPERATING_MODEL,
@@ -18,29 +19,6 @@ export const metadata: Metadata = {
   description:
     "How DatabyPassion forms senior, problem-shaped teams around digital, data and AI products.",
 };
-
-const PRINCIPLES = [
-  {
-    code: "01",
-    title: "Start from the decision",
-    body: "Tools follow the business problem, the workflow and the people who need to use the answer.",
-  },
-  {
-    code: "02",
-    title: "Make the work visible",
-    body: "Working sessions, decisions and increments replace layers of status theatre.",
-  },
-  {
-    code: "03",
-    title: "Earn the next release",
-    body: "A focused product creates evidence. Evidence, not momentum alone, decides what grows.",
-  },
-  {
-    code: "04",
-    title: "Leave an operating capability",
-    body: "Code, contracts, runbooks and product context should remain useful after the engagement.",
-  },
-] as const;
 
 export default function AboutPage() {
   return (
@@ -146,15 +124,17 @@ export default function AboutPage() {
           <div className="section-heading-split">
             <div>
               <span className="label">Principles</span>
-              <h2 className="sh">Constraints we work against</h2>
+              <h2 className="sh">
+                Ten commandments. <span className="em">How the collective actually works.</span>
+              </h2>
             </div>
             <p className="sb">
-              Practical commitments that keep a senior, small-team model useful inside an
-              enterprise.
+              These are the rules we hold ourselves to on every engagement — so a small, senior
+              team can move at startup speed inside an enterprise without becoming theatre.
             </p>
           </div>
-          <div className="principles-grid principles-grid--four">
-            {PRINCIPLES.map((principle) => (
+          <div className="principles-grid principles-grid--ten">
+            {COLLECTIVE_PRINCIPLES.map((principle) => (
               <article className="principle-card" key={principle.code}>
                 <div className="principle-icon">{principle.code}</div>
                 <h3>{principle.title}</h3>

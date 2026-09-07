@@ -1111,8 +1111,8 @@ footer,.footer-grid,.footer-brand-logo,.footer-bottom,
 .lang-switch span{color:var(--purple-bright)}
 .network-swatches{display:flex;align-items:center;gap:6px;margin-left:4px}
 .network-swatch{width:10px;height:10px;padding:0;border-radius:50%;border:1px solid rgba(255,255,255,0.35);cursor:pointer;background:#1a9afa}
-.network-swatch[data-id="ember"]{background:#ea580c}
-.network-swatch[data-id="mono"]{background:#d4d4d8}
+.network-swatch[data-id="redshift"]{background:radial-gradient(circle at 50% 42%,#fff 0 38%,#e11d48 40% 100%)}
+.network-swatch[data-id="ionosphere"]{background:#1a9afa}
 .network-swatch[data-id="galaxy"]{background:radial-gradient(circle at 35% 30%,#e8f1ff 0%,#9eb6ff 45%,#1a1040 100%)}
 .network-swatch[data-id="station"]{background:radial-gradient(circle at 40% 35%,#c9d8e8 0%,#4a6f92 55%,#0a1520 100%)}
 .network-swatch[data-id="solar"]{background:radial-gradient(circle at 40% 35%,#ffe2a8 0%,#f0a34a 40%,#1a2a55 100%)}

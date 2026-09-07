@@ -1,14 +1,13 @@
 export type NetworkPaletteId =
-  | "parthenon"
-  | "ember"
-  | "mono"
+  | "redshift"
+  | "ionosphere"
   | "galaxy"
   | "station"
   | "solar";
 
 export const NETWORK_PALETTE_KEY = "dbp_network_palette";
 export const NETWORK_PALETTE_EVENT = "dbp-network-palette";
-export const DEFAULT_NETWORK_PALETTE: NetworkPaletteId = "mono";
+export const DEFAULT_NETWORK_PALETTE: NetworkPaletteId = "redshift";
 
 /** Photo-backed themes: still image + calmer network overlay */
 export const PHOTO_NETWORK_PALETTES: NetworkPaletteId[] = ["galaxy", "station", "solar"];
@@ -18,26 +17,20 @@ export function isPhotoNetworkPalette(id: string): boolean {
 }
 
 export const NETWORK_PALETTES = {
-  parthenon: {
+  redshift: {
+    a: "#fff7f7",
+    b: "#e11d48",
+    c: "#fb7185",
+    rgbA: "225,29,72",
+    rgbB: "225,29,72",
+    star: "#f8fafc",
+  },
+  ionosphere: {
     a: "#67e8f9",
     b: "#1a9afa",
     c: "#5bb8ff",
     rgbA: "103,232,249",
     rgbB: "26,154,250",
-  },
-  ember: {
-    a: "#fb923c",
-    b: "#ea580c",
-    c: "#f97316",
-    rgbA: "251,146,60",
-    rgbB: "234,88,12",
-  },
-  mono: {
-    a: "#f4f4f5",
-    b: "#a1a1aa",
-    c: "#d4d4d8",
-    rgbA: "244,244,245",
-    rgbB: "161,161,170",
   },
   galaxy: {
     a: "#e8f1ff",
@@ -63,29 +56,44 @@ export const NETWORK_PALETTES = {
 } as const;
 
 export const NETWORK_PALETTE_META: { id: NetworkPaletteId; label: string }[] = [
-  { id: "parthenon", label: "Parthenon" },
-  { id: "ember", label: "Ember" },
-  { id: "mono", label: "Mono" },
-  { id: "galaxy", label: "Galaxy" },
-  { id: "station", label: "Station" },
-  { id: "solar", label: "Solar" },
+  { id: "redshift", label: "Redshift" },
+  { id: "ionosphere", label: "Ionosphere" },
+  { id: "galaxy", label: "Deep Field" },
+  { id: "station", label: "Cupola" },
+  { id: "solar", label: "Perihelion" },
 ];
+
+const PALETTE_ALIASES: Record<string, NetworkPaletteId> = {
+  ember: "redshift",
+  mono: "redshift",
+  parthenon: "ionosphere",
+};
 
 export function isNetworkPaletteId(value: string): value is NetworkPaletteId {
   return (
-    value === "parthenon" ||
-    value === "ember" ||
-    value === "mono" ||
+    value === "redshift" ||
+    value === "ionosphere" ||
     value === "galaxy" ||
     value === "station" ||
     value === "solar"
   );
 }
 
+export function resolveNetworkPaletteId(value: string): NetworkPaletteId | null {
+  if (isNetworkPaletteId(value)) return value;
+  return PALETTE_ALIASES[value] ?? null;
+}
+
 export function readNetworkPalette(): NetworkPaletteId {
   try {
     const stored = window.sessionStorage.getItem(NETWORK_PALETTE_KEY);
-    if (stored && isNetworkPaletteId(stored)) return stored;
+    if (stored) {
+      const resolved = resolveNetworkPaletteId(stored);
+      if (resolved) {
+        if (resolved !== stored) window.sessionStorage.setItem(NETWORK_PALETTE_KEY, resolved);
+        return resolved;
+      }
+    }
   } catch {
     /* ignore */
   }

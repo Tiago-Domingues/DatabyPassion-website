@@ -130,9 +130,6 @@ export function ServicePage({
                   <div className="chain-node-num">{item.num}</div>
                   <h3>{item.title}</h3>
                   <p>{item.hint}</p>
-                  <span className="chain-node-state" aria-hidden="true">
-                    {index === active ? "Selected" : "View stage"}
-                  </span>
                 </button>
               ))}
             </div>

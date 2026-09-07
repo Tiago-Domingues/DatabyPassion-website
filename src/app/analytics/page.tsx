@@ -16,7 +16,7 @@ export default function AnalyticsPage() {
       titleEm="decide"
       sub="KPI packs, forecasts and operating views the team actually opens — one definition of the number, used in the room."
       cta="Create an analytics brief"
-      accentVar="#67e8f9"
+      accentVar="#34d399"
       stages={[
         {
           num: "01",

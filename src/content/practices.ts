@@ -10,7 +10,7 @@ export type PracticeSummary = {
   preview: string;
   tags: string[];
   href: "/engineering" | "/analytics" | "/ai" | "/products";
-  accent: "amber" | "green" | "cyan" | "blue";
+  accent: "amber" | "green" | "cyan" | "blue" | "rose";
 };
 
 export type TypicalEngagement = {
@@ -67,7 +67,7 @@ export const PRACTICES: PracticeSummary[] = [
       "Move one repetitive process from manual handling to a traceable production loop.",
     tags: ["Workflows", "Assistants", "Agents"],
     href: "/ai",
-    accent: "cyan",
+    accent: "rose",
   },
   {
     id: "products",

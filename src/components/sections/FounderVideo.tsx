@@ -1,72 +1,12 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
-
 export function FounderVideo({ compact = false }: { compact?: boolean }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [started, setStarted] = useState(false);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting && !video.paused) {
-          video.pause();
-        }
-      },
-      { threshold: 0.25 },
-    );
-    observer.observe(video);
-    return () => observer.disconnect();
-  }, []);
-
-  async function startVideo() {
-    const video = videoRef.current;
-    if (!video) return;
-    setStarted(true);
-    try {
-      await video.play();
-    } catch {
-      setStarted(false);
-    }
-  }
-
   return (
     <figure className={`founder-video${compact ? " founder-video--compact" : ""}`}>
-      <div className="founder-video__frame">
-        <video
-          ref={videoRef}
-          controls={started}
-          playsInline
-          preload="metadata"
-          poster="/media/executive-film-placeholder.jpg"
-          aria-describedby="founder-video-note"
-          onPlay={() => setStarted(true)}
-        >
-          <source src="/media/executive-film-placeholder.mp4" type="video/mp4" />
-          Your browser does not support embedded video.
-        </video>
-        {!started && (
-          <button
-            type="button"
-            className="founder-video__play"
-            onClick={startVideo}
-            aria-label="Play temporary executive-film layout video"
-          >
-            <span aria-hidden="true">▶</span>
-            Play film
-          </button>
-        )}
-        <span className="founder-video__placeholder">Temporary layout placeholder</span>
+      <div className="founder-video__frame founder-video__frame--still" aria-hidden="true">
+        <span className="founder-video__mark">Film</span>
       </div>
       <figcaption id="founder-video-note">
         <strong>{compact ? "A note from the founder" : "Why the collective exists"}</strong>
-        <p>
-          Temporary executive footage is shown only to test the portrait-film layout. The
-          release asset will be an English founder film with captions and a transcript.
-        </p>
+        <p>Founder film — English, with captions — will sit here when it is ready.</p>
       </figcaption>
     </figure>
   );

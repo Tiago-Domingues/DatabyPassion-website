@@ -6,6 +6,7 @@ import { createPortal } from "react-dom";
 export type RoleDetail = {
   code: string;
   title: string;
+  sell?: string;
   when: string;
   owns: string;
   body?: readonly string[];
@@ -96,6 +97,7 @@ export function RoleDetailPanel({
           <div className="role-panel__copy">
             <span className="mono-label">Named profile agreed per engagement</span>
             <h2 id="role-panel-title">{role.title}</h2>
+            {role.sell ? <p className="role-panel__sell">{role.sell}</p> : null}
             <p className="role-panel__when">{role.when}</p>
             <p className="role-panel__owns">{role.owns}</p>
             {role.body?.map((paragraph) => (

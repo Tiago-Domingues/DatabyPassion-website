@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { StartProject } from "@/components/StartProject";
+import { LegalSupportBar } from "@/components/sections/LegalSupportBar";
 import { TrustCharter } from "@/components/sections/TrustCharter";
 import { TRUST_CONTROLS } from "@/content/trust";
 import { CONTACT_MAILTO } from "@/lib/site";
@@ -39,17 +40,17 @@ const TRUST_SECTIONS = [
   {
     id: "development-continuity",
     label: "Development & continuity",
-    title: "The delivery record should outlive the engagement",
+    title: "The delivery record outlives the engagement",
     description:
-      "Source, secrets, specialist access, key decisions and handover artefacts are part of the operating model.",
+      "Source, secrets, specialist access, key decisions and handover artefacts stay in the operating record.",
     categories: ["Delivery", "Continuity"],
   },
   {
     id: "providers-certifications",
     label: "Providers & certifications",
-    title: "Current facts, without implied assurance",
+    title: "Named providers and certification status",
     description:
-      "Website providers are not presented as project subprocessors. Project cloud and model providers are named for the engagement.",
+      "Website hosts are not project subprocessors. Cloud and model providers for the work are named in the engagement.",
     categories: ["Providers", "Certifications"],
   },
 ] as const;
@@ -65,9 +66,10 @@ export default function SecurityPage() {
           <div className="label">Security &amp; Trust</div>
           <h1>Controls you can assess before the work starts</h1>
           <p className="page-hero-sub">
-            This page separates practices operating today from decisions agreed for each
-            engagement. It is a starting point for procurement and security review—not a
-            substitute for contract terms or client policy.
+            DatabyPassion publishes the controls that already operate, the choices agreed when
+            an engagement starts, and the facts we will not overstate. Use this page in a
+            procurement or security review. Contract terms and client policy still govern the
+            work.
           </p>
           <div className="trust-scope-key" aria-label="Control scope key">
             <span className="scope-badge scope-badge--current">Operating today</span>
@@ -103,6 +105,7 @@ export default function SecurityPage() {
                   <p className="sb">{section.description}</p>
                 </div>
                 <TrustCharter controls={controls} numbered={false} />
+                {section.id === "governance" ? <LegalSupportBar href={null} /> : null}
               </div>
             </section>
           );
@@ -115,8 +118,8 @@ export default function SecurityPage() {
             <span className="label">For procurement teams</span>
             <h2 className="sh">Turn a public overview into engagement terms</h2>
             <p className="sb">
-              A statement of work can name the systems, people, providers, permitted data,
-              retention/deletion expectations, incident contacts and handover required for the
+              The statement of work names the systems, people, providers, permitted data,
+              retention and deletion, incident contacts and handover required for the
               engagement.
             </p>
           </div>

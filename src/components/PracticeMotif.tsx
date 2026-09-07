@@ -1,21 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import type { PracticeId } from "@/content/practices";
-
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const apply = () => setReduced(media.matches);
-    apply();
-    media.addEventListener("change", apply);
-    return () => media.removeEventListener("change", apply);
-  }, []);
-
-  return reduced;
-}
 
 function PipelineMotif() {
   return (
@@ -243,14 +228,10 @@ const MOTIFS = {
 } as const;
 
 export function PracticeMotif({ kind, paused }: { kind: PracticeId; paused: boolean }) {
-  const reduced = usePrefersReducedMotion();
   const Motif = MOTIFS[kind];
 
   return (
-    <div
-      className={`practice-motif practice-motif--${kind}${paused ? " is-paused" : ""}${reduced ? " is-still" : ""}`}
-      aria-hidden="true"
-    >
+    <div className={`practice-motif practice-motif--${kind}${paused ? " is-paused" : ""}`} aria-hidden="true">
       <Motif />
     </div>
   );

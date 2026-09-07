@@ -385,7 +385,7 @@ export function initGpEffects() {
     });
   }
 
-/* Studio architecture / orbit canvases now live in StudioVizFlip. */
+/* Studio architecture / orbit figure now lives in StudioVizFlip as SVG. */
 
 
 

@@ -86,6 +86,70 @@ export const PRACTICES: PracticeSummary[] = [
   },
 ];
 
+export type PracticeCapability = {
+  label: string;
+  items: string[];
+};
+
+export type PracticeBack = {
+  kicker: string;
+  headline: string;
+  subhead: string;
+  body: string;
+  capabilities: PracticeCapability[];
+};
+
+export const PRACTICE_BACKS: Record<PracticeId, PracticeBack> = {
+  engineering: {
+    kicker: "01 — Data platforms",
+    headline: "What runs underneath",
+    subhead: "The engineering foundation behind trusted data",
+    body: "From source systems to trusted datasets, we build the engineering foundations that make data reliable, scalable and usable.",
+    capabilities: [
+      { label: "Integration", items: ["Connectors", "APIs", "Databases", "Batch", "Streaming"] },
+      { label: "Data engineering", items: ["SQL", "Spark", "Python", "Transformation", "Orchestration"] },
+      { label: "Storage & serving", items: ["Warehouses", "Lakehouses", "Databases", "Data models"] },
+      { label: "Reliability", items: ["Data quality", "Monitoring", "Observability", "Recovery"] },
+    ],
+  },
+  analytics: {
+    kicker: "02 — Analytics & decisions",
+    headline: "The system behind better decisions",
+    subhead: "From fragmented data to confident action",
+    body: "We turn fragmented information into a shared understanding of the business — so teams can measure what matters, understand what is changing and act with confidence.",
+    capabilities: [
+      { label: "Define", items: ["KPIs", "Metrics", "Business logic", "Semantic models"] },
+      { label: "Understand", items: ["Dashboards", "Analysis", "Exploration", "Reporting"] },
+      { label: "Anticipate", items: ["Forecasts", "Scenarios", "Drivers", "Trends"] },
+      { label: "Improve", items: ["Experiments", "Measurement", "Attribution", "Outcomes"] },
+    ],
+  },
+  ai: {
+    kicker: "03 — AI & automation",
+    headline: "What makes work intelligent",
+    subhead: "From repeated judgement to reliable intelligent systems",
+    body: "We design and build AI-powered workflows that combine models, business knowledge and automation with the controls needed to operate them confidently.",
+    capabilities: [
+      { label: "Intelligence", items: ["LLMs", "Machine learning", "Classification", "Prediction"] },
+      { label: "Knowledge", items: ["RAG", "Retrieval", "Search", "Context", "Knowledge bases"] },
+      { label: "Automation", items: ["Workflows", "Agents", "Integrations", "Actions", "Human-in-the-loop"] },
+      { label: "Control", items: ["Evaluation", "Guardrails", "Monitoring", "Traceability", "Governance"] },
+    ],
+  },
+  products: {
+    kicker: "04 — Digital products",
+    headline: "What turns an idea into software",
+    subhead: "From concept to products people can actually use",
+    body: "We design and build digital products that connect real users, business workflows and technology into production-ready experiences.",
+    capabilities: [
+      { label: "Product design", items: ["Discovery", "UX", "User flows", "Prototyping", "Interfaces"] },
+      { label: "Applications", items: ["Web apps", "Internal tools", "Portals", "Product experiences"] },
+      { label: "Engineering", items: ["Frontend", "Backend", "APIs", "Integrations", "Architecture"] },
+      { label: "Delivery & operations", items: ["Cloud", "CI/CD", "Security", "Monitoring", "Continuous improvement"] },
+    ],
+  },
+};
+
 export const TYPICAL_ENGAGEMENTS: Record<PracticeId, TypicalEngagement> = {
   engineering: {
     label: "Typical engagement",

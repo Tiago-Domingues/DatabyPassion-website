@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { StartProject } from "@/components/StartProject";
+import { DeliveryMap } from "@/components/sections/DeliveryMap";
 import { FounderVideo } from "@/components/sections/FounderVideo";
-import { PortfolioPath } from "@/components/sections/PortfolioPath";
+import { LegalSupportBar } from "@/components/sections/LegalSupportBar";
 import { RoleArchetypes } from "@/components/sections/RoleArchetypes";
 import {
-  BEST_FIT,
+  BOUTIQUE_CONTRAST,
   COLLECTIVE_DIFFERENTIATORS,
   COLLECTIVE_PRINCIPLES,
   DELIVERY_METHOD,
-  NOT_THE_RIGHT_FIT,
-  OPERATING_MODEL,
+  TRADITIONAL_CONTRAST,
 } from "@/content/collective";
 import { CONTACT_MAILTO } from "@/lib/site";
 
@@ -71,51 +70,13 @@ export default function AboutPage() {
               <h2 className="sh">A capability map, not a fixed bench</h2>
             </div>
             <p className="sb">
-              Six senior capabilities show how an engagement can form. The actual team, named
-              people and time commitment are agreed around the scope.
+              Six senior capabilities show how an engagement can form. One accountable lead holds
+              the outcome; specialists join when the work earns them. Named people and time
+              commitment are agreed around the scope.
             </p>
           </div>
           <RoleArchetypes />
-        </div>
-      </section>
-
-      <section className="operating-model section-pad">
-        <div className="container">
-          <div className="section-heading-split">
-            <div>
-              <span className="label">Operating model</span>
-              <h2 className="sh">
-                How teams <span className="g">form and change</span>
-              </h2>
-            </div>
-            <p className="sb">
-              The core stays accountable. Specialists join for specific decisions and delivery
-              stages; ownership remains explicit as the product evolves.
-            </p>
-          </div>
-          <div className="operating-model__grid">
-            {OPERATING_MODEL.map((item) => (
-              <article key={item.number} className="numbered-card">
-                <span>{item.number}</span>
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-              </article>
-            ))}
-          </div>
-          <div className="legal-support-card">
-            <div>
-              <span className="scope-badge scope-badge--engagement">
-                Optional per engagement
-              </span>
-              <h3>Independent legal-partner support</h3>
-            </div>
-            <p>
-              Contract, privacy and AI-governance support can be brought in when needed. The
-              partner is independent—not an employee or permanent bench member—and scope is
-              agreed before access to client context.
-            </p>
-            <Link href="/security">Review the Trust model →</Link>
-          </div>
+          <LegalSupportBar />
         </div>
       </section>
 
@@ -160,18 +121,23 @@ export default function AboutPage() {
             <h2>Understand → Shape → Build → Evolve</h2>
             <p>Each stage ends with a useful artefact and an explicit decision.</p>
           </div>
-          <div className="approach-grid">
+          <DeliveryMap />
+          <ol className="usbe-detail">
             {DELIVERY_METHOD.map((stage) => (
-              <article className="approach-card" key={stage.number}>
-                <div className="approach-num">
-                  {stage.number} {stage.title}
+              <li className="usbe-detail__stage" key={stage.number}>
+                <span className="usbe-detail__num" aria-hidden="true">
+                  {stage.number}
+                </span>
+                <div>
+                  <h3>{stage.title}</h3>
+                  <span className="usbe-detail__output">{stage.output}</span>
+                  {stage.detail.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
                 </div>
-                <h3>{stage.output}</h3>
-                <p>{stage.body}</p>
-              </article>
+              </li>
             ))}
-          </div>
-          <PortfolioPath />
+          </ol>
         </div>
       </section>
 
@@ -179,19 +145,19 @@ export default function AboutPage() {
         <div className="container">
           <div className="fit-grid">
             <article className="fit-card fit-card--positive">
-              <span className="label">Best fit</span>
-              <h2>Work that benefits from a senior, focused team</h2>
+              <span className="label">{BOUTIQUE_CONTRAST.label}</span>
+              <h2>{BOUTIQUE_CONTRAST.title}</h2>
               <ul>
-                {BEST_FIT.map((item) => (
+                {BOUTIQUE_CONTRAST.points.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
             </article>
             <article className="fit-card">
-              <span className="label">Not the right fit</span>
-              <h2>Clear boundaries protect both sides</h2>
+              <span className="label">{TRADITIONAL_CONTRAST.label}</span>
+              <h2>{TRADITIONAL_CONTRAST.title}</h2>
               <ul>
-                {NOT_THE_RIGHT_FIT.map((item) => (
+                {TRADITIONAL_CONTRAST.points.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>

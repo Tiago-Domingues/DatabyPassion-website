@@ -20,6 +20,19 @@ export const COLLECTIVE_DIFFERENTIATORS = [
   },
 ] as const;
 
+export const FOUNDER_ROLE = {
+  code: "CORE",
+  title: "Founder-led",
+  label: "Accountable core",
+  summary: "Problem, quality and communication stay connected.",
+  when: "On every engagement — the relationship does not disappear behind an account layer.",
+  owns: "A single engagement lead holds scope, quality, communication and the connection to the business outcome.",
+  body: [
+    "The person shaping the work stays close to the decisions, the build and the standard. Specialists join when the work earns them; team shape and provider access are agreed for each engagement.",
+    "Decisions, designs, code and runbooks live in the engagement record so context can move with the work. Evidence from the first release decides whether to expand the product, transfer ownership or end the work cleanly.",
+  ],
+} as const;
+
 export const ROLE_ARCHETYPES: RoleArchetype[] = [
   {
     code: "P/S",
@@ -65,47 +78,40 @@ export const DELIVERY_METHOD = [
     title: "Understand",
     output: "A problem frame",
     body: "Map the business decision, real workflow, users, data and delivery constraints.",
+    detail: [
+      "Before anything is designed or built, we sit with the people who own the outcome. We map the decision they need to make, the workflow that exists today, who actually uses it, which data can be trusted, and the constraints that will kill a clever idea in production.",
+      "The artefact is a problem frame the sponsor can recognise — not a discovery programme that invents a new transformation. If the problem is not valuable, owned or solvable in a first product, we say so here.",
+    ],
   },
   {
     number: "02",
     title: "Shape",
     output: "A credible first product",
     body: "Choose what ships first, what waits, how risk is handled and what evidence matters.",
+    detail: [
+      "We do not sell a transformation. We choose the smallest product that can create evidence: what ships first, what waits, how risk is handled, and what “good” looks like in the business.",
+      "Scope, team shape and controls are agreed here so Build is execution, not a second negotiation. The collective changes with that shape — specialists join for the decisions and delivery the work actually needs.",
+    ],
   },
   {
     number: "03",
     title: "Build",
     output: "Working software",
     body: "Deliver in short, visible loops inside the agreed stack and control model.",
+    detail: [
+      "Senior people stay in the work. Delivery happens in short, visible loops inside the stack and control model you already run — or the one we agree for the engagement.",
+      "You see working software, not status theatre. Decisions, designs and code live in the engagement record so context does not sit in an account layer or in someone’s head.",
+    ],
   },
   {
     number: "04",
     title: "Evolve",
     output: "A portfolio decision",
     body: "Observe use, improve the product and decide whether to scale, transfer or stop.",
-  },
-] as const;
-
-export const OPERATING_MODEL = [
-  {
-    number: "01",
-    title: "One accountable lead",
-    body: "A single engagement lead holds scope, quality, communication and the connection to the business outcome.",
-  },
-  {
-    number: "02",
-    title: "Specialists when the work earns them",
-    body: "The collective changes with the problem. Team shape and provider access are agreed for each engagement.",
-  },
-  {
-    number: "03",
-    title: "Shared delivery record",
-    body: "Decisions, designs, code and runbooks live in the engagement record so context can move with the work.",
-  },
-  {
-    number: "04",
-    title: "Scale, hand over or stop",
-    body: "Evidence from the first release decides whether to expand the product, transfer ownership or end the work cleanly.",
+    detail: [
+      "After release we watch real use. Improve what is working, transfer ownership when the client team can run it, or stop cleanly when the evidence does not support more investment.",
+      "Expansion is a decision, not an assumption. A useful first product can earn the next — scale the product, add the next use case, or end the work. The next commitment is earned with evidence, not momentum.",
+    ],
   },
 ] as const;
 
@@ -162,16 +168,24 @@ export const COLLECTIVE_PRINCIPLES = [
   },
 ] as const;
 
-export const BEST_FIT = [
-  "A valuable business problem has an accountable executive or functional sponsor.",
-  "A focused first product can create evidence before a wider commitment.",
-  "The client team can work directly with senior practitioners and make decisions.",
-  "The work crosses product, data, AI or engineering boundaries.",
-] as const;
+export const BOUTIQUE_CONTRAST = {
+  label: "The boutique",
+  title: "Senior people stay in the work",
+  points: [
+    "The person shaping the engagement stays close to decisions, the build and the standard.",
+    "The team is assembled around the problem — not a pre-sold organisation chart.",
+    "A focused first product creates evidence before a wider commitment.",
+    "Decisions, artefacts and handover stay visible. No account layer.",
+  ],
+} as const;
 
-export const NOT_THE_RIGHT_FIT = [
-  "Commodity staff augmentation or a pre-filled organisation chart.",
-  "An AI demonstration with no owner, workflow or route to production.",
-  "A transformation with no empowered sponsor or product decision-maker.",
-  "A requirement for certifications or delivery scale the consultancy does not hold.",
-] as const;
+export const TRADITIONAL_CONTRAST = {
+  label: "Traditional consulting",
+  title: "Distance between the promise and the work",
+  points: [
+    "A partner sells the work; a junior bench is expected to deliver it.",
+    "Staff augmentation or a pre-filled organisation chart billed as a team.",
+    "Decks, workshops and AI demonstrations with no owner and no route to production.",
+    "Programme machinery, scale claims or certifications this consultancy does not hold.",
+  ],
+} as const;

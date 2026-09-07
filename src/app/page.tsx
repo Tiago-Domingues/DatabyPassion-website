@@ -4,6 +4,7 @@ import { PracticeFlipCards } from "@/components/PracticeFlipCards";
 import { StudioVizFlip } from "@/components/StudioVizFlip";
 import { ToolLogoStrip } from "@/components/ToolLogoStrip";
 import { DeliveryMap } from "@/components/sections/DeliveryMap";
+import { LegalSupportBar } from "@/components/sections/LegalSupportBar";
 import { RoleArchetypes } from "@/components/sections/RoleArchetypes";
 import { TrustCharter } from "@/components/sections/TrustCharter";
 import { HOMEPAGE_NARRATIVE, SITE_IDENTITY } from "@/content/identity";
@@ -80,6 +81,7 @@ export default function HomePage() {
             <p>Not a fixed team—an honest view of the senior capabilities that can form around the work.</p>
           </div>
           <RoleArchetypes compact />
+          <LegalSupportBar />
         </div>
       </section>
 

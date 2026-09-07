@@ -139,8 +139,9 @@ function PracticeCard({ practice }: { practice: (typeof PRACTICES)[number] }) {
             aria-label={`Flip back ${practice.title}`}
           >
             <div className="plat-back-kicker">{back.kicker}</div>
-            <h4 className="plat-back-headline">{back.headline}</h4>
-            <p className="plat-back-sub">{back.subhead}</p>
+            <h4 className="plat-back-headline">
+              {back.headline} <span className="em">{back.headlineEm}</span>
+            </h4>
             <p className="plat-back-body">{back.body}</p>
             <ul className="plat-back-caps">
               {back.capabilities.map((capability) => (

@@ -132,16 +132,27 @@ function ReturnDot({
   duration,
   delay,
   size,
+  start,
 }: {
   path: string;
   duration: string;
   delay?: string;
   size: number;
+  start: { x: number; y: number };
 }) {
   return (
-    <circle className="motif-anim motif-return-dot" r={size} fill="currentColor">
-      <animateMotion dur={duration} begin={delay ?? "0s"} repeatCount="indefinite" path={path} />
-    </circle>
+    <circle
+      className="motif-anim motif-return-dot"
+      r={size}
+      cx={start.x}
+      cy={start.y}
+      fill="currentColor"
+      style={{
+        offsetPath: `path('${path}')`,
+        animationDuration: duration,
+        animationDelay: delay ?? "0s",
+      }}
+    />
   );
 }
 
@@ -160,10 +171,10 @@ function WindowMotif() {
       >
         <path className="motif-return-path" d={returnTop} />
         <path className="motif-return-path" d={returnBot} />
-        <ReturnDot path={returnTop} duration="3.6s" size={1.7} />
-        <ReturnDot path={returnTop} duration="3.6s" delay="-1.2s" size={1.3} />
-        <ReturnDot path={returnBot} duration="4s" size={1.7} />
-        <ReturnDot path={returnBot} duration="4s" delay="-1.8s" size={1.3} />
+        <ReturnDot path={returnTop} duration="3.6s" size={1.7} start={{ x: 368, y: 18 }} />
+        <ReturnDot path={returnTop} duration="3.6s" delay="-1.2s" size={1.3} start={{ x: 368, y: 18 }} />
+        <ReturnDot path={returnBot} duration="4s" size={1.7} start={{ x: 368, y: 64 }} />
+        <ReturnDot path={returnBot} duration="4s" delay="-1.8s" size={1.3} start={{ x: 368, y: 64 }} />
       </svg>
       <UserGlyph />
       <svg

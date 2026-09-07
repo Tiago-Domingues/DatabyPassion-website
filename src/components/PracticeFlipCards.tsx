@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 import { PracticeMotif } from "@/components/PracticeMotif";
-import { PRACTICES, TYPICAL_ENGAGEMENTS, type PracticeId } from "@/content/practices";
+import { PRACTICES, PRACTICE_BACKS, type PracticeId } from "@/content/practices";
 
 function IconLayers({ className }: { className?: string }) {
   return (
@@ -61,7 +61,7 @@ function PracticeCard({ practice }: { practice: (typeof PRACTICES)[number] }) {
   const labelId = useId();
   const backId = useId();
   const Icon = PRACTICE_ICONS[practice.id];
-  const engagement = TYPICAL_ENGAGEMENTS[practice.id];
+  const back = PRACTICE_BACKS[practice.id];
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -111,7 +111,7 @@ function PracticeCard({ practice }: { practice: (typeof PRACTICES)[number] }) {
                 </span>
               ))}
             </div>
-            <span className="plat-flip-hint">Tap for a typical engagement</span>
+            <span className="plat-flip-hint">Tap for the practice</span>
           </button>
         </div>
 
@@ -138,15 +138,24 @@ function PracticeCard({ practice }: { practice: (typeof PRACTICES)[number] }) {
             tabIndex={flipped ? 0 : -1}
             aria-label={`Flip back ${practice.title}`}
           >
-            <div className="plat-layer-num">{engagement.label}</div>
-            <h4>{engagement.title}</h4>
-            <p className="plat-flip-detail">{practice.preview}</p>
-            <ul className="plat-flip-points">
-              {engagement.delivers.map((point) => (
-                <li key={point}>{point}</li>
+            <div className="plat-back-kicker">{back.kicker}</div>
+            <h4 className="plat-back-headline">{back.headline}</h4>
+            <p className="plat-back-sub">{back.subhead}</p>
+            <p className="plat-back-body">{back.body}</p>
+            <ul className="plat-back-caps">
+              {back.capabilities.map((capability) => (
+                <li className="plat-back-cap" key={capability.label}>
+                  <span className="plat-back-cap-label">{capability.label}</span>
+                  <span className="plat-back-cap-items">
+                    {capability.items.map((item) => (
+                      <span className="plat-tag" key={item}>
+                        {item}
+                      </span>
+                    ))}
+                  </span>
+                </li>
               ))}
             </ul>
-            <small className="plat-flip-disclaimer">{engagement.disclaimer}</small>
             <span className="plat-flip-hint">Tap to flip back</span>
           </button>
         </div>

@@ -381,7 +381,7 @@ export function initGpEffects() {
     });
   }
 
-/* Studio architecture / orbit canvases now live in StudioVizFlip. */
+/* Homepage studio figure is an SVG in StudioVizFlip so Safari Reduce Motion cannot blank it. */
 
 
 

@@ -265,7 +265,6 @@ export function initStudioViz(canvas: HTMLCanvasElement, options: StudioVizOptio
   // Marketing figure: keep painting even when macOS/Safari Reduce Motion is on.
   // Production used matchMedia(reduce) to skip the rAF loop; ResizeObserver then
   // called sizeCanvas() (assigning canvas.width clears the bitmap) with no redraw.
-  const osReduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const reduced = false;
 
   let stopped = false;
@@ -286,9 +285,6 @@ export function initStudioViz(canvas: HTMLCanvasElement, options: StudioVizOptio
     const size = sizeCanvas(canvas, ctx!);
     W = size.W;
     H = size.H;
-    // #region agent log
-    try{const w=window as Window & {__dbpStudioDebug?:object[]};(w.__dbpStudioDebug??(w.__dbpStudioDebug=[])).push({hypothesisId:"A",location:"studio-viz.ts:resize",message:"canvas resized",data:{W,H,osReduce,bitmapW:canvas.width,bitmapH:canvas.height},timestamp:Date.now()});}catch{}
-    // #endregion
     paint();
   }
 
@@ -316,9 +312,6 @@ export function initStudioViz(canvas: HTMLCanvasElement, options: StudioVizOptio
     requestAnimationFrame(tick);
   }
 
-  // #region agent log
-  try{const w=window as Window & {__dbpStudioDebug?:object[]};(w.__dbpStudioDebug??(w.__dbpStudioDebug=[])).push({hypothesisId:"B",location:"studio-viz.ts:init",message:"studio loop start",data:{osReduce,variant:options.variant,willTick:true},timestamp:Date.now()});}catch{}
-  // #endregion
   paint();
   tick();
 

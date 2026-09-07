@@ -352,11 +352,11 @@ body.studio-viz-zoomed{overflow:hidden}
 .plat-tag{font-family:var(--font-mono);font-size:0.55rem;letter-spacing:0.06em;padding:3px 8px;border-radius:3px;background:rgba(255,255,255,0.03);border:1px solid var(--border);color:var(--text-dim);text-transform:uppercase}
 .plat-flip-disclaimer{display:block;margin-top:10px;color:var(--text-dim);font-size:.68rem;line-height:1.45}
 .plat-flip-back{padding:20px 20px 16px}
-.plat-back-kicker{font-family:var(--font-mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px;padding-right:108px;color:var(--purple-bright)}
-.plat-back-headline{font-size:1.08rem!important;font-weight:650;letter-spacing:-.02em;margin-bottom:6px!important;line-height:1.25}
-.plat-back-sub{font-family:var(--font-serif);font-style:italic;font-weight:300;font-size:0.92rem!important;line-height:1.4;color:var(--text-primary)!important;margin-bottom:8px}
-.plat-back-body{font-size:0.78rem!important;line-height:1.5;color:var(--text-secondary)!important;margin-bottom:0}
-.plat-back-caps{list-style:none;margin:12px 0 0;padding:12px 0 0;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:9px;flex:1}
+.plat-back-kicker{font-family:var(--font-mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:20px;padding-right:108px;color:var(--purple-bright)}
+.plat-back-headline{font-size:1.22rem!important;font-weight:700!important;letter-spacing:-.02em;margin-bottom:8px!important;line-height:1.25}
+.plat-back-sub{font-family:var(--font-serif);font-style:italic;font-weight:400;font-size:1.02rem!important;line-height:1.45;color:var(--text-primary)!important;margin-bottom:12px}
+.plat-back-body{font-size:0.9rem!important;line-height:1.6;color:var(--text-secondary)!important;margin-bottom:0}
+.plat-back-caps{list-style:none;margin:auto 0 0;padding:14px 0 0;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:9px}
 .plat-back-cap{display:flex;flex-direction:column;gap:5px}
 .plat-back-cap-label{font-family:var(--font-mono);font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--purple-bright)}
 .plat-back-cap-items{display:flex;flex-wrap:wrap;gap:4px}
@@ -1629,7 +1629,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .cta-buttons{flex-direction:column;align-items:stretch}
   .cta-buttons .btn-primary,.cta-buttons .btn-ghost{width:100%;justify-content:center}
   .page-hero{padding:112px 0 40px}
-  .plat-flip,.plat-flip-inner{min-height:520px}
+  .plat-flip,.plat-flip-inner{min-height:640px}
   .sh{font-size:clamp(1.55rem,8vw,2.1rem)}
 }
 

@@ -262,9 +262,11 @@ export function initStudioViz(canvas: HTMLCanvasElement, options: StudioVizOptio
   const ctx = canvas.getContext("2d");
   if (!ctx) return () => {};
 
-  const reduced =
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
-    document.documentElement.classList.contains("dbp-a11y-motion");
+  // Marketing figure: keep painting even when macOS/Safari Reduce Motion is on.
+  // Production used matchMedia(reduce) to skip the rAF loop; ResizeObserver then
+  // called sizeCanvas() (assigning canvas.width clears the bitmap) with no redraw.
+  const osReduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduced = false;
 
   let stopped = false;
   let W = 320;
@@ -272,10 +274,22 @@ export function initStudioViz(canvas: HTMLCanvasElement, options: StudioVizOptio
   let T = 0;
   const getPaused = options.getPaused ?? (() => false);
 
+  function paint() {
+    try {
+      cleanup.draw();
+    } catch {
+      /* Keep the loop alive if a frame throws (Safari arc/radius edge cases). */
+    }
+  }
+
   function resize() {
     const size = sizeCanvas(canvas, ctx!);
     W = size.W;
     H = size.H;
+    // #region agent log
+    try{const w=window as Window & {__dbpStudioDebug?:object[]};(w.__dbpStudioDebug??(w.__dbpStudioDebug=[])).push({hypothesisId:"A",location:"studio-viz.ts:resize",message:"canvas resized",data:{W,H,osReduce,bitmapW:canvas.width,bitmapH:canvas.height},timestamp:Date.now()});}catch{}
+    // #endregion
+    paint();
   }
 
   const cleanup =
@@ -291,29 +305,22 @@ export function initStudioViz(canvas: HTMLCanvasElement, options: StudioVizOptio
   requestAnimationFrame(() => {
     if (stopped) return;
     resize();
-    cleanup.draw();
   });
 
   function tick() {
     if (stopped) return;
     if (!getPaused()) {
       T += 1;
-      try {
-        cleanup.draw();
-      } catch {
-        /* Keep the loop alive if a frame throws (Safari arc/radius edge cases). */
-      }
+      paint();
     }
     requestAnimationFrame(tick);
   }
 
-  cleanup.draw();
-  if (reduced) {
-    T = 80;
-    cleanup.draw();
-  } else {
-    tick();
-  }
+  // #region agent log
+  try{const w=window as Window & {__dbpStudioDebug?:object[]};(w.__dbpStudioDebug??(w.__dbpStudioDebug=[])).push({hypothesisId:"B",location:"studio-viz.ts:init",message:"studio loop start",data:{osReduce,variant:options.variant,willTick:true},timestamp:Date.now()});}catch{}
+  // #endregion
+  paint();
+  tick();
 
   return () => {
     stopped = true;

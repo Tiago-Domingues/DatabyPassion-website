@@ -16,18 +16,9 @@ function LogoSlotGrid() {
   const [count, setCount] = useState(12);
   const [visible, setVisible] = useState<ToolId[]>(() => TOOL_LOGOS.slice(0, 12).map((t) => t.id));
   const [fading, setFading] = useState<number | null>(null);
-  const [reduced, setReduced] = useState(false);
   const visibleRef = useRef(visible);
   const fadingRef = useRef(false);
   visibleRef.current = visible;
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setReduced(mq.matches);
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
-  }, []);
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -55,7 +46,6 @@ function LogoSlotGrid() {
   }, [count]);
 
   useEffect(() => {
-    if (reduced) return;
     const tick = window.setInterval(() => {
       if (fadingRef.current) return;
       const current = visibleRef.current;
@@ -76,7 +66,7 @@ function LogoSlotGrid() {
       }, 400);
     }, 5000);
     return () => window.clearInterval(tick);
-  }, [reduced, count]);
+  }, [count]);
 
   const items = useMemo(
     () =>

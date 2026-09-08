@@ -3,6 +3,7 @@ import Link from "next/link";
 import { StartProject } from "@/components/StartProject";
 import { PracticeFlipCards } from "@/components/PracticeFlipCards";
 import { StudioVizFlip } from "@/components/StudioVizFlip";
+import { ToolLogoStrip } from "@/components/ToolLogoStrip";
 import { HOMEPAGE_NARRATIVE, SITE_IDENTITY } from "@/content/identity";
 import { CONTACT_MAILTO } from "@/lib/site";
 
@@ -34,6 +35,8 @@ export default function StudioPage() {
           <PracticeFlipCards />
         </div>
       </section>
+
+      <ToolLogoStrip />
 
       <section className="cta-section section-pad">
         <div className="cta-inner">

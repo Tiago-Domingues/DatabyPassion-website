@@ -16,7 +16,8 @@ const TRUST_SECTIONS = [
   {
     id: "governance",
     label: "Governance",
-    title: "Accountability starts before access",
+    titleLead: "Accountability starts.",
+    titleEm: "Before access.",
     description:
       "Confidentiality, roles and the support needed for a specific engagement are made explicit during scoping.",
     categories: ["Governance"],
@@ -24,7 +25,8 @@ const TRUST_SECTIONS = [
   {
     id: "environments-access",
     label: "Environments & access",
-    title: "Named environments, limited access",
+    titleLead: "Named environments.",
+    titleEm: "Limited access.",
     description:
       "Studio-controlled environments are the working default. Client-controlled environments are available when policy or architecture requires them.",
     categories: ["Environments"],
@@ -32,7 +34,8 @@ const TRUST_SECTIONS = [
   {
     id: "data-ai",
     label: "Data & AI",
-    title: "Use is tied to the agreed purpose",
+    titleLead: "Use follows purpose.",
+    titleEm: "Not a generic policy.",
     description:
       "Access, retention, model use and human review are scoped around the workflow rather than assumed from a generic policy.",
     categories: ["Data", "AI"],
@@ -40,7 +43,8 @@ const TRUST_SECTIONS = [
   {
     id: "development-continuity",
     label: "Development & continuity",
-    title: "The delivery record outlives the engagement",
+    titleLead: "The delivery record stays.",
+    titleEm: "After the engagement.",
     description:
       "Source, secrets, specialist access, key decisions and handover artefacts stay in the operating record.",
     categories: ["Delivery", "Continuity"],
@@ -48,7 +52,8 @@ const TRUST_SECTIONS = [
   {
     id: "providers-certifications",
     label: "Providers & certifications",
-    title: "Named providers and certification status",
+    titleLead: "Providers are named.",
+    titleEm: "Status is disclosed.",
     description:
       "Website hosts are not project subprocessors. Cloud and model providers for the work are named in the engagement.",
     categories: ["Providers", "Certifications"],
@@ -64,7 +69,9 @@ export default function SecurityPage() {
             ← Back to Home
           </Link>
           <div className="label">Security &amp; Trust</div>
-          <h1>Controls you can assess before the work starts</h1>
+          <h1>
+            Clear controls. <span className="em">Before sensitive work starts.</span>
+          </h1>
           <p className="page-hero-sub">
             DatabyPassion publishes the controls that already operate, the choices agreed when
             an engagement starts, and the facts we will not overstate. Use this page in a
@@ -100,7 +107,9 @@ export default function SecurityPage() {
                 <div className="section-heading-split">
                   <div>
                     <span className="label">{section.label}</span>
-                    <h2 className="sh">{section.title}</h2>
+                    <h2 className="sh">
+                      {section.titleLead} <span className="em">{section.titleEm}</span>
+                    </h2>
                   </div>
                   <p className="sb">{section.description}</p>
                 </div>
@@ -116,7 +125,9 @@ export default function SecurityPage() {
         <div className="container procurement-note__inner">
           <div>
             <span className="label">For procurement teams</span>
-            <h2 className="sh">Turn a public overview into engagement terms</h2>
+            <h2 className="sh">
+              Turn a public overview. <span className="em">Into engagement terms.</span>
+            </h2>
             <p className="sb">
               The statement of work names the systems, people, providers, permitted data,
               retention and deletion, incident contacts and handover required for the

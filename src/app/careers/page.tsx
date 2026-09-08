@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { StartProject } from "@/components/StartProject";
 
 export const metadata: Metadata = { title: "Careers" };
@@ -8,6 +9,9 @@ export default function CareersPage() {
     <>
       <section className="careers-hero">
         <div className="container">
+          <Link href="/" className="page-hero-back">
+            ← Back to Home
+          </Link>
           <div className="label">Careers at DatabyPassion</div>
           <h1>
             No open roles. <span className="em">Work with us on the problem.</span>

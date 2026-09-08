@@ -20,7 +20,10 @@ export default function StudioPage() {
             ← Back to Home
           </Link>
           <div className="label">The Studio</div>
-          <h1>{HOMEPAGE_NARRATIVE.studioHeading}</h1>
+          <h1>
+            {HOMEPAGE_NARRATIVE.studioHeadingLead}{" "}
+            <span className="em">{HOMEPAGE_NARRATIVE.studioHeadingRest}</span>
+          </h1>
           <p className="page-hero-sub">{HOMEPAGE_NARRATIVE.studio}</p>
         </div>
       </section>
@@ -34,7 +37,9 @@ export default function StudioPage() {
 
       <section className="cta-section section-pad">
         <div className="cta-inner">
-          <h2>Start where the pain is.</h2>
+          <h2>
+            Start where <span className="em">the pain is.</span>
+          </h2>
           <p className="sb">
             Tell us the constraint — data, a decision, a workflow or a product that
             does not exist yet. We form the team around that problem.

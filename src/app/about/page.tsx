@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { StartProject } from "@/components/StartProject";
 import { DeliveryMap } from "@/components/sections/DeliveryMap";
 import { FounderVideo } from "@/components/sections/FounderVideo";
@@ -9,6 +10,7 @@ import {
   COLLECTIVE_DIFFERENTIATORS,
   COLLECTIVE_PRINCIPLES,
   DELIVERY_METHOD,
+  HOW_WE_WORK,
   TRADITIONAL_CONTRAST,
 } from "@/content/collective";
 import { CONTACT_MAILTO } from "@/lib/site";
@@ -24,6 +26,9 @@ export default function AboutPage() {
     <>
       <section className="about-hero">
         <div className="container">
+          <Link href="/" className="page-hero-back">
+            ← Back to Home
+          </Link>
           <div className="label">The Collective</div>
           <h1>
             Senior people, shaped around <span className="em">the work</span>
@@ -41,7 +46,7 @@ export default function AboutPage() {
           <div className="about-story__copy">
             <span className="label">The founder story</span>
             <h2 className="sh">
-              Built to keep <span className="g">judgement close to delivery.</span>
+              Built to keep <span className="em">judgement close to delivery.</span>
             </h2>
             <p>
               DatabyPassion exists to close the gap between senior advice and the product that
@@ -67,7 +72,9 @@ export default function AboutPage() {
           <div className="section-heading-split">
             <div>
               <span className="label">Knowledge Center</span>
-              <h2 className="sh">A capability map, not a fixed bench</h2>
+              <h2 className="sh">
+                A capability map, <span className="em">not a fixed bench</span>
+              </h2>
             </div>
             <p className="sb">
               Six senior capabilities show how an engagement can form. One accountable lead holds
@@ -118,8 +125,15 @@ export default function AboutPage() {
         <div className="container">
           <div className="approach-header">
             <div className="label">How we work</div>
-            <h2>Understand → Shape → Build → Evolve</h2>
-            <p>Each stage ends with a useful artefact and an explicit decision.</p>
+            <h2 className="sh">
+              {HOW_WE_WORK.titleLead}{" "}
+              <span className="em">{HOW_WE_WORK.titleEm}</span>
+            </h2>
+            {HOW_WE_WORK.intro.map((paragraph) => (
+              <p className="sb" key={paragraph}>
+                {paragraph}
+              </p>
+            ))}
           </div>
           <DeliveryMap orientation="horizontal" />
           <ol className="usbe-detail">
@@ -168,7 +182,9 @@ export default function AboutPage() {
 
       <section className="cta-section section-pad">
         <div className="cta-inner">
-          <h2>Bring the problem. Shape the first credible move.</h2>
+          <h2>
+            Bring the problem. <span className="em">Shape the first credible move.</span>
+          </h2>
           <p className="sb">Build a concise brief before choosing whether to start a conversation.</p>
           <div className="cta-buttons">
             <StartProject className="btn-primary">Create a project brief →</StartProject>

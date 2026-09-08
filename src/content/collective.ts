@@ -112,6 +112,15 @@ export const ROLE_ARCHETYPES: RoleArchetype[] = [
   },
 ];
 
+export const HOW_WE_WORK = {
+  titleLead: "Product cadence. Consultancy judgement.",
+  titleEm: "Understand → Shape → Build → Evolve.",
+  intro: [
+    "The method was not licensed from a playbook. It is how senior product, engineering and consulting work already holds together when the outcome is software a business can run: Agile and Scrum for inspectable cadence, consultancy delivery for framing, decision rights and sponsor artefacts, and the operating habits of technology teams that ship inside real enterprises.",
+    "It matured in our own delivery — tightened each time a workshop, a sprint or a handover failed to earn the next commitment. Understand, Shape, Build and Evolve is the sequence a sponsor can inspect. Each stage ends with a useful artefact and an explicit decision to go, reshape or stop. Scrum stays in service of that sequence; it does not become the work.",
+  ],
+} as const;
+
 export const DELIVERY_METHOD = [
   {
     number: "01",
@@ -139,7 +148,7 @@ export const DELIVERY_METHOD = [
     output: "Working software",
     body: "Deliver in short, visible loops inside the agreed stack and control model.",
     detail: [
-      "Senior people stay in the work. Delivery happens in short, visible loops inside the stack and control model you already run — or the one we agree for the engagement.",
+      "Senior people stay in the work. Delivery happens in short, visible loops inside the stack and control model you already run — or the one we agree for the engagement. Those loops follow Agile and Scrum discipline — planning, review and backlog — without turning the engagement into process theatre.",
       "You see working software, not status theatre. Decisions, designs and code live in the engagement record so context does not sit in an account layer or in someone’s head.",
     ],
   },

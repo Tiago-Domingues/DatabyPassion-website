@@ -69,7 +69,7 @@ export function ServicePage({
           <div className="chain-header">
             <div className="label">Understand → Shape → Build → Evolve</div>
             <h2 className="sh">
-              The same method, applied to <span className="g">this practice</span>
+              The same method, applied to <span className="em">this practice</span>
             </h2>
             <p className="sb">
               Understand, shape, build and evolve — the studio method applied to this domain.
@@ -152,7 +152,7 @@ export function ServicePage({
             <div>
               <span className="label">A representative pattern</span>
               <h2 className="sh">
-                What a focused <span className="g">engagement can look like</span>
+                What a focused <span className="em">engagement can look like</span>
               </h2>
             </div>
             <p className="sb">
@@ -172,7 +172,9 @@ export function ServicePage({
           <div className="section-heading-split">
             <div>
               <span className="label">Concrete deliverables</span>
-              <h2 className="sh">Useful artefacts, not empty activity</h2>
+              <h2 className="sh">
+                Useful artefacts, <span className="em">not empty activity</span>
+              </h2>
             </div>
             <p className="sb">
               The exact scope changes with the system and environment. These are the outputs the
@@ -193,7 +195,9 @@ export function ServicePage({
 
       <section className="cta-section section-pad">
         <div className="cta-inner">
-          <h2>Put this practice against a real business problem</h2>
+          <h2>
+            Put this practice against <span className="em">a real business problem</span>
+          </h2>
           <p className="sb">
             Create a brief you can copy or open as an email draft. Nothing is submitted from this
             website.

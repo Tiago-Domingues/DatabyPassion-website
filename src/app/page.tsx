@@ -104,7 +104,7 @@ export default function HomePage() {
 
       <section className="cta-section section-pad" id="project-brief">
         <div className="cta-inner">
-          <h2>Stop guessing. Start shipping.</h2>
+          <h2>Stop guessing. <span className="g">Start shipping.</span></h2>
           <p className="sb">
             Tell us the problem — a data system that will not hold, a workflow still stuck in
             inboxes, or a product that needs to exist. We reply with a sharp next step.

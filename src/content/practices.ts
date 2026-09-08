@@ -20,6 +20,9 @@ export type TypicalEngagement = {
   intervention: string;
   delivers: string[];
   change: string;
+  who: string;
+  team: string;
+  evidence: string;
 };
 
 export type PracticeStage = {
@@ -168,61 +171,81 @@ export const TYPICAL_ENGAGEMENTS: Record<PracticeId, TypicalEngagement> = {
     label: "Typical engagement",
     title: "Put one domain under orchestration, with quality the business can see",
     situation:
-      "A critical warehouse feed lands late or silently wrong. Reports and products wait on a pipeline nobody owns, and no one can say whether the day’s data is complete.",
+      "A critical warehouse feed lands late or silently wrong. Reports, downstream products and month-end packs wait on a pipeline nobody owns. When a number looks off, the room cannot say whether yesterday’s load finished, which source was incomplete, or who is accountable for the grain. The next domain is already being requested on the same informal path.",
     intervention:
-      "Map the sources, orchestrate ingestion and transformation for that domain, put tests on the grain that matters, and serve a trusted table the rest of the business can use.",
+      "We start with the domain the business already depends on — not a platform rewrite. Map the sources, grain and owners. Put ingestion and transformation under orchestration with tests on the contracts that actually break. Serve one trusted table the rest of the organisation can use, with freshness and completeness visible before a meeting notices. Pair on the run so the client team can operate it without the original builder.",
     delivers: [
-      "Source map and data contracts",
-      "Orchestrated warehouse pipeline",
-      "Quality checks, alerts and handover",
+      "Source map, grain and data contracts",
+      "Orchestrated warehouse pipeline for the domain",
+      "Quality checks, alerts and an operating view of freshness",
+      "Runbook, access and handover the next owner can run",
     ],
     change:
-      "One domain runs on a path the team can operate — with freshness and quality visible before the business notices a break.",
+      "One domain runs on a path the team can operate. Completeness and freshness are visible before the business notices a break, and the next domain is a decision — not another informal feed.",
+    who: "The data or platform owner, the operators who currently firefight the load, and the business consumer who depends on the number — usually finance, risk or a product lead who already feels the failure in a meeting.",
+    team: "Founder-led, with a data and platform lead on contracts, architecture and reliability. Analytics joins if the served table has to become an operating view. Independent legal-partner support only if the domain carries a confidentiality or access question.",
+    evidence:
+      "The engagement is working when the named consumer can trust yesterday’s load without a side check, and the client team can explain a miss from the runbook. Expand to the next domain only when that operating model holds. Stop or transfer if the source cannot be contracted or no owner will take the grain.",
   },
   analytics: {
     label: "Typical engagement",
     title: "Give the room one KPI pack, with a forecast on the same number",
     situation:
-      "The monthly pack is assembled by hand. The same KPI means three things, the forecast lives in a side spreadsheet, and the meeting spends its time debating the number.",
+      "The monthly pack is assembled by hand from three extracts and a side spreadsheet. The same KPI means different things in finance, operations and the product team. The forecast lives somewhere else, exceptions arrive as Slack messages, and the meeting spends its time debating the number instead of deciding what to do. Nobody owns the definition, so every cycle starts again.",
     intervention:
-      "Agree metric contracts, automate the operating view from trusted data, add a short forecast and exception list, and put a named review cadence around it.",
+      "Sit with the people who use the pack, not only the people who produce it. Agree metric contracts — definition, grain, owner and quality rule — for the measures the room will actually use. Automate the operating view from trusted data, put a short forecast and exception list on the same grain, and attach a named review cadence so challenge and next action have a place to live.",
     delivers: [
-      "KPI and metric contracts",
-      "Automated operating pack and forecast",
-      "Exception view and review cadence",
+      "Decision map and KPI / metric contracts",
+      "Automated operating pack from the contracted grain",
+      "Forecast and exception view on the same number",
+      "Named review cadence, owners and next-action rule",
     ],
     change:
-      "The recurring discussion starts from one owned number, with exceptions and a next action made explicit.",
+      "The recurring discussion starts from one owned number. Exceptions and a next action are explicit, and the forecast is no longer a separate artefact the room has to reconcile.",
+    who: "The executive or operating sponsor who chairs the review, the analysts who currently assemble the pack, and the named owner of each contracted metric. The people who act on the exceptions must be in the room when the cadence is designed.",
+    team: "Founder-led, with a product and strategy lead holding the decision cadence and a data / platform lead on the metric layer. A product designer joins if the operating view has to be used daily, not only presented. AI capability joins only if exceptions are already a high-volume judgement problem.",
+    evidence:
+      "The engagement is working when the sponsor can open the pack without a pre-meeting reconciliation, and each exception has an owner. Expand the metric set only when those contracts hold in a live review. Stop if no one will own the definition, or if the underlying data cannot be trusted enough to automate.",
   },
   ai: {
     label: "Typical engagement",
     title: "Move high-volume judgement from the inbox to a governed assistant, then an agent",
     situation:
-      "A team classifies, drafts and routes work from email and documents, hundreds of times a week. The same judgement is applied by hand, and nothing is traced.",
+      "A team classifies, drafts and routes work from email and documents, hundreds of times a week. The same judgement is applied by hand, quality depends on who is on shift, and nothing is traced. A demonstration model may already exist. It has no grounding contract, no evaluation set, no fallback, and no named person who can stop it.",
     intervention:
-      "Ground an assistant in approved knowledge, wrap it in a workflow with human review, let an agent take the routine next action, and keep evaluation, fallback and a kill switch.",
+      "Baseline the workflow: steps, volume, judgement points, failure modes and a stop rule. Ground an assistant in approved knowledge, wrap it in a path with human review on ambiguous cases, then let an agent take only the routine next action. Evaluation, a safe fallback and a kill switch are part of the first live loop — not a later hardening phase.",
     delivers: [
-      "Workflow baseline and stop rules",
-      "Grounded assistant with evaluation",
-      "Agent actions, review path and kill switch",
+      "Workflow baseline, volume and stop rules",
+      "Approved knowledge, evaluation set and quality bar",
+      "Grounded assistant with a named human-review path",
+      "Agent actions, operational signals, fallback and kill switch",
     ],
     change:
-      "Routine work moves through a consistent path. Ambiguous cases stay with a named reviewer, and every action can be traced.",
+      "Routine work moves through a consistent, traceable path. Ambiguous cases stay with a named reviewer, and the organisation can see — and stop — what the system did.",
+    who: "The operations or process owner, the reviewers who currently apply the judgement, and a named accountable lead who can authorise a kill switch. Legal-partner support is scoped before any client context if the workflow carries confidentiality, regulated language or access constraints.",
+    team: "Founder-led, with an AI and ML lead on grounding, evaluation and the production loop. A product designer shapes the review surface. Data and platform join if retrieval or logging has to sit on a trusted store. Practising counsel is optional and only when the engagement needs that depth.",
+    evidence:
+      "The engagement is working when sampled cases meet the agreed quality bar, traces exist for actions taken, and a reviewer can stop the loop. Let the agent take more of the path only when those controls hold. Stop or keep the assistant in draft-only if the knowledge cannot be approved, or if no one will own the exceptions.",
   },
   products: {
     label: "Typical engagement",
     title: "Ship an internal app that coordinates the number, the insight and the action",
     situation:
-      "Dashboards, chat exceptions and spreadsheet follow-up never meet. Nobody has one place to see the metric, the insight and the work that should happen next.",
+      "Dashboards, chat exceptions and spreadsheet follow-up never meet. A lead can see a metric, hear that something is off, and still have no place to record the work that should happen next. The idea for a better tool has been socialised; it has no named users, no first journey, and no connection to the data and controls underneath.",
     intervention:
-      "Build a focused internal tool on trusted metrics, surface the exceptions, and let a workflow or agent act — with the same controls as the practices underneath.",
+      "Frame the smallest product that can be used: named users, the critical journey, the data it sits on, and what is explicitly out of scope. Build an authenticated operating surface on trusted metrics, surface the exceptions, and let a workflow or agent act on that same surface — with the same review, trace and stop rules as the practices underneath. Instrument use so the next release is a decision.",
     delivers: [
-      "First-release product frame",
-      "Authenticated operating surface",
-      "Insight-to-action loop and runbook",
+      "First-release product frame and out-of-scope list",
+      "Authenticated operating surface on trusted data",
+      "Insight-to-action loop with review where it is needed",
+      "Runbook, ownership and evidence for the next release — or a stop",
     ],
     change:
-      "The team works from one product surface: the number, the exception and the next action, with evidence for what to build — or stop — next.",
+      "The team works from one product surface: the number, the exception and the next action. What to build next — or whether to stop — is visible from real use, not from a backlog of ideas.",
+    who: "The sponsor who owns the operating outcome, the people who will use the surface every week, and the owners of the metrics or workflows it sits on. If the product will trigger actions, the reviewer of those actions is in the frame before build.",
+    team: "Founder-led, with a product and strategy lead and a product designer on the first journey. Data, platform or AI specialists join only for the slice the surface actually needs. The engagement lead stays close to build; this is not a brief handed to a junior bench.",
+    evidence:
+      "The engagement is working when the named users open the surface in the real workflow and a decision can be made from the evidence. Expand the product only when that first journey holds. Transfer or stop if adoption does not appear, or if the underlying number or action path is not trusted enough to sit in software.",
   },
 };
 

@@ -41,6 +41,20 @@ export function RepresentativeEngagement({
             <span className="mono-label">What changes</span>
             <p>{engagement.change}</p>
           </div>
+          <div className="representative-engagement__meta">
+            <div>
+              <span className="mono-label">Who is in the room</span>
+              <p>{engagement.who}</p>
+            </div>
+            <div>
+              <span className="mono-label">Team that forms</span>
+              <p>{engagement.team}</p>
+            </div>
+            <div>
+              <span className="mono-label">Evidence / stop-or-expand</span>
+              <p>{engagement.evidence}</p>
+            </div>
+          </div>
         </>
       )}
     </article>

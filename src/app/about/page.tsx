@@ -121,7 +121,7 @@ export default function AboutPage() {
             <h2>Understand → Shape → Build → Evolve</h2>
             <p>Each stage ends with a useful artefact and an explicit decision.</p>
           </div>
-          <DeliveryMap />
+          <DeliveryMap orientation="horizontal" />
           <ol className="usbe-detail">
             {DELIVERY_METHOD.map((stage) => (
               <li className="usbe-detail__stage" key={stage.number}>

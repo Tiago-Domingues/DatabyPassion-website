@@ -67,7 +67,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="collective-detail section-pad">
+      <section className="collective-detail band-frost section-pad">
         <div className="container">
           <div className="section-heading-split">
             <div>
@@ -87,7 +87,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="principles-section">
+      <section className="principles-section band-frost">
         <div className="container">
           <div className="section-heading-split">
             <div>
@@ -121,7 +121,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="approach-section">
+      <section className="approach-section band-frost">
         <div className="container">
           <div className="approach-header">
             <div className="label">How we work</div>

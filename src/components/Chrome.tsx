@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Wordmark } from "@/components/Wordmark";
 import { useModal } from "@/components/ModalProvider";
@@ -83,6 +84,7 @@ export function Ticker() {
 
 export function Nav() {
   const { openModal } = useModal();
+  const pathname = usePathname();
   const [menu, setMenu] = useState(false);
 
   return (
@@ -92,11 +94,19 @@ export function Nav() {
           <Wordmark />
         </Link>
         <div className="nav-links">
-          {NAV.map((l) => (
-            <Link key={l.href} href={l.href}>
-              {l.label}
-            </Link>
-          ))}
+          {NAV.map((l) => {
+            const current = pathname === l.href;
+            return (
+              <Link
+                key={l.href}
+                href={l.href}
+                className={current ? "is-current" : undefined}
+                aria-current={current ? "page" : undefined}
+              >
+                {l.label}
+              </Link>
+            );
+          })}
           <button type="button" className="lang-switch" aria-label="Language">
             <span>EN</span>
           </button>
@@ -114,11 +124,20 @@ export function Nav() {
         </button>
       </nav>
       <div className={`mobile-nav${menu ? " open" : ""}`}>
-        {NAV.map((l) => (
-          <Link key={l.href} href={l.href} onClick={() => setMenu(false)}>
-            {l.label}
-          </Link>
-        ))}
+        {NAV.map((l) => {
+          const current = pathname === l.href;
+          return (
+            <Link
+              key={l.href}
+              href={l.href}
+              className={current ? "is-current" : undefined}
+              aria-current={current ? "page" : undefined}
+              onClick={() => setMenu(false)}
+            >
+              {l.label}
+            </Link>
+          );
+        })}
         <button type="button" className="lang-switch">
           <span>EN</span>
         </button>

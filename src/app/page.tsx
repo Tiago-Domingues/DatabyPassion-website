@@ -90,7 +90,9 @@ export default function HomePage() {
         <div className="container">
           <div className="security-inner reveal">
             <div className="label">Trust</div>
-            <h2 className="sh">Clear controls before sensitive work starts</h2>
+            <h2 className="sh">
+              Clear controls. <span className="g">Before sensitive work starts.</span>
+            </h2>
             <p className="sb" style={{ margin: "0 auto" }}>
               {HOMEPAGE_NARRATIVE.trust}
             </p>

@@ -5,8 +5,13 @@ import { DELIVERY_METHOD } from "@/content/collective";
 
 const STEP_MS = 5_000;
 const CYCLE_MS = STEP_MS * DELIVERY_METHOD.length;
+const WIDE_MQ = "(min-width: 801px)";
 
-export function DeliveryMap() {
+type DeliveryMapProps = {
+  orientation?: "vertical" | "horizontal";
+};
+
+export function DeliveryMap({ orientation = "vertical" }: DeliveryMapProps) {
   const mapRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<Array<HTMLSpanElement | null>>([]);
@@ -18,6 +23,9 @@ export function DeliveryMap() {
 
     map.style.setProperty("--usbe-step-ms", `${STEP_MS}ms`);
     map.style.setProperty("--usbe-cycle-ms", `${CYCLE_MS}ms`);
+
+    const isWideHorizontal = () =>
+      orientation === "horizontal" && window.matchMedia(WIDE_MQ).matches;
 
     const alignTrack = () => {
       const nodes = nodeRefs.current.filter((node): node is HTMLSpanElement => Boolean(node));
@@ -31,13 +39,33 @@ export function DeliveryMap() {
         mapRect.bottom - parseFloat(cs.borderBottomWidth) - parseFloat(cs.paddingBottom);
       const padLeft =
         mapRect.left + parseFloat(cs.borderLeftWidth) + parseFloat(cs.paddingLeft);
+      const padRight =
+        mapRect.right - parseFloat(cs.borderRightWidth) - parseFloat(cs.paddingRight);
 
       const first = nodes[0].getBoundingClientRect();
       const last = nodes[nodes.length - 1].getBoundingClientRect();
+
+      track.style.top = "";
+      track.style.right = "";
+      track.style.bottom = "";
+      track.style.left = "";
+      track.style.width = "";
+      track.style.height = "";
+
+      if (isWideHorizontal()) {
+        const firstCenterX = first.left + first.width / 2;
+        const lastCenterX = last.left + last.width / 2;
+        const firstCenterY = first.top + first.height / 2;
+        track.style.left = `${Math.max(0, firstCenterX - padLeft)}px`;
+        track.style.right = `${Math.max(0, padRight - lastCenterX)}px`;
+        track.style.top = `${Math.max(0, firstCenterY - padTop - 2)}px`;
+        track.style.height = "4px";
+        return;
+      }
+
       const firstCenter = first.top + first.height / 2;
       const lastCenter = last.top + last.height / 2;
       const nodeCenterX = first.left + first.width / 2;
-
       track.style.top = `${Math.max(0, firstCenter - padTop)}px`;
       track.style.bottom = `${Math.max(0, padBottom - lastCenter)}px`;
       track.style.left = `${nodeCenterX - padLeft - 2}px`;
@@ -69,8 +97,10 @@ export function DeliveryMap() {
     );
     observer.observe(map);
 
+    const media = window.matchMedia(WIDE_MQ);
     const onResize = () => alignTrack();
     window.addEventListener("resize", onResize);
+    media.addEventListener("change", onResize);
     const resizeObserver = new ResizeObserver(alignTrack);
     resizeObserver.observe(map);
 
@@ -78,11 +108,15 @@ export function DeliveryMap() {
       observer.disconnect();
       resizeObserver.disconnect();
       window.removeEventListener("resize", onResize);
+      media.removeEventListener("change", onResize);
     };
-  }, []);
+  }, [orientation]);
 
   return (
-    <figure ref={mapRef} className="delivery-map">
+    <figure
+      ref={mapRef}
+      className={`delivery-map${orientation === "horizontal" ? " delivery-map--horizontal" : ""}`}
+    >
       <figcaption className="delivery-map__caption">
         <span className="section-label">How we deliver</span>
         <strong>Understand → Shape → Build → Evolve</strong>

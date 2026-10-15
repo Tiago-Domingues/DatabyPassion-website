@@ -4,12 +4,13 @@ import { StartProject } from "@/components/StartProject";
 import { LegalSupportBar } from "@/components/sections/LegalSupportBar";
 import { TrustCharter } from "@/components/sections/TrustCharter";
 import { TRUST_CONTROLS } from "@/content/trust";
-import { CONTACT_MAILTO } from "@/lib/site";
+import { canonicalUrl, CONTACT_MAILTO } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Security & Trust",
   description:
     "DatabyPassion controls, engagement choices and current disclosures for procurement, security and AI review.",
+  alternates: { canonical: canonicalUrl("/security") },
 };
 
 const TRUST_SECTIONS = [

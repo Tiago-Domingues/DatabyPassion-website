@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { CONTACT_EMAIL, CONTACT_MAILTO } from "@/lib/site";
+import { canonicalUrl, CONTACT_EMAIL, CONTACT_MAILTO } from "@/lib/site";
 
-export const metadata: Metadata = { title: "Privacy" };
+export const metadata: Metadata = {
+  title: "Privacy",
+  description:
+    "How this website handles information. The project brief stays in your browser until you send an email yourself. Analytics are not wired.",
+  alternates: { canonical: canonicalUrl("/privacy") },
+};
 
 const FACTS: { label: string; body: ReactNode }[] = [
   {
@@ -14,8 +19,8 @@ const FACTS: { label: string; body: ReactNode }[] = [
     label: "Store",
     body: (
       <>
-        We use local storage key <code>dbp_consent</code> to remember your cookie choice. Analytics
-        are not wired yet. Essential storage does not require marketing consent.
+        We use local storage key <code>dbp_consent</code> so the cookie notice does not return.
+        Analytics are not wired. Essential storage does not require marketing consent.
       </>
     ),
   },

@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { StartProject } from "@/components/StartProject";
+import { canonicalUrl } from "@/lib/site";
 
-export const metadata: Metadata = { title: "Careers" };
+export const metadata: Metadata = {
+  title: "Careers",
+  description:
+    "DatabyPassion is a founder-led boutique with no open roles right now. For project work, talk to the founder.",
+  alternates: { canonical: canonicalUrl("/careers") },
+};
 
 export default function CareersPage() {
   return (
@@ -24,7 +30,7 @@ export default function CareersPage() {
       <section className="positions-section" style={{ padding: "40px 0 80px" }}>
         <div className="container">
           <div className="cta-box">
-            <h3>No open roles</h3>
+            <h2>No open roles</h2>
             <p>
               If that changes, they will be listed here. For project work, talk to the founder —
               not a careers inbox.

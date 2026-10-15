@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { ServicePage } from "@/components/ServicePage";
 import { PRACTICE_DELIVERABLES, PRACTICE_STAGES, TYPICAL_ENGAGEMENTS } from "@/content/practices";
+import { canonicalUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Digital products",
   description:
     "Focused web applications and internal products connected to real users and data.",
+  alternates: { canonical: canonicalUrl("/products") },
 };
 
 export default function ProductsPage() {

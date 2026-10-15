@@ -13,12 +13,13 @@ import {
   HOW_WE_WORK,
   TRADITIONAL_CONTRAST,
 } from "@/content/collective";
-import { CONTACT_MAILTO } from "@/lib/site";
+import { canonicalUrl, CONTACT_MAILTO } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About the collective",
   description:
     "How DatabyPassion forms senior, problem-shaped teams around digital, data and AI products.",
+  alternates: { canonical: canonicalUrl("/about") },
 };
 
 export default function AboutPage() {

@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { ServicePage } from "@/components/ServicePage";
 import { PRACTICE_DELIVERABLES, PRACTICE_STAGES, TYPICAL_ENGAGEMENTS } from "@/content/practices";
+import { canonicalUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Analytics & decisions",
   description:
     "Shared metric definitions, operating packs and decision rhythms from DatabyPassion.",
+  alternates: { canonical: canonicalUrl("/analytics") },
 };
 
 export default function AnalyticsPage() {

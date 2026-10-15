@@ -5,11 +5,12 @@ import { PracticeFlipCards } from "@/components/PracticeFlipCards";
 import { StudioVizFlip } from "@/components/StudioVizFlip";
 import { ToolLogoStrip } from "@/components/ToolLogoStrip";
 import { HOMEPAGE_NARRATIVE, SITE_IDENTITY } from "@/content/identity";
-import { CONTACT_MAILTO } from "@/lib/site";
+import { canonicalUrl, CONTACT_MAILTO } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "The Studio",
   description: HOMEPAGE_NARRATIVE.studio,
+  alternates: { canonical: canonicalUrl("/studio") },
 };
 
 export default function StudioPage() {

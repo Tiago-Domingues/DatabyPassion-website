@@ -71,7 +71,11 @@ export function DeliveryMap({ orientation = "vertical" }: DeliveryMapProps) {
       track.style.left = `${nodeCenterX - padLeft - 2}px`;
     };
 
-    const siteReduced = () => document.documentElement.classList.contains("dbp-a11y-motion");
+    const siteReduced = () => {
+      const os = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (os) document.documentElement.classList.add("dbp-a11y-motion");
+      return os || document.documentElement.classList.contains("dbp-a11y-motion");
+    };
 
     const setPlaying = (playing: boolean) => {
       if (siteReduced()) {

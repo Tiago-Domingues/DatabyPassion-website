@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Instrument_Sans, Newsreader, DM_Mono } from "next/font/google";
 import { ModalProvider } from "@/components/ModalProvider";
 import { Ticker, Nav, Footer } from "@/components/Chrome";
@@ -6,8 +7,10 @@ import { ContactModal } from "@/components/ContactModal";
 import { CookieBanner } from "@/components/CookieBanner";
 import { GpEffects } from "@/components/GpEffects";
 import { NetworkBackground } from "@/components/NetworkBackground";
-import { SITE_URL } from "@/lib/site";
+import { canonicalUrl, SITE_URL } from "@/lib/site";
 import "./globals.css";
+
+const REDUCE_MOTION_SCRIPT = `(function(){try{var m=window.matchMedia("(prefers-reduced-motion: reduce)");function apply(){document.documentElement.classList.toggle("dbp-a11y-motion",m.matches);}apply();if(m.addEventListener)m.addEventListener("change",apply);else if(m.addListener)m.addListener(apply);}catch(e){}})();`;
 
 const instrument = Instrument_Sans({
   subsets: ["latin"],
@@ -36,6 +39,7 @@ export const metadata: Metadata = {
   },
   description:
     "A founder-led technology studio turning enterprise digital and AI opportunities into working products.",
+  alternates: { canonical: canonicalUrl("/") },
   robots: { index: true, follow: true },
   openGraph: {
     title: "DatabyPassion | Boutique technology consultancy",
@@ -55,6 +59,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${instrument.variable} ${newsreader.variable} ${dmMono.variable}`}
     >
       <body>
+        <Script id="dbp-reduced-motion" strategy="beforeInteractive">
+          {REDUCE_MOTION_SCRIPT}
+        </Script>
         <ModalProvider>
           <NetworkBackground />
           <Nav />

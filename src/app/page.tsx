@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { StartProject } from "@/components/StartProject";
 import { PracticeFlipCards } from "@/components/PracticeFlipCards";
@@ -9,7 +10,13 @@ import { RoleArchetypes } from "@/components/sections/RoleArchetypes";
 import { TrustCharter } from "@/components/sections/TrustCharter";
 import { HOMEPAGE_NARRATIVE, SITE_IDENTITY } from "@/content/identity";
 import { HOME_TRUST_CONTROLS } from "@/content/trust";
-import { CONTACT_MAILTO } from "@/lib/site";
+import { canonicalUrl, CONTACT_MAILTO } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: { absolute: "DatabyPassion | Boutique technology consultancy" },
+  description: SITE_IDENTITY.description,
+  alternates: { canonical: canonicalUrl("/") },
+};
 
 export default function HomePage() {
   return (

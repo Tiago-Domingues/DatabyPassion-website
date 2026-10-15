@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { ServicePage } from "@/components/ServicePage";
 import { PRACTICE_DELIVERABLES, PRACTICE_STAGES, TYPICAL_ENGAGEMENTS } from "@/content/practices";
+import { canonicalUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Data platforms",
   description:
     "Reliable data platforms, domain migrations and operating handover from DatabyPassion.",
+  alternates: { canonical: canonicalUrl("/engineering") },
 };
 
 export default function EngineeringPage() {

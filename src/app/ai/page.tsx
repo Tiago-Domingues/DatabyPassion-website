@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { ServicePage } from "@/components/ServicePage";
 import { PRACTICE_DELIVERABLES, PRACTICE_STAGES, TYPICAL_ENGAGEMENTS } from "@/content/practices";
+import { canonicalUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "AI & automation",
   description:
     "Governed AI workflows with evaluation, human review and safe fallback from DatabyPassion.",
+  alternates: { canonical: canonicalUrl("/ai") },
 };
 
 export default function AiPage() {

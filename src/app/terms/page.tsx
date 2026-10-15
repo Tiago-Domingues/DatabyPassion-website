@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CONTACT_EMAIL, CONTACT_MAILTO } from "@/lib/site";
+import { canonicalUrl, CONTACT_EMAIL, CONTACT_MAILTO } from "@/lib/site";
 
-export const metadata: Metadata = { title: "Terms" };
+export const metadata: Metadata = {
+  title: "Terms",
+  description:
+    "Conditions for using this website. Engagement terms are agreed in writing before work starts. Illustrative patterns are not claims of past results.",
+  alternates: { canonical: canonicalUrl("/terms") },
+};
 
 const FACTS = [
   {

@@ -107,9 +107,9 @@ export function Nav() {
               </Link>
             );
           })}
-          <button type="button" className="lang-switch" aria-label="Language">
+          <span className="lang-switch" title="English" aria-label="Site language: English">
             <span>EN</span>
-          </button>
+          </span>
           <PaletteDots />
           <button
             type="button"
@@ -119,11 +119,18 @@ export function Nav() {
             Create a project brief
           </button>
         </div>
-        <button type="button" className="nav-menu" onClick={() => setMenu((v) => !v)} aria-label="Menu">
+        <button
+          type="button"
+          className="nav-menu"
+          onClick={() => setMenu((v) => !v)}
+          aria-label="Menu"
+          aria-expanded={menu}
+          aria-controls="mobile-nav"
+        >
           ☰
         </button>
       </nav>
-      <div className={`mobile-nav${menu ? " open" : ""}`}>
+      <div id="mobile-nav" className={`mobile-nav${menu ? " open" : ""}`}>
         {NAV.map((l) => {
           const current = pathname === l.href;
           return (
@@ -138,9 +145,9 @@ export function Nav() {
             </Link>
           );
         })}
-        <button type="button" className="lang-switch">
+        <span className="lang-switch" title="English" aria-label="Site language: English">
           <span>EN</span>
-        </button>
+        </span>
         <PaletteDots />
         <button
           type="button"

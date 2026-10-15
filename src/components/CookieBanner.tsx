@@ -15,9 +15,9 @@ export function CookieBanner() {
     }
   }, []);
 
-  function save(value: string) {
+  function continueWithEssentials() {
     try {
-      window.localStorage.setItem(KEY, value);
+      window.localStorage.setItem(KEY, "essential");
     } catch {
       /* ignore */
     }
@@ -30,15 +30,12 @@ export function CookieBanner() {
     <div className="cookie-banner" role="dialog" aria-label="Cookies">
       <h3>Cookies and privacy</h3>
       <p>
-        We remember this choice on your device. Continue with essentials only, or accept cookies
-        if you prefer.
+        This website does not load analytics. We store a preference on your device so this notice
+        does not return.
       </p>
       <div className="cookie-actions">
-        <button type="button" className="cookie-reject" onClick={() => save("essential")}>
-          Essentials only
-        </button>
-        <button type="button" className="cookie-accept" onClick={() => save("all")}>
-          Accept
+        <button type="button" className="cookie-accept" onClick={continueWithEssentials}>
+          Continue
         </button>
       </div>
     </div>
